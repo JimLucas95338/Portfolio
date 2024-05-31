@@ -15,7 +15,7 @@ I have a passion for driving product innovation and market growth through a cust
 
 ## Employment History
 
-** VetsinTech | IT Security Student **
+**VetsinTech | IT Security Student**
 May 2024 - May 2024
 * Enrolled into VetinTech's three week course to help me attain my CompTIA Security Plus Certification.
 
