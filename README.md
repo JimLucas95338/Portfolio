@@ -51,6 +51,12 @@ Sep 2011 - May, 2022
 * Data Analysis
 * HTML
 * JavaScript
+* CybersecurityCybersecurity
+* Cloud SecurityCloud Security
+* Threat & Vulnerability ManagementThreat & Vulnerability Management
+* General Security Concepts General Security Concepts
+
+Security
 
 ## Certifications
 Breaking Barriers in Entrepreneurship Alumni (Bunker Labs)
