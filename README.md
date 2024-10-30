@@ -61,20 +61,19 @@ Sep 2011 - May, 2022
 
 
 ## Certifications
-IBM Data Science Specialization
-Front End Web Deevlopment
-GenAI and Predictive AI with Cloud Computing
-Generative AI for Business Leaders
-Designing RESTful APIs
-Learning REST APIs
-Becoming an AI-First Product Leader
-Product Management First Steps
-Technology for Product Managers
-Product Management: Building a Product Strategy
-Data Analysis with Python
-What is Data Science?
-Python for Data Science, AI & Development
-Tools for Data Science
+* IBM Data Science Specialization
+* Designing RESTful APIs
+* Learning REST APIs
+* Front End Web Devlopment
+* Data Analysis with Python
+* Python for Data Science, AI & Development
+* Tools for Data Science
+* GenAI and Predictive AI with Cloud Computing
+* Generative AI for Business Leaders
+* Becoming an AI-First Product Leader
+* Technology for Product Managers
+* Product Management: Building a Product Strategy
+
 
 ## Coding Experience
 Throughout my career, I have developed a strong proficiency in coding, particularly in Python. I have applied my coding skills to various projects, including AI digital assistants, chatbots, and data analysis tasks. I am constantly learning and expanding my coding expertise to stay up-to-date with the latest technologies and best practices in software development.
