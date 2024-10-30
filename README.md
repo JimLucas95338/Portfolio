@@ -15,6 +15,9 @@ I have a passion for driving product innovation and market growth through a cust
 
 ## Employment History
 
+**Botcopy | Project Manager**
+Jan 2024 - Present
+
 **VetsinTech | IT Security Student**
 May 2024 - May 2024
 * Enrolled into VetinTech's three week course to help me attain my CompTIA Security Plus Certification.
@@ -58,7 +61,8 @@ Sep 2011 - May, 2022
 
 
 ## Certifications
-Breaking Barriers in Entrepreneurship Alumni (Bunker Labs)
+IBM Data Science Specialization
+Front End Web Deevlopment
 GenAI and Predictive AI with Cloud Computing
 Generative AI for Business Leaders
 Designing RESTful APIs
