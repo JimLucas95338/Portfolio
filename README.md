@@ -37,9 +37,18 @@ Sep 2011 - May, 2022
 * Led a team in migrating to a modern ticketing/support system, reducing resolution time by 30%, increasing customer satisfaction by 25%, and saving the company an estimated $1.2 million annually.
 * Pioneered the creation of 3 AI digital assistants, eliminating the need for round-the-clock support teams. This innovative approach streamlined operations and generated an estimated annual cost savings of $850,000.
 
+
+## Projects
+
+### Alien Invasion Game
+[View Project on GitHub](https://github.com/JimLucas95338/Alien-Invasion)
+
+![Alien Invasion Game Screenshot](/images/alien-invasion-screenshot.png)
+
+A classic space shooter game built with Python and Pygame where players control a spaceship to defend Earth from alien invaders.
+
+
 ## Education
-* San Jose State University | BS in Computer Science |
-2003 - 2005
 * San Jose City College | AS, Computer Information Systems | 2000 - 2003
 
 ## Skills
