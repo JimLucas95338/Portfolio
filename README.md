@@ -2,7 +2,7 @@
 
 ![Porfessional Picture of Jim Lucas](/images/Jim_L.jpg)
 
-Hi there! I'm James (Jim) Lucas, a former Senior Product Manager transitioning into the world of software development. With over a decade of experience in the biotechnology industry, I bring a unique blend of product development expertise, AI/ML proficiency, and cross-functional team leadership to my projects.
+Hi there! I'm James (Jim) Lucas, a Senior Product Manager transitioning into the world of software development. With over a decade of experience in the biotechnology industry, I bring a unique blend of product development expertise, AI/ML proficiency, and cross-functional team leadership to my projects.
 
 ## Contact Information
 Name: James (Jim) Lucas
