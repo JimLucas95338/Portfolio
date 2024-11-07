@@ -43,7 +43,7 @@ Sep 2011 - May, 2022
 ### Alien Invasion Game
 [View Project on GitHub](https://github.com/JimLucas95338/Alien-Invasion)
 
-![Alien Invasion Game Screenshot](/images/alien-invasion-screenshot.png)
+![Alien Invasion Game Screenshot](https://github.com/JimLucas95338/Portfolio/blob/main/images/Screenshot%20AI.png)
 
 A classic space shooter game built with Python and Pygame where players control a spaceship to defend Earth from alien invaders.
 
