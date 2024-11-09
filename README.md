@@ -47,6 +47,14 @@ Sep 2011 - May, 2022
 
 A classic space shooter game built with Python and Pygame where players control a spaceship to defend Earth from alien invaders.
 
+### Modern Restaurant Menu Display
+[View Project on GitHub](https://github.com/JimLucas95338/Array-Iteration-for-Restaurant-Menu-List)
+
+![Modern Restaurant Menu Display Screenshot](https://github.com/JimLucas95338/Array-Iteration-for-Restaurant-Menu-List/blob/main/Screenshot%202024-10-31%20103146.png)
+
+An elegant, interactive restaurant menu display system built with modern JavaScript and CSS. Features dynamic content generation, chef's specials highlighting, and a responsive design perfect for any restaurant's digital presence.
+
+
 
 ## Education
 * San Jose City College | AS, Computer Information Systems | 2000 - 2003
