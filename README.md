@@ -15,8 +15,10 @@ I'm James (Jim) Lucas, a seasoned product manager transitioning into software de
 
 ## Employment History
 
+
+
 **Botcopy | Project Manager**
-Jan 2024 - Present
+Jan 2024 - Nov 2024
 
 **Oracle | Senior Product Manager**
 Aug, 2022 – Nov, 2023
@@ -35,6 +37,21 @@ Sep 2011 - May, 2022
 
 
 ## Projects
+
+<img width="887" alt="image" src="https://github.com/user-attachments/assets/a8b44aae-f688-472b-b1a1-8830820d24e8" />
+
+## Dev Post Hackathons
+
+#### FarmVison
+FarmVision creates an immersive AR environment where IoT sensor data comes to life.
+https://devpost.com/software/farmvision-590n3m
+[View Project on GitHub](https://github.com/JimLucas95338/Farm-Vision)
+
+#### Smart Farm Simulator
+Smart Farm Simulator: AI-Powered Farming Game
+https://devpost.com/software/smart-farm-simulator
+[View Project on GitHub](https://github.com/JimLucas95338/smart-farm-simulator)
+
 
 ### Alien Invasion Game
 [View Project on GitHub](https://github.com/JimLucas95338/Alien-Invasion)
