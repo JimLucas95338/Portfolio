@@ -43,11 +43,13 @@ James (Jim) Lucas is a seasoned Senior Product Manager with over a decade of exp
 
 ## Portfolio Projects
 
-### 1. **Digital Therapeutics Case Study**
+### 1. **[Digital Therapeutics Case Study](./Digital-Therapeutics-Case-Study/)**
 *Strategic Product Design & Go-to-Market Strategy*
 
 **Project Overview:**
 Comprehensive case study exploring the design, development, and commercialization of digital therapeutics products. This project demonstrates strategic thinking in digital health product development.
+
+**[View Project →](./Digital-Therapeutics-Case-Study/)**
 
 **Key Components:**
 - **Product Strategy:** Market analysis, competitive landscape, and business model development
@@ -70,11 +72,13 @@ Comprehensive case study exploring the design, development, and commercializatio
 
 ---
 
-### 2. **FHIR API Integration Demo**
+### 2. **[FHIR API Integration Demo](./FHIR-API-Integration-Demo/)**
 *Healthcare Interoperability & Data Exchange*
 
 **Project Overview:**
 Demonstrates practical implementation of FHIR (Fast Healthcare Interoperability Resources) APIs for secure, standardized healthcare data exchange. This project showcases technical expertise in healthcare interoperability standards.
+
+**[View Project →](./FHIR-API-Integration-Demo/)**
 
 **Key Components:**
 - **API Integration:** Python-based FHIR client implementation
@@ -97,11 +101,13 @@ Demonstrates practical implementation of FHIR (Fast Healthcare Interoperability 
 
 ---
 
-### 3. **Healthcare Data Dashboard**
+### 3. **[Healthcare Data Dashboard](./Healthcare-Data-Dashboard/)**
 *Data Analytics & Business Intelligence*
 
 **Project Overview:**
 Interactive dashboard for visualizing and analyzing healthcare datasets, providing actionable insights for healthcare stakeholders. This project demonstrates data-driven decision making in healthcare.
+
+**[View Project →](./Healthcare-Data-Dashboard/)**
 
 **Key Components:**
 - **Data Analysis:** Statistical analysis of healthcare metrics
@@ -124,11 +130,13 @@ Interactive dashboard for visualizing and analyzing healthcare datasets, providi
 
 ---
 
-### 4. **Patient Readmission Prediction**
+### 4. **[Patient Readmission Prediction](./Patient-Readmission-Prediction/)**
 *Machine Learning & Predictive Analytics*
 
 **Project Overview:**
 Machine learning models and data pipelines for predicting patient readmission risk, focusing on improving care quality and reducing healthcare costs through predictive analytics.
+
+**[View Project →](./Patient-Readmission-Prediction/)**
 
 **Key Components:**
 - **ML Model Development:** Predictive models for readmission risk assessment
@@ -151,11 +159,13 @@ Machine learning models and data pipelines for predicting patient readmission ri
 
 ---
 
-### 5. **Responsible AI in Healthcare**
+### 5. **[Responsible AI in Healthcare](./Responsible-AI-in-Healthcare/)**
 *Ethical AI & Regulatory Compliance*
 
 **Project Overview:**
 Comprehensive framework for implementing responsible and ethical AI in healthcare, including policies, best practices, and compliance guidelines for AI systems in clinical settings.
+
+**[View Project →](./Responsible-AI-in-Healthcare/)**
 
 **Key Components:**
 - **Ethical Framework:** Guidelines for responsible AI development
@@ -267,9 +277,10 @@ Jim believes in leveraging technology to solve real-world healthcare challenges 
 
 - **Name:** James (Jim) Lucas
 - **Location:** Mariposa, United States
-- **Email:** jiml95338@gmail.com
-- **Phone:** +1 650-580-1859
+- **Email:** [jiml95338@gmail.com](mailto:jiml95338@gmail.com)
+- **Phone:** [+1 650-580-1859](tel:+16505801859)
 - **GitHub:** [JimLucas95338](https://github.com/JimLucas95338)
+- **Portfolio:** [View Full Portfolio](https://github.com/JimLucas95338/Portfolio)
 
 ---
 
@@ -283,6 +294,8 @@ I'm passionate about leveraging AI and technology to improve healthcare outcomes
 - Healthcare data analytics
 
 Feel free to reach out to discuss potential collaborations, opportunities, or simply to connect about the future of healthcare technology.
+
+**[📧 Email Me](mailto:jiml95338@gmail.com)** | **[💼 View GitHub](https://github.com/JimLucas95338)** | **[📱 Call Me](tel:+16505801859)**
 
 ---
 
