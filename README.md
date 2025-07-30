@@ -5,7 +5,7 @@ Experienced Senior Product Manager specializing in AI-driven solutions for healt
 
 ## Contact Information
 - **Name:** James (Jim) Lucas
-- **Location:** Mariposa, United States
+- **Location:** San Jose, United States
 - **Email:** jiml95338@gmail.com
 - **GitHub:** [JimLucas95338](https://github.com/JimLucas95338)
 
