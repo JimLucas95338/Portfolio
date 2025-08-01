@@ -13,4 +13,8 @@ A framework and example policies for ensuring responsible, fair, and compliant A
 ## Project Structure
 - `framework/` – Responsible AI principles and guidelines
 - `policies/` – Example policies and risk assessments
-- `docs/` – Documentation and resources 
+- `docs/` – Documentation and resources
+
+## To Do
+- Document responsible AI principles and risk management
+- Provide example policies and risk assessments
