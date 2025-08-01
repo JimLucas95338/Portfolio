@@ -16,3 +16,7 @@ A machine learning project to predict patient readmission risk, emphasizing expl
 - `notebooks/` – Model development and analysis
 - `src/` – Source code
 - `docs/` – Documentation and reports 
+
+## To Do
+- Build and evaluate predictive models
+- Address fairness, bias, and interpretability
