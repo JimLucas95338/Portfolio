@@ -63,7 +63,7 @@ With over a decade of experience in biotechnology and digital health, I bring a 
 
 **Skills Demonstrated:** Digital Health Product Design, Pharmacy Operations, Patient Engagement, Healthcare Technology
 
-### ⚖️ [Responsible AI in Healthcare](./Responsible-AI-in-Healthcare/) ✅ **COMPLETE**
+### ⚖️ [Responsible AI in Healthcare](./Responsible-AI-in-Healthcare/)
 **AI Ethics & Compliance Framework with Technical Implementation**
 - Comprehensive framework for ethical AI implementation with complete documentation
 - Interactive Jupyter notebook demonstrating bias detection on 10,000 patient synthetic dataset
