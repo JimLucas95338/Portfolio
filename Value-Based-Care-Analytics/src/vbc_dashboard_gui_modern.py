@@ -81,6 +81,9 @@ class ModernVBCDashboard:
         
         # Set initial view
         self.show_dashboard_view()
+        
+        # Update KPIs after data load
+        self.update_kpi_cards()
     
     def setup_modern_styles(self):
         """Configure ultra-modern GUI styling"""
@@ -405,29 +408,210 @@ class ModernVBCDashboard:
         for i in range(len(kpis)):
             kpi_frame.columnconfigure(i, weight=1)
     
+    def update_kpi_cards(self):
+        """Update KPI cards with real data"""
+        try:
+            if hasattr(self, 'kpi_cards') and self.claims_data is not None:
+                # Calculate real metrics
+                total_patients = self.claims_data['patient_id'].nunique()
+                
+                # Quality score from quality data
+                avg_quality = self.quality_data['quality_score'].mean() if self.quality_data is not None else 89.4
+                
+                # High risk patients
+                high_risk_count = len(self.claims_data[self.claims_data['risk_score'] >= 2.0])
+                
+                # Financial metrics from provider data
+                if self.provider_data is not None:
+                    avg_cost_pmpm = self.provider_data['total_cost_pmpm'].mean()
+                    total_shared_savings = self.provider_data['shared_savings'].sum()
+                    total_quality_bonus = self.provider_data['quality_bonus'].sum()
+                else:
+                    avg_cost_pmpm = 687
+                    total_shared_savings = 498000
+                    total_quality_bonus = 169000
+                
+                # Update the labels
+                self.kpi_cards['patients_count'].config(text=f"{total_patients}")
+                self.kpi_cards['quality_score'].config(text=f"{avg_quality:.1f}%")
+                self.kpi_cards['high_risk_count'].config(text=f"{high_risk_count}")
+                self.kpi_cards['cost_pmpm'].config(text=f"${avg_cost_pmpm:.0f}")
+                self.kpi_cards['shared_savings'].config(text=f"${total_shared_savings/1000:.0f}K")
+                self.kpi_cards['quality_bonus'].config(text=f"${total_quality_bonus/1000:.0f}K")
+                
+        except Exception as e:
+            print(f"Error updating KPI cards: {e}")
+    
     def create_dashboard_charts(self, parent):
         """Create dashboard charts section"""
-        # Left chart
+        # Left chart - Risk Distribution
         left_chart = tk.Frame(parent, bg=self.colors['bg_card'], relief='flat', bd=0)
         left_chart.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 10))
         
         tk.Label(left_chart, text="Risk Distribution",
                 font=('Segoe UI', 14, 'bold'),
                 bg=self.colors['bg_card'],
-                fg=self.colors['text_primary']).pack(pady=15)
+                fg=self.colors['text_primary']).pack(pady=(15, 10))
         
-        # Right chart
+        # Create risk distribution chart
+        self.create_risk_distribution_chart(left_chart)
+        
+        # Right chart - Quality Trends
         right_chart = tk.Frame(parent, bg=self.colors['bg_card'], relief='flat', bd=0)
         right_chart.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=(10, 0))
         
         tk.Label(right_chart, text="Quality Trends",
                 font=('Segoe UI', 14, 'bold'),
                 bg=self.colors['bg_card'],
-                fg=self.colors['text_primary']).pack(pady=15)
+                fg=self.colors['text_primary']).pack(pady=(15, 10))
+        
+        # Create quality trends chart
+        self.create_quality_trends_chart(right_chart)
         
         # Store for later use
         self.left_chart_frame = left_chart
         self.right_chart_frame = right_chart
+    
+    def create_risk_distribution_chart(self, parent):
+        """Create risk distribution pie chart"""
+        try:
+            # Create matplotlib figure with dark theme
+            plt.style.use('dark_background')
+            fig = Figure(figsize=(5, 4), dpi=80, facecolor=self.colors['bg_card'])
+            ax = fig.add_subplot(111)
+            ax.set_facecolor(self.colors['bg_card'])
+            
+            if self.claims_data is not None:
+                # Calculate risk distribution from actual data
+                risk_counts = []
+                risk_labels = []
+                
+                low_risk = len(self.claims_data[self.claims_data['risk_score'] < 1.0])
+                medium_risk = len(self.claims_data[(self.claims_data['risk_score'] >= 1.0) & (self.claims_data['risk_score'] < 2.0)])
+                high_risk = len(self.claims_data[(self.claims_data['risk_score'] >= 2.0) & (self.claims_data['risk_score'] < 3.0)])
+                very_high_risk = len(self.claims_data[self.claims_data['risk_score'] >= 3.0])
+                
+                if low_risk > 0:
+                    risk_counts.append(low_risk)
+                    risk_labels.append('Low Risk')
+                if medium_risk > 0:
+                    risk_counts.append(medium_risk)
+                    risk_labels.append('Medium Risk')
+                if high_risk > 0:
+                    risk_counts.append(high_risk)
+                    risk_labels.append('High Risk')
+                if very_high_risk > 0:
+                    risk_counts.append(very_high_risk)
+                    risk_labels.append('Very High Risk')
+            else:
+                # Sample data if no real data available
+                risk_counts = [15, 10, 5, 2]
+                risk_labels = ['Low Risk', 'Medium Risk', 'High Risk', 'Very High Risk']
+            
+            # Modern color scheme for pie chart
+            colors = [self.colors['accent_green'], self.colors['accent_orange'], 
+                     self.colors['accent_red'], '#ff4757']
+            
+            # Create pie chart
+            wedges, texts, autotexts = ax.pie(risk_counts, labels=risk_labels, colors=colors,
+                                            autopct='%1.1f%%', startangle=90,
+                                            textprops={'color': 'white', 'fontsize': 9})
+            
+            # Style the chart
+            ax.set_title('Patient Risk Categories', color='white', fontsize=12, pad=20)
+            
+            # Embed in tkinter
+            canvas = FigureCanvasTkAgg(fig, parent)
+            canvas.draw()
+            canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+            
+        except Exception as e:
+            # Fallback if chart creation fails
+            error_label = tk.Label(parent, 
+                                  text="📊 Risk Distribution\n(Chart loading...)",
+                                  font=('Segoe UI', 10),
+                                  bg=self.colors['bg_card'],
+                                  fg=self.colors['text_muted'],
+                                  justify=tk.CENTER)
+            error_label.pack(expand=True)
+            print(f"Risk chart error: {e}")
+    
+    def create_quality_trends_chart(self, parent):
+        """Create quality trends line chart"""
+        try:
+            # Create matplotlib figure with dark theme
+            plt.style.use('dark_background')
+            fig = Figure(figsize=(5, 4), dpi=80, facecolor=self.colors['bg_card'])
+            ax = fig.add_subplot(111)
+            ax.set_facecolor(self.colors['bg_card'])
+            
+            if self.quality_data is not None:
+                # Use actual quality data
+                quality_scores = self.quality_data['quality_score'].values
+                measure_names = [name[:15] + '...' if len(name) > 15 else name 
+                               for name in self.quality_data['measure_name']]
+                
+                # Create trend line (simulate trend over time)
+                x_pos = range(len(quality_scores))
+                
+                # Plot quality scores
+                ax.plot(x_pos, quality_scores, marker='o', linewidth=2, 
+                       color=self.colors['accent_blue'], markersize=6,
+                       markerfacecolor=self.colors['accent_green'])
+                
+                # Add benchmark line
+                benchmarks = self.quality_data['benchmark_rate'].values
+                ax.plot(x_pos, benchmarks, '--', linewidth=1, 
+                       color=self.colors['text_muted'], alpha=0.7, label='Benchmark')
+                
+                ax.set_xticks(x_pos[::2])  # Show every other label to avoid crowding
+                ax.set_xticklabels(measure_names[::2], rotation=45, ha='right', fontsize=8)
+                ax.set_ylabel('Score (%)', color='white', fontsize=10)
+                
+            else:
+                # Sample trend data
+                months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+                quality_trend = [85, 87, 89, 88, 91, 89]
+                benchmark = [80] * 6
+                
+                ax.plot(months, quality_trend, marker='o', linewidth=3, 
+                       color=self.colors['accent_blue'], markersize=8,
+                       markerfacecolor=self.colors['accent_green'])
+                ax.plot(months, benchmark, '--', linewidth=2, 
+                       color=self.colors['text_muted'], alpha=0.7, label='Benchmark')
+                
+                ax.set_ylabel('Quality Score (%)', color='white', fontsize=10)
+            
+            # Style the chart
+            ax.set_title('Quality Performance Over Time', color='white', fontsize=12, pad=20)
+            ax.tick_params(colors='white')
+            ax.grid(True, alpha=0.2, color='white')
+            ax.legend(loc='upper left', fontsize=8)
+            
+            # Remove top and right spines
+            ax.spines['top'].set_visible(False)
+            ax.spines['right'].set_visible(False)
+            ax.spines['bottom'].set_color('white')
+            ax.spines['left'].set_color('white')
+            
+            # Tight layout
+            fig.tight_layout()
+            
+            # Embed in tkinter
+            canvas = FigureCanvasTkAgg(fig, parent)
+            canvas.draw()
+            canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+            
+        except Exception as e:
+            # Fallback if chart creation fails
+            error_label = tk.Label(parent, 
+                                  text="📈 Quality Trends\n(Chart loading...)",
+                                  font=('Segoe UI', 10),
+                                  bg=self.colors['bg_card'],
+                                  fg=self.colors['text_muted'],
+                                  justify=tk.CENTER)
+            error_label.pack(expand=True)
+            print(f"Quality chart error: {e}")
     
     def show_analytics_view(self):
         """Show analytics view"""
@@ -629,13 +813,13 @@ class ModernVBCDashboard:
     def create_alert_cards(self, parent):
         """Create modern alert cards"""
         alerts_data = [
-            ("High Risk Patients", "8 patients require immediate attention", "🚨", self.colors['accent_red']),
-            ("Quality Alert", "3 measures below benchmark", "⚠️", self.colors['accent_orange']),
-            ("Cost Alert", "PMPM trending above target", "💰", self.colors['accent_orange']),
-            ("Success", "Quality bonuses earned this quarter", "✅", self.colors['accent_green'])
+            ("High Risk Patients", "8 patients require immediate attention", "🚨", self.colors['accent_red'], "high_risk"),
+            ("Quality Alert", "3 measures below benchmark", "⚠️", self.colors['accent_orange'], "quality"),
+            ("Cost Alert", "PMPM trending above target", "💰", self.colors['accent_orange'], "cost"),
+            ("Success", "Quality bonuses earned this quarter", "✅", self.colors['accent_green'], "success")
         ]
         
-        for i, (title, message, icon, color) in enumerate(alerts_data):
+        for i, (title, message, icon, color, alert_type) in enumerate(alerts_data):
             alert_card = tk.Frame(parent, bg=self.colors['bg_card'], relief='flat', bd=0)
             alert_card.pack(fill=tk.X, pady=10, ipady=20, ipadx=20)
             
@@ -662,10 +846,216 @@ class ModernVBCDashboard:
                                     fg=self.colors['text_muted'])
             message_label.pack(anchor='w')
             
-            # Action button
+            # Action button with specific functionality
             action_btn = ttk.Button(alert_card, text="View Details",
-                                   style='Modern.TButton')
+                                   style='Modern.TButton',
+                                   command=lambda t=alert_type: self.show_alert_details(t))
             action_btn.pack(side=tk.RIGHT, padx=20)
+    
+    def show_alert_details(self, alert_type):
+        """Show detailed alert information"""
+        if alert_type == "high_risk":
+            self.show_high_risk_details()
+        elif alert_type == "quality":
+            self.show_quality_alert_details()
+        elif alert_type == "cost":
+            self.show_cost_alert_details()
+        elif alert_type == "success":
+            self.show_success_details()
+    
+    def show_high_risk_details(self):
+        """Show high risk patients details"""
+        if self.claims_data is not None:
+            high_risk_patients = self.claims_data[self.claims_data['risk_score'] >= 2.0]
+            
+            details = f"""🚨 HIGH RISK PATIENTS ALERT
+            
+Total High-Risk Patients: {len(high_risk_patients)}
+
+Patient Details:
+"""
+            for _, patient in high_risk_patients.head(10).iterrows():
+                details += f"• {patient['patient_id']}: Risk Score {patient['risk_score']:.2f}, Age {patient['age']}, Conditions: {patient['chronic_conditions']}\n"
+            
+            details += f"""
+RECOMMENDED ACTIONS:
+• Deploy intensive care management for these patients
+• Schedule immediate follow-up appointments
+• Implement medication adherence monitoring
+• Coordinate with specialists as needed
+• Monitor for emergency department visits
+
+EXPECTED IMPACT:
+• 25% reduction in preventable hospitalizations
+• Improved patient outcomes through proactive care
+• Potential cost savings of $50,000+ per quarter"""
+            
+        else:
+            details = "High-risk patient data not available. Please load claims data first."
+        
+        self.show_details_popup("High Risk Patients Alert", details)
+    
+    def show_quality_alert_details(self):
+        """Show quality alert details"""
+        if self.quality_data is not None:
+            below_benchmark = self.quality_data[self.quality_data['performance_rate'] < self.quality_data['benchmark_rate']]
+            
+            details = f"""⚠️ QUALITY MEASURES ALERT
+            
+Measures Below Benchmark: {len(below_benchmark)}
+
+Quality Issues:
+"""
+            for _, measure in below_benchmark.head(5).iterrows():
+                gap = measure['benchmark_rate'] - measure['performance_rate']
+                details += f"• {measure['measure_name']}: {measure['performance_rate']:.1f}% (Gap: -{gap:.1f}%)\n"
+            
+            details += f"""
+IMPROVEMENT OPPORTUNITIES:
+• Implement targeted quality improvement initiatives
+• Provide additional provider training and support
+• Deploy care gap closure workflows
+• Enhance patient engagement programs
+• Monitor progress monthly
+
+EXPECTED BENEFITS:
+• Improved patient outcomes and satisfaction
+• Higher quality bonus payments
+• Enhanced competitive positioning
+• Regulatory compliance assurance"""
+            
+        else:
+            details = "Quality data not available. Please load quality measures data first."
+        
+        self.show_details_popup("Quality Measures Alert", details)
+    
+    def show_cost_alert_details(self):
+        """Show cost alert details"""
+        if self.provider_data is not None:
+            avg_cost = self.provider_data['total_cost_pmpm'].mean()
+            target_cost = 650  # Example target
+            variance = avg_cost - target_cost
+            
+            details = f"""💰 COST MANAGEMENT ALERT
+            
+Current Average PMPM: ${avg_cost:.2f}
+Target PMPM: ${target_cost:.2f}
+Variance: ${variance:.2f} ({variance/target_cost*100:+.1f}%)
+
+Cost Analysis:
+• Total cost trending above quarterly targets
+• Need to identify cost reduction opportunities
+• Review high-cost providers and specialties
+• Implement cost containment strategies
+
+RECOMMENDED ACTIONS:
+• Review provider contracts and fee schedules
+• Implement utilization management programs
+• Focus on preventive care to reduce acute costs
+• Negotiate better rates with high-volume providers
+• Deploy care coordination to reduce duplicative services
+
+POTENTIAL SAVINGS:
+• 10-15% cost reduction through better management
+• Improved efficiency in care delivery
+• Enhanced shared savings opportunities
+• Better contract performance"""
+            
+        else:
+            details = "Provider cost data not available. Please load provider data first."
+        
+        self.show_details_popup("Cost Management Alert", details)
+    
+    def show_success_details(self):
+        """Show success details"""
+        if self.provider_data is not None:
+            total_bonus = self.provider_data['quality_bonus'].sum()
+            total_savings = self.provider_data['shared_savings'].sum()
+            
+            details = f"""✅ SUCCESS METRICS
+            
+Quarterly Performance:
+• Quality Bonuses Earned: ${total_bonus:,.0f}
+• Shared Savings Generated: ${total_savings:,.0f}
+• Total Value-Based Revenue: ${total_bonus + total_savings:,.0f}
+
+ACHIEVEMENTS:
+• Exceeded quality performance targets
+• Successful implementation of care management programs
+• Strong provider engagement and performance
+• Positive patient outcomes and satisfaction
+
+SUCCESS FACTORS:
+• AI-driven risk stratification and care management
+• Comprehensive quality measures tracking
+• Proactive care gap closure initiatives
+• Strong provider-patient relationships
+• Effective care coordination
+
+NEXT STEPS:
+• Continue current successful strategies
+• Scale successful programs to additional providers
+• Explore expansion of value-based contracts
+• Share best practices across the organization
+• Plan for next quarter's quality initiatives"""
+            
+        else:
+            details = "Performance data not available. Please load provider data first."
+        
+        self.show_details_popup("Success Metrics", details)
+    
+    def show_details_popup(self, title, content):
+        """Show a popup window with detailed information"""
+        popup = tk.Toplevel(self.root)
+        popup.title(title)
+        popup.geometry("600x500")
+        popup.configure(bg=self.colors['bg_secondary'])
+        
+        # Make popup modal
+        popup.transient(self.root)
+        popup.grab_set()
+        
+        # Title
+        title_label = tk.Label(popup, text=title,
+                              font=('Segoe UI', 16, 'bold'),
+                              bg=self.colors['bg_secondary'],
+                              fg=self.colors['text_primary'])
+        title_label.pack(pady=20)
+        
+        # Content area
+        content_frame = tk.Frame(popup, bg=self.colors['bg_card'])
+        content_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=(0, 20))
+        
+        # Scrollable text
+        text_widget = tk.Text(content_frame,
+                             font=('Segoe UI', 10),
+                             bg=self.colors['bg_card'],
+                             fg=self.colors['text_primary'],
+                             wrap=tk.WORD,
+                             padx=20,
+                             pady=20)
+        
+        scrollbar = ttk.Scrollbar(content_frame, orient=tk.VERTICAL, command=text_widget.yview)
+        text_widget.configure(yscrollcommand=scrollbar.set)
+        
+        text_widget.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        
+        # Insert content
+        text_widget.insert(1.0, content)
+        text_widget.config(state=tk.DISABLED)  # Make read-only
+        
+        # Close button
+        close_btn = ttk.Button(popup, text="Close",
+                              style='Modern.TButton',
+                              command=popup.destroy)
+        close_btn.pack(pady=10)
+        
+        # Center the popup
+        popup.update_idletasks()
+        x = (popup.winfo_screenwidth() // 2) - (popup.winfo_width() // 2)
+        y = (popup.winfo_screenheight() // 2) - (popup.winfo_height() // 2)
+        popup.geometry(f"+{x}+{y}")
     
     def show_reports_view(self):
         """Show reports view"""
@@ -814,6 +1204,20 @@ class ModernVBCDashboard:
         """Refresh all data"""
         self.update_status("Refreshing data...", 0)
         self.load_sample_data()
+        self.update_kpi_cards()
+        
+        # Refresh current view if it's dashboard
+        current_nav = None
+        for text, btn_frame in self.nav_buttons.items():
+            btn = btn_frame.winfo_children()[0]
+            if hasattr(btn, 'active') and btn.active:
+                current_nav = text
+                break
+        
+        if current_nav == "📊 Dashboard":
+            self.show_dashboard_view()
+        
+        self.update_status("Data refreshed successfully", 100)
     
     def run_risk_analysis(self):
         """Run risk analysis"""
@@ -933,17 +1337,264 @@ class ModernVBCDashboard:
         for widget in self.chart_display.winfo_children():
             widget.destroy()
         
-        tk.Label(self.chart_display,
-                text=f"📊 {chart_type} Chart",
-                font=('Segoe UI', 16, 'bold'),
-                bg=self.colors['bg_card'],
-                fg=self.colors['text_primary']).pack(pady=50)
+        self.update_status(f"Generating {chart_type} chart...", 50)
         
-        tk.Label(self.chart_display,
-                text="Chart visualization would be displayed here",
-                font=('Segoe UI', 12),
-                bg=self.colors['bg_card'],
-                fg=self.colors['text_muted']).pack()
+        try:
+            # Create matplotlib figure with dark theme
+            plt.style.use('dark_background')
+            fig = Figure(figsize=(12, 8), dpi=100, facecolor=self.colors['bg_card'])
+            
+            if chart_type == "Risk Distribution":
+                self.create_interactive_risk_chart(fig)
+            elif chart_type == "Quality Trends":
+                self.create_interactive_quality_chart(fig)
+            elif chart_type == "Cost Analysis":
+                self.create_interactive_cost_chart(fig)
+            elif chart_type == "Provider Performance":
+                self.create_interactive_provider_chart(fig)
+            
+            # Embed chart in tkinter
+            canvas = FigureCanvasTkAgg(fig, self.chart_display)
+            canvas.draw()
+            canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
+            
+            self.update_status(f"{chart_type} chart generated successfully", 100)
+            
+        except Exception as e:
+            error_label = tk.Label(self.chart_display,
+                                  text=f"❌ Error generating {chart_type} chart\n{str(e)}",
+                                  font=('Segoe UI', 12),
+                                  bg=self.colors['bg_card'],
+                                  fg=self.colors['accent_red'],
+                                  justify=tk.CENTER)
+            error_label.pack(expand=True)
+            self.update_status(f"Chart generation failed: {str(e)}", 0)
+    
+    def create_interactive_risk_chart(self, fig):
+        """Create interactive risk distribution chart"""
+        ax = fig.add_subplot(111)
+        ax.set_facecolor(self.colors['bg_card'])
+        
+        if self.claims_data is not None:
+            # Calculate detailed risk distribution
+            risk_data = {}
+            for _, patient in self.claims_data.iterrows():
+                score = patient['risk_score']
+                if score < 1.0:
+                    category = 'Low Risk\n(0.0-1.0)'
+                elif score < 2.0:
+                    category = 'Medium Risk\n(1.0-2.0)'
+                elif score < 3.0:
+                    category = 'High Risk\n(2.0-3.0)'
+                else:
+                    category = 'Very High Risk\n(3.0+)'
+                
+                risk_data[category] = risk_data.get(category, 0) + 1
+        else:
+            # Sample data
+            risk_data = {
+                'Low Risk\n(0.0-1.0)': 15,
+                'Medium Risk\n(1.0-2.0)': 10,
+                'High Risk\n(2.0-3.0)': 5,
+                'Very High Risk\n(3.0+)': 2
+            }
+        
+        # Create enhanced pie chart
+        colors = [self.colors['accent_green'], self.colors['accent_orange'], 
+                 self.colors['accent_red'], '#ff4757']
+        
+        wedges, texts, autotexts = ax.pie(risk_data.values(), labels=risk_data.keys(),
+                                        colors=colors, autopct='%1.1f%%', startangle=90,
+                                        textprops={'color': 'white', 'fontsize': 11},
+                                        explode=(0.05, 0.05, 0.1, 0.15))  # Explode slices
+        
+        ax.set_title('Patient Risk Distribution Analysis', color='white', fontsize=16, pad=30)
+        
+        # Add summary text
+        total_patients = sum(risk_data.values())
+        high_risk_total = risk_data.get('High Risk\n(2.0-3.0)', 0) + risk_data.get('Very High Risk\n(3.0+)', 0)
+        risk_percentage = (high_risk_total / total_patients) * 100
+        
+        summary_text = f"Total Patients: {total_patients}\nHigh-Risk Patients: {high_risk_total} ({risk_percentage:.1f}%)"
+        ax.text(1.3, 0.5, summary_text, transform=ax.transAxes, fontsize=12,
+               verticalalignment='center', color='white',
+               bbox=dict(boxstyle="round,pad=0.3", facecolor=self.colors['bg_secondary'], alpha=0.8))
+    
+    def create_interactive_quality_chart(self, fig):
+        """Create interactive quality trends chart"""
+        ax = fig.add_subplot(111)
+        ax.set_facecolor(self.colors['bg_card'])
+        
+        if self.quality_data is not None:
+            # Use actual quality data
+            measures = self.quality_data['measure_name'].head(10)  # Top 10 measures
+            performance = self.quality_data['performance_rate'].head(10)
+            benchmarks = self.quality_data['benchmark_rate'].head(10)
+            scores = self.quality_data['quality_score'].head(10)
+            
+            x_pos = range(len(measures))
+            
+            # Create grouped bar chart
+            width = 0.25
+            ax.bar([x - width for x in x_pos], performance, width, label='Performance', 
+                  color=self.colors['accent_blue'], alpha=0.8)
+            ax.bar(x_pos, benchmarks, width, label='Benchmark', 
+                  color=self.colors['text_muted'], alpha=0.6)
+            ax.bar([x + width for x in x_pos], scores, width, label='Quality Score', 
+                  color=self.colors['accent_green'], alpha=0.8)
+            
+            ax.set_xlabel('Quality Measures', color='white', fontsize=12)
+            ax.set_ylabel('Score (%)', color='white', fontsize=12)
+            ax.set_title('Quality Measures Performance Analysis', color='white', fontsize=16, pad=30)
+            
+            # Rotate x-axis labels
+            short_names = [name[:20] + '...' if len(name) > 20 else name for name in measures]
+            ax.set_xticks(x_pos)
+            ax.set_xticklabels(short_names, rotation=45, ha='right', fontsize=10)
+            
+        else:
+            # Sample data
+            months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug']
+            quality_trend = [85, 87, 89, 88, 91, 89, 92, 90]
+            benchmark = [80] * 8
+            target = [95] * 8
+            
+            ax.plot(months, quality_trend, marker='o', linewidth=3, markersize=8,
+                   color=self.colors['accent_blue'], label='Actual Performance')
+            ax.plot(months, benchmark, '--', linewidth=2, 
+                   color=self.colors['text_muted'], label='Industry Benchmark')
+            ax.plot(months, target, ':', linewidth=2, 
+                   color=self.colors['accent_green'], label='Target')
+            
+            ax.set_ylabel('Quality Score (%)', color='white', fontsize=12)
+            ax.set_title('Quality Performance Trends Over Time', color='white', fontsize=16, pad=30)
+        
+        ax.tick_params(colors='white')
+        ax.grid(True, alpha=0.2, color='white')
+        ax.legend(loc='upper left', fontsize=10)
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.spines['bottom'].set_color('white')
+        ax.spines['left'].set_color('white')
+    
+    def create_interactive_cost_chart(self, fig):
+        """Create interactive cost analysis chart"""
+        ax = fig.add_subplot(111)
+        ax.set_facecolor(self.colors['bg_card'])
+        
+        if self.provider_data is not None:
+            # Cost analysis by specialty
+            specialty_costs = self.provider_data.groupby('specialty').agg({
+                'total_cost_pmpm': 'mean',
+                'shared_savings': 'sum',
+                'patient_panel_size': 'sum'
+            }).round(0)
+            
+            specialties = specialty_costs.index
+            costs = specialty_costs['total_cost_pmpm']
+            savings = specialty_costs['shared_savings']
+            
+            # Create dual-axis chart
+            ax2 = ax.twinx()
+            
+            # Bar chart for costs
+            bars1 = ax.bar(specialties, costs, alpha=0.7, color=self.colors['accent_orange'], 
+                          label='Cost PMPM')
+            
+            # Line chart for savings
+            line1 = ax2.plot(specialties, savings, marker='o', linewidth=3, markersize=8,
+                           color=self.colors['accent_green'], label='Shared Savings')
+            
+            ax.set_xlabel('Medical Specialty', color='white', fontsize=12)
+            ax.set_ylabel('Cost PMPM ($)', color='white', fontsize=12)
+            ax2.set_ylabel('Shared Savings ($)', color='white', fontsize=12)
+            ax.set_title('Cost Analysis by Medical Specialty', color='white', fontsize=16, pad=30)
+            
+            # Rotate labels
+            ax.tick_params(axis='x', rotation=45, colors='white')
+            
+        else:
+            # Sample cost data
+            categories = ['Primary Care', 'Cardiology', 'Endocrinology', 'Nephrology', 'Oncology']
+            costs = [450, 890, 595, 1250, 2850]
+            savings = [35000, 52000, 18000, 45000, 85000]
+            
+            ax2 = ax.twinx()
+            
+            bars = ax.bar(categories, costs, alpha=0.7, color=self.colors['accent_orange'])
+            line = ax2.plot(categories, savings, marker='o', linewidth=3, markersize=8,
+                          color=self.colors['accent_green'])
+            
+            ax.set_ylabel('Cost PMPM ($)', color='white', fontsize=12)
+            ax2.set_ylabel('Shared Savings ($)', color='white', fontsize=12)
+            ax.set_title('Healthcare Cost vs Savings Analysis', color='white', fontsize=16, pad=30)
+        
+        ax.tick_params(colors='white')
+        ax2.tick_params(colors='white')
+        ax.grid(True, alpha=0.2, color='white')
+        
+        # Combined legend
+        lines1, labels1 = ax.get_legend_handles_labels()
+        lines2, labels2 = ax2.get_legend_handles_labels()
+        ax.legend(lines1 + lines2, labels1 + labels2, loc='upper left', fontsize=10)
+    
+    def create_interactive_provider_chart(self, fig):
+        """Create interactive provider performance chart"""
+        ax = fig.add_subplot(111)
+        ax.set_facecolor(self.colors['bg_card'])
+        
+        if self.provider_data is not None:
+            # Scatter plot: Quality Score vs Cost PMPM
+            x = self.provider_data['avg_quality_score']
+            y = self.provider_data['total_cost_pmpm']
+            sizes = self.provider_data['patient_panel_size'] / 5  # Scale bubble sizes
+            colors_data = self.provider_data['shared_savings']
+            
+            scatter = ax.scatter(x, y, s=sizes, c=colors_data, cmap='RdYlGn', alpha=0.7)
+            
+            ax.set_xlabel('Average Quality Score (%)', color='white', fontsize=12)
+            ax.set_ylabel('Total Cost PMPM ($)', color='white', fontsize=12)
+            ax.set_title('Provider Performance: Quality vs Cost\n(Bubble size = Panel Size, Color = Shared Savings)', 
+                        color='white', fontsize=16, pad=30)
+            
+            # Add colorbar
+            cbar = fig.colorbar(scatter, ax=ax)
+            cbar.set_label('Shared Savings ($)', color='white', fontsize=10)
+            cbar.ax.tick_params(colors='white')
+            
+            # Add quadrant lines
+            avg_quality = x.mean()
+            avg_cost = y.mean()
+            ax.axvline(avg_quality, color='white', linestyle='--', alpha=0.5)
+            ax.axhline(avg_cost, color='white', linestyle='--', alpha=0.5)
+            
+            # Add quadrant labels
+            ax.text(0.95, 0.95, 'High Cost\nHigh Quality', transform=ax.transAxes, 
+                   ha='right', va='top', color='white', fontsize=10, alpha=0.7)
+            ax.text(0.05, 0.05, 'Low Cost\nLow Quality', transform=ax.transAxes, 
+                   ha='left', va='bottom', color='white', fontsize=10, alpha=0.7)
+            
+        else:
+            # Sample provider data
+            np.random.seed(42)
+            n_providers = 15
+            quality_scores = np.random.normal(85, 10, n_providers)
+            costs = np.random.normal(700, 200, n_providers)
+            panel_sizes = np.random.normal(200, 50, n_providers)
+            
+            scatter = ax.scatter(quality_scores, costs, s=panel_sizes, 
+                               c=range(n_providers), cmap='viridis', alpha=0.7)
+            
+            ax.set_xlabel('Quality Score (%)', color='white', fontsize=12)
+            ax.set_ylabel('Cost PMPM ($)', color='white', fontsize=12)
+            ax.set_title('Provider Performance Analysis', color='white', fontsize=16, pad=30)
+        
+        ax.tick_params(colors='white')
+        ax.grid(True, alpha=0.2, color='white')
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.spines['bottom'].set_color('white')
+        ax.spines['left'].set_color('white')
     
     def generate_report(self, report_type):
         """Generate report"""
