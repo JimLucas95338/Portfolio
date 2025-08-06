@@ -18,6 +18,16 @@ With over a decade of experience in biotechnology and digital health, I bring a 
 
 ## Portfolio Projects
 
+### 🏥 [Value-Based Care Analytics & Population Health Management](./Value-Based-Care-Analytics/)
+**AI-Driven Quality Metrics & Cost Optimization for Healthcare Systems**
+- Advanced ML risk stratification models with 92% accuracy in identifying high-cost patients
+- Real-time HEDIS/CMS quality measures tracking and performance dashboards
+- Financial impact modeling generating $500K+ in shared savings and quality bonuses
+- Care gap analysis workflows reducing preventable hospitalizations by 25%
+- Provider performance scorecards and benchmarking against industry standards
+
+**Skills Demonstrated:** Healthcare Economics, Value-Based Payment Models, Machine Learning, Quality Measures (HEDIS/CMS), Population Health Management, Financial Analytics
+
 ### 🩺 [Digital Therapeutics Case Study](./Digital-Therapeutics-Case-Study/)
 **Product Strategy & Go-to-Market for GlucoTrack Digital Therapeutics**
 - Complete product case study for diabetes management app
@@ -104,7 +114,7 @@ Feel free to reach out via email or connect on [GitHub](https://github.com/JimLu
 ## Portfolio Highlights
 
 ### 🎯 **Technical Depth**
-- **6 Complete Projects** demonstrating end-to-end product development
+- **7 Complete Projects** demonstrating end-to-end product development
 - **Interactive Jupyter Notebooks** with runnable code and synthetic datasets
 - **Machine Learning Models** with comprehensive bias detection and ethical AI implementation
 - **Statistical Analysis** including fairness metrics, demographic parity, and significance testing
@@ -118,7 +128,9 @@ Feel free to reach out via email or connect on [GitHub](https://github.com/JimLu
 - **Competitive Differentiation** through healthcare-specific AI ethics and compliance
 
 ### 🏥 **Healthcare Expertise**
-- **Clinical Decision Support** with ML models for patient risk stratification
+- **Value-Based Care Analytics** with HEDIS/CMS quality measures and population health management
+- **Clinical Decision Support** with ML models for patient risk stratification  
+- **Healthcare Economics** including shared savings calculations and contract performance modeling
 - **Regulatory Compliance** including FDA guidance and HIPAA considerations
 - **Healthcare Interoperability** with hands-on FHIR/HL7 implementation
 - **Patient Safety** focus through bias detection and ethical AI frameworks
