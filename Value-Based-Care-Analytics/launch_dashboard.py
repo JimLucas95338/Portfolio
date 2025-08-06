@@ -57,7 +57,7 @@ def launch_dashboard():
         script_dir = os.path.dirname(os.path.abspath(__file__))
         
         # Path to the GUI application
-        gui_path = os.path.join(script_dir, 'src', 'vbc_dashboard_gui.py')
+        gui_path = os.path.join(script_dir, 'src', 'vbc_dashboard_gui_modern.py')
         
         if not os.path.exists(gui_path):
             print(f"❌ Dashboard GUI not found at: {gui_path}")
