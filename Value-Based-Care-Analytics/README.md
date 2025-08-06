@@ -68,9 +68,13 @@ pip install pandas numpy matplotlib seaborn scikit-learn plotly tkinter
 
 ### Quick Start Options
 
-#### Option 1: Enhanced Interactive GUI Dashboard 🖥️
+#### Option 1: Ultra-Modern GUI Dashboard 🖥️
 ```bash
-# Enhanced Professional Version (Recommended)
+# Ultra-Modern Version (Latest - Recommended)
+cd Value-Based-Care-Analytics/src
+python vbc_dashboard_gui_modern.py
+
+# Enhanced Professional Version
 cd Value-Based-Care-Analytics/src
 python vbc_dashboard_gui_enhanced.py
 
@@ -78,13 +82,14 @@ python vbc_dashboard_gui_enhanced.py
 cd Value-Based-Care-Analytics
 python launch_dashboard.py
 ```
-The Enhanced GUI provides:
-- **Professional Design**: Healthcare-branded interface with modern styling
-- **Interactive Charts**: Real-time visualizations and drill-down capabilities
-- **Smart Alerts**: Configurable thresholds with real-time notifications
-- **Comprehensive Reports**: Executive summaries with multiple export formats
-- **Advanced Analytics**: Tabbed interface with progress tracking
-- **Auto-refresh**: Background data updates every 5 minutes
+The Ultra-Modern GUI features:
+- **Dark Theme Interface**: Contemporary dark mode with sleek design
+- **Sidebar Navigation**: Modern left-panel navigation with smooth transitions
+- **Gradient Cards**: Beautiful KPI cards with colored icons and trend indicators
+- **Interactive Analytics**: Real-time AI analysis with modern result displays
+- **Smart Search**: Global search functionality across all data
+- **Modern Charts**: Professional visualizations with contemporary styling
+- **Alert System**: Real-time notifications with modern card-based alerts
 
 #### Option 2: Jupyter Notebooks 📊
 1. **Population Health Dashboard**: Open `notebooks/population_health_dashboard.ipynb`
