@@ -68,17 +68,23 @@ pip install pandas numpy matplotlib seaborn scikit-learn plotly tkinter
 
 ### Quick Start Options
 
-#### Option 1: Interactive GUI Dashboard 🖥️
+#### Option 1: Enhanced Interactive GUI Dashboard 🖥️
 ```bash
+# Enhanced Professional Version (Recommended)
 cd Value-Based-Care-Analytics/src
-python vbc_dashboard_gui.py
+python vbc_dashboard_gui_enhanced.py
+
+# Or use the simple launcher
+cd Value-Based-Care-Analytics
+python launch_dashboard.py
 ```
-The GUI provides:
-- Executive dashboard with real-time KPIs
-- AI risk stratification analysis
-- Quality measures tracking
-- Financial performance analytics
-- Provider performance management
+The Enhanced GUI provides:
+- **Professional Design**: Healthcare-branded interface with modern styling
+- **Interactive Charts**: Real-time visualizations and drill-down capabilities
+- **Smart Alerts**: Configurable thresholds with real-time notifications
+- **Comprehensive Reports**: Executive summaries with multiple export formats
+- **Advanced Analytics**: Tabbed interface with progress tracking
+- **Auto-refresh**: Background data updates every 5 minutes
 
 #### Option 2: Jupyter Notebooks 📊
 1. **Population Health Dashboard**: Open `notebooks/population_health_dashboard.ipynb`
