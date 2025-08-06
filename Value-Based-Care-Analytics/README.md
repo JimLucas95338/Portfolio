@@ -21,7 +21,8 @@ This comprehensive platform demonstrates advanced analytics and AI capabilities 
 5. **Financial Impact Modeling** - ROI calculations for value-based contracts
 
 ### Key Features
-- Real-time population health dashboards
+- **Interactive GUI Dashboard** for non-technical users
+- Real-time population health dashboards with executive KPIs
 - Predictive models for high-risk patient identification
 - Automated care management workflows
 - Contract performance monitoring
@@ -42,6 +43,7 @@ Value-Based-Care-Analytics/
 │   ├── quality_measures_analysis.ipynb     # Quality metrics tracking
 │   └── financial_impact_analysis.ipynb     # Contract performance & ROI
 ├── src/
+│   ├── vbc_dashboard_gui.py             # Interactive GUI dashboard application
 │   ├── risk_engine.py                   # Risk stratification algorithms
 │   ├── quality_tracker.py               # Quality measures calculation
 │   ├── care_gap_finder.py              # Care gap identification logic
@@ -52,6 +54,7 @@ Value-Based-Care-Analytics/
 │   └── care_management_portal.py        # Care coordinator tools
 └── docs/
     ├── executive-summary.md              # Business case and ROI
+    ├── gui-user-guide.md                # Interactive dashboard user guide
     ├── technical-architecture.md         # System design documentation
     └── implementation-roadmap.md         # Go-to-market strategy
 ```
@@ -60,12 +63,26 @@ Value-Based-Care-Analytics/
 
 ### Prerequisites
 ```bash
-pip install pandas numpy matplotlib seaborn scikit-learn plotly
+pip install pandas numpy matplotlib seaborn scikit-learn plotly tkinter
 ```
 
-### Quick Start
+### Quick Start Options
+
+#### Option 1: Interactive GUI Dashboard 🖥️
+```bash
+cd Value-Based-Care-Analytics/src
+python vbc_dashboard_gui.py
+```
+The GUI provides:
+- Executive dashboard with real-time KPIs
+- AI risk stratification analysis
+- Quality measures tracking
+- Financial performance analytics
+- Provider performance management
+
+#### Option 2: Jupyter Notebooks 📊
 1. **Population Health Dashboard**: Open `notebooks/population_health_dashboard.ipynb`
-2. **Risk Models**: Explore `notebooks/risk_stratification_model.ipynb`
+2. **Risk Models**: Explore `notebooks/risk_stratification_model.ipynb` 
 3. **Quality Analytics**: Review `notebooks/quality_measures_analysis.ipynb`
 4. **Financial Analysis**: Examine `notebooks/financial_impact_analysis.ipynb`
 
