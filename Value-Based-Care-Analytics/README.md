@@ -49,6 +49,7 @@ Value-Based-Care-Analytics/
 │   ├── clinical_signals_engine.py       # Pearl Health-style Signal-Action Framework
 │   ├── tcm_workflows.py                 # Transitional Care Management workflows  
 │   ├── provider_scorecards.py           # Provider performance & peer benchmarking
+│   ├── actuarial_modeling.py            # Risk adjustment & shared savings calculations
 │   ├── risk_engine.py                   # Risk stratification algorithms
 │   ├── quality_tracker.py               # Quality measures calculation
 │   ├── care_gap_finder.py              # Care gap identification logic
@@ -141,12 +142,19 @@ This project demonstrates **direct alignment** with Pearl Health's core platform
 - **Cost performance analysis** and savings opportunities
 - **Value-based care optimization** recommendations
 
+### **Actuarial & Financial Modeling**
+- **Medicare risk adjustment** (HCC coding methodology)
+- **Shared savings calculations** for MSSP/ACO REACH contracts
+- **Financial reserves modeling** and risk corridors
+- **Contract performance optimization** recommendations
+
 ## 🏆 Skills Demonstrated
 
 - **Healthcare Economics**: Value-based payment models, risk adjustment, quality measures
 - **Signal-Action Frameworks**: Pearl Health-style clinical signals and workflow automation
 - **Transitional Care Management**: Post-discharge workflows and readmission prevention
 - **Provider Analytics**: Performance scorecards, peer benchmarking, quality tracking
+- **Actuarial Modeling**: HCC risk adjustment, shared savings calculations, financial reserves
 - **Machine Learning**: Predictive modeling, risk stratification, outcome prediction
 - **Business Intelligence**: Executive dashboards, KPI tracking, performance analytics
 - **Product Strategy**: Market analysis, competitive positioning, go-to-market planning

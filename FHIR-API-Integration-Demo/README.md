@@ -15,8 +15,9 @@ A demonstration of integrating healthcare systems using HL7/FHIR standards, incl
 ```
 FHIR-API-Integration-Demo/
 ├── api/
-│   ├── fhir_fetch_demo.py              # CLI demonstration
-│   └── fhir_gui_demo.py                # GUI application
+│   ├── fhir_fetch_demo.py              # CLI demonstration with random patient fetching
+│   ├── fhir_gui_demo.py                # GUI application with user-friendly displays
+│   └── point_of_care_integration.py    # Pearl Health-style EHR workflow integration
 ├── docs/
 │   ├── data-flow.md                    # System architecture
 │   └── product-requirements.md         # Complete PRD with user stories & acceptance criteria
@@ -31,4 +32,5 @@ FHIR-API-Integration-Demo/
 - **Product Management**: User stories, acceptance criteria, integration requirements  
 - **API Development**: RESTful APIs, OAuth 2.0, SMART on FHIR
 - **Clinical Workflows**: EHR integration, care coordination, provider efficiency
+- **Point-of-Care Integration**: Pearl Health-style clinical decision support workflows
 - **Healthcare Standards**: Terminology mapping, data normalization, compliance 

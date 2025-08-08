@@ -399,4 +399,4 @@ Feel free to reach out to discuss potential collaborations, opportunities, or si
 
 ---
 
-*Portfolio last updated: December 2024* 
+*Portfolio last updated: August 2025* 
