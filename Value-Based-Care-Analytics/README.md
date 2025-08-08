@@ -46,6 +46,9 @@ Value-Based-Care-Analytics/
 │   └── financial_impact_analysis.ipynb     # Contract performance & ROI
 ├── src/
 │   ├── vbc_dashboard_gui.py             # Interactive GUI dashboard application
+│   ├── clinical_signals_engine.py       # Pearl Health-style Signal-Action Framework
+│   ├── tcm_workflows.py                 # Transitional Care Management workflows  
+│   ├── provider_scorecards.py           # Provider performance & peer benchmarking
 │   ├── risk_engine.py                   # Risk stratification algorithms
 │   ├── quality_tracker.py               # Quality measures calculation
 │   ├── care_gap_finder.py              # Care gap identification logic
@@ -116,9 +119,34 @@ The Ultra-Modern GUI features:
 - **Peer benchmarking** drives quality improvement initiatives
 - **Workflow optimization** reduces administrative burden by 35%
 
+## 🎯 Pearl Health Alignment
+
+This project demonstrates **direct alignment** with Pearl Health's core platform capabilities:
+
+### **Signal-Action Framework Implementation**
+- **Clinical Signals Engine** with urgency scoring algorithms
+- **Predictive alerts** for ED visits, readmissions, and care gaps  
+- **Workflow automation** for care teams and provider panels
+- **"Next best action"** recommendations for patient care
+
+### **Transitional Care Management (TCM)**
+- **Post-discharge care coordination** workflows
+- **Readmission risk assessment** and prevention protocols
+- **Care team communication** and task automation
+- **Pearl Health-style TCM** performance tracking
+
+### **Provider Performance Analytics**
+- **Provider scorecards** with peer benchmarking
+- **Quality metrics tracking** (HEDIS, CMS measures)
+- **Cost performance analysis** and savings opportunities
+- **Value-based care optimization** recommendations
+
 ## 🏆 Skills Demonstrated
 
 - **Healthcare Economics**: Value-based payment models, risk adjustment, quality measures
+- **Signal-Action Frameworks**: Pearl Health-style clinical signals and workflow automation
+- **Transitional Care Management**: Post-discharge workflows and readmission prevention
+- **Provider Analytics**: Performance scorecards, peer benchmarking, quality tracking
 - **Machine Learning**: Predictive modeling, risk stratification, outcome prediction
 - **Business Intelligence**: Executive dashboards, KPI tracking, performance analytics
 - **Product Strategy**: Market analysis, competitive positioning, go-to-market planning
