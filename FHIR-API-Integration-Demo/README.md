@@ -10,7 +10,25 @@ A demonstration of integrating healthcare systems using HL7/FHIR standards, incl
 ## Tools & Technologies
 - Python/Node.js, HAPI FHIR, Postman
 
-## Project Structure
-- `api/` – API code and configuration
-- `examples/` – Sample FHIR resources and mappings
-- `docs/` – Integration guides and documentation 
+## 📁 Project Structure
+
+```
+FHIR-API-Integration-Demo/
+├── api/
+│   ├── fhir_fetch_demo.py              # CLI demonstration
+│   └── fhir_gui_demo.py                # GUI application
+├── docs/
+│   ├── data-flow.md                    # System architecture
+│   └── product-requirements.md         # Complete PRD with user stories & acceptance criteria
+├── examples/
+│   ├── sample_patient.json             # Sample FHIR Patient resource
+│   └── sample_observation.json         # Sample FHIR Observation resource
+└── README.md
+```
+
+## 🏆 Skills Demonstrated
+- **Healthcare Interoperability**: FHIR R4, HL7 standards, clinical data exchange
+- **Product Management**: User stories, acceptance criteria, integration requirements  
+- **API Development**: RESTful APIs, OAuth 2.0, SMART on FHIR
+- **Clinical Workflows**: EHR integration, care coordination, provider efficiency
+- **Healthcare Standards**: Terminology mapping, data normalization, compliance 

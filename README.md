@@ -90,7 +90,7 @@ With over a decade of experience in biotechnology and digital health, I bring a 
 - **Digital Health & Life Sciences** - Healthcare product design, clinical workflows, patient engagement solutions
 - **Healthcare Interoperability** - FHIR/HL7 standards, API integration, data exchange protocols
 - **Data Analysis & Visualization** - Business intelligence, statistical analysis, interactive dashboards
-- **Product Management** - Go-to-market strategy, user research, roadmap planning, stakeholder management
+- **Product Management** - User stories, PRDs, acceptance criteria, go-to-market strategy, stakeholder management
 - **Cross-Functional Leadership** - Team coordination, agile methodologies, project delivery
 - **Regulatory & Compliance** - Healthcare regulations, AI ethics, bias detection, risk management
 - **Technical Implementation** - Python development, Jupyter notebooks, API design, system integration
