@@ -22,57 +22,11 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Any, Optional
 import json
 from dataclasses import asdict
-import sys
-import os
+import webbrowser
+from urllib.parse import quote
 
-# Add the current directory to the path to import rag_engine
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-
-try:
-    from rag_engine import AdvancedRAGEngine, RAGResponse, SearchResult
-except ImportError:
-    print("⚠️ Could not import rag_engine. Running in demo mode.")
-    
-    # Create mock classes for demo
-    class MockRAGResponse:
-        def __init__(self):
-            self.synthesized_answer = "This is a demo response from the AI Search Platform."
-            self.source_results = []
-            self.confidence_score = 0.85
-            self.query_intent = "informational"
-            self.follow_up_questions = ["What are the benefits?", "How does it work?"]
-            self.fact_check_status = "verified"
-            self.processing_time_ms = 125.5
-    
-    class MockSearchResult:
-        def __init__(self, content, source, score):
-            self.content = content
-            self.source = source
-            self.relevance_score = score
-            self.confidence_score = score * 0.9
-            self.metadata = {'section': 'Demo', 'source_type': 'document'}
-    
-    class MockRAGEngine:
-        def __init__(self):
-            pass
-        
-        async def search(self, query, user_id="default"):
-            # Simulate processing time
-            await asyncio.sleep(0.1)
-            
-            response = MockRAGResponse()
-            response.source_results = [
-                MockSearchResult(f"Demo content for query: {query}", "demo_source.pdf", 0.9),
-                MockSearchResult(f"Additional context about: {query}", "additional_source.pdf", 0.8)
-            ]
-            return response
-        
-        def get_performance_metrics(self):
-            return {'queries_processed': 42, 'avg_response_time': 150.2, 'avg_confidence': 0.82, 'cache_hit_rate': 15}
-    
-    AdvancedRAGEngine = MockRAGEngine
-    RAGResponse = MockRAGResponse
-    SearchResult = MockSearchResult
+# Import our RAG engine
+from rag_engine import AdvancedRAGEngine, RAGResponse, SearchResult
 
 class EnterpriseSearchGUI:
     """
@@ -95,6 +49,9 @@ class EnterpriseSearchGUI:
         self.search_history = []
         self.saved_queries = []
         self.current_results = None
+        
+        # Load sample data
+        self.load_sample_knowledge_base()
         
         print("🚀 Enterprise Search GUI initialized")
     
@@ -136,6 +93,11 @@ class EnterpriseSearchGUI:
         
         style = ttk.Style()
         style.theme_use('clam')
+        
+        # Configure custom styles
+        style.configure('Header.TFrame', background=self.colors['primary'])
+        style.configure('Search.TFrame', background=self.colors['white'])
+        style.configure('Results.TFrame', background=self.colors['gray_100'])
     
     def create_header(self):
         """Create application header with branding and navigation."""
@@ -163,7 +125,7 @@ class EnterpriseSearchGUI:
             bg=self.colors['primary']
         ).pack(side='left', padx=(10, 0))
         
-        # User info
+        # User info and actions
         user_frame = tk.Frame(header_frame, bg=self.colors['primary'])
         user_frame.pack(side='right', padx=20, pady=15)
         
@@ -204,11 +166,13 @@ class EnterpriseSearchGUI:
             input_container,
             textvariable=self.search_var,
             font=('Arial', 14),
+            height=2,
             relief='solid',
             bd=1
         )
         self.search_entry.pack(side='left', fill='x', expand=True, ipady=8)
         self.search_entry.bind('<Return>', self.on_search)
+        self.search_entry.bind('<KeyRelease>', self.on_search_input_change)
         
         # Search button
         self.search_button = tk.Button(
@@ -246,6 +210,19 @@ class EnterpriseSearchGUI:
             actions_frame,
             text="⭐ Saved Queries",
             command=self.show_saved_queries,
+            font=('Arial', 9),
+            bg=self.colors['gray_200'],
+            fg=self.colors['gray_800'],
+            padx=10,
+            pady=4,
+            relief='flat',
+            cursor='hand2'
+        ).pack(side='left', padx=(10, 0))
+        
+        tk.Button(
+            actions_frame,
+            text="⚙️ Advanced Search",
+            command=self.show_advanced_search,
             font=('Arial', 9),
             bg=self.colors['gray_200'],
             fg=self.colors['gray_800'],
@@ -299,6 +276,11 @@ class EnterpriseSearchGUI:
         
         canvas.pack(side='left', fill='both', expand=True)
         scrollbar.pack(side='right', fill='y')
+        
+        # Bind mouse wheel to canvas
+        def on_mousewheel(event):
+            canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+        canvas.bind_all("<MouseWheel>", on_mousewheel)
     
     def setup_analytics_tab(self):
         """Setup the search analytics tab."""
@@ -459,6 +441,15 @@ class EnterpriseSearchGUI:
         self.search_var.set(query)
         self.on_search()
     
+    def on_search_input_change(self, event=None):
+        """Handle search input changes for real-time suggestions."""
+        query = self.search_var.get()
+        
+        if len(query) > 3:
+            self.update_status(f"Ready to search: '{query[:30]}...'")
+        else:
+            self.update_status("Ready for search")
+    
     def on_search(self, event=None):
         """Handle search request."""
         query = self.search_var.get().strip()
@@ -495,7 +486,7 @@ class EnterpriseSearchGUI:
         thread.daemon = True
         thread.start()
     
-    def handle_search_response(self, query: str, response):
+    def handle_search_response(self, query: str, response: RAGResponse):
         """Handle successful search response."""
         try:
             # Update current results
@@ -535,7 +526,7 @@ class EnterpriseSearchGUI:
         messagebox.showerror("Search Error", f"An error occurred during search:\n{error_message}")
         self.search_button.config(text="🔍 Search", state='normal')
     
-    def display_search_results(self, query: str, response):
+    def display_search_results(self, query: str, response: RAGResponse):
         """Display search results in the UI."""
         # Clear existing results
         for widget in self.scrollable_results.winfo_children():
@@ -598,6 +589,17 @@ class EnterpriseSearchGUI:
             answer_text.pack(fill='x', padx=15, pady=(0, 10))
             answer_text.insert('1.0', response.synthesized_answer)
             answer_text.config(state='disabled')
+            
+            # Fact-check status
+            if response.fact_check_status != "disabled":
+                fact_check_color = self.colors['success'] if response.fact_check_status == 'verified' else self.colors['warning']
+                tk.Label(
+                    answer_frame,
+                    text=f"✓ Fact-check: {response.fact_check_status}",
+                    font=('Arial', 9),
+                    bg=self.colors['gray_100'],
+                    fg=fact_check_color
+                ).pack(anchor='w', padx=15, pady=(0, 15))
         
         # Source results
         if response.source_results:
@@ -610,10 +612,37 @@ class EnterpriseSearchGUI:
             )
             sources_label.pack(anchor='w', pady=(0, 10))
             
-            for i, result in enumerate(response.source_results[:5], 1):
+            for i, result in enumerate(response.source_results[:5], 1):  # Show top 5
                 self.create_result_card(result, i)
+        
+        # Follow-up questions
+        if response.follow_up_questions:
+            followup_frame = tk.Frame(self.scrollable_results, bg=self.colors['white'])
+            followup_frame.pack(fill='x', pady=(20, 0))
+            
+            tk.Label(
+                followup_frame,
+                text="💡 Suggested Follow-up Questions",
+                font=('Arial', 12, 'bold'),
+                bg=self.colors['white'],
+                fg=self.colors['primary']
+            ).pack(anchor='w', pady=(0, 10))
+            
+            for question in response.follow_up_questions:
+                question_button = tk.Button(
+                    followup_frame,
+                    text=f"❓ {question}",
+                    command=lambda q=question: self.run_sample_query(q),
+                    font=('Arial', 10),
+                    bg=self.colors['gray_100'],
+                    fg=self.colors['gray_800'],
+                    relief='flat',
+                    cursor='hand2',
+                    anchor='w'
+                )
+                question_button.pack(fill='x', pady=2)
     
-    def create_result_card(self, result, index: int):
+    def create_result_card(self, result: SearchResult, index: int):
         """Create a result card for a search result."""
         card_frame = tk.Frame(self.scrollable_results, bg=self.colors['white'], relief='solid', bd=1)
         card_frame.pack(fill='x', pady=5)
@@ -631,7 +660,7 @@ class EnterpriseSearchGUI:
         ).pack(side='left')
         
         # Confidence badge
-        confidence_color = self.colors['success'] if result.confidence_score > 0.8 else self.colors['warning']
+        confidence_color = self.colors['success'] if result.confidence_score > 0.8 else self.colors['warning'] if result.confidence_score > 0.6 else self.colors['danger']
         confidence_badge = tk.Label(
             header_frame,
             text=f"🎯 {result.confidence_score:.2f}",
@@ -645,7 +674,7 @@ class EnterpriseSearchGUI:
         
         # Content preview
         content_frame = tk.Frame(card_frame, bg=self.colors['white'])
-        content_frame.pack(fill='x', padx=15, pady=(0, 15))
+        content_frame.pack(fill='x', padx=15, pady=(0, 10))
         
         content_text = result.content[:300] + "..." if len(result.content) > 300 else result.content
         tk.Label(
@@ -657,31 +686,47 @@ class EnterpriseSearchGUI:
             wraplength=800,
             justify='left'
         ).pack(anchor='w')
+        
+        # Metadata
+        if result.metadata:
+            metadata_frame = tk.Frame(card_frame, bg=self.colors['gray_100'])
+            metadata_frame.pack(fill='x', padx=15, pady=(0, 15))
+            
+            metadata_text = " | ".join([
+                f"Section: {result.metadata.get('section', 'N/A')}",
+                f"Type: {result.metadata.get('source_type', 'N/A')}",
+                f"Updated: {result.metadata.get('last_updated', 'N/A')}"
+            ])
+            
+            tk.Label(
+                metadata_frame,
+                text=metadata_text,
+                font=('Arial', 8),
+                bg=self.colors['gray_100'],
+                fg=self.colors['gray_600']
+            ).pack(anchor='w', padx=10, pady=5)
     
     def update_analytics(self):
         """Update analytics display."""
-        try:
-            metrics = self.rag_engine.get_performance_metrics()
+        metrics = self.rag_engine.get_performance_metrics()
+        
+        for key, label in self.metrics_labels.items():
+            value = metrics.get(key, 0)
             
-            for key, label in self.metrics_labels.items():
-                value = metrics.get(key, 0)
-                
-                if key == 'avg_response_time':
-                    display_value = f"{value:.1f}ms"
-                elif key == 'avg_confidence':
-                    display_value = f"{value:.3f}"
-                else:
-                    display_value = str(int(value))
-                
-                label.config(text=display_value)
-        except Exception as e:
-            print(f"Error updating analytics: {e}")
+            if key == 'avg_response_time':
+                display_value = f"{value:.1f}ms"
+            elif key == 'avg_confidence':
+                display_value = f"{value:.3f}"
+            else:
+                display_value = str(int(value))
+            
+            label.config(text=display_value)
     
     def update_history_display(self):
         """Update search history display."""
         self.history_listbox.delete(0, tk.END)
         
-        for entry in reversed(self.search_history[-20:]):
+        for entry in reversed(self.search_history[-20:]):  # Show last 20
             timestamp = entry['timestamp'].strftime('%H:%M:%S')
             display_text = f"[{timestamp}] {entry['query']} (Confidence: {entry['confidence']:.2f})"
             self.history_listbox.insert(0, display_text)
@@ -691,7 +736,7 @@ class EnterpriseSearchGUI:
         selection = self.history_listbox.curselection()
         if selection:
             index = selection[0]
-            history_entry = self.search_history[-(index+1)]
+            history_entry = self.search_history[-(index+1)]  # Reverse index
             self.search_var.set(history_entry['query'])
     
     def show_search_history(self):
@@ -702,10 +747,63 @@ class EnterpriseSearchGUI:
         """Show saved queries dialog."""
         messagebox.showinfo("Saved Queries", "Saved queries feature would be implemented here.")
     
+    def show_advanced_search(self):
+        """Show advanced search options."""
+        messagebox.showinfo("Advanced Search", "Advanced search filters would be implemented here.")
+    
     def update_status(self, message: str):
         """Update status bar message."""
         self.status_label.config(text=message)
         self.root.update_idletasks()
+    
+    def load_sample_knowledge_base(self):
+        """Load sample documents into the knowledge base."""
+        sample_docs = [
+            {
+                'content': 'Artificial Intelligence (AI) refers to the simulation of human intelligence in machines that are programmed to think and learn like humans. AI systems can perform tasks that typically require human intelligence, such as visual perception, speech recognition, decision-making, and language translation. The field encompasses various subfields including machine learning, natural language processing, computer vision, and robotics.',
+                'source': 'AI_Introduction.pdf',
+                'source_type': 'document',
+                'section': 'Fundamentals',
+                'last_updated': '2024-01-15',
+                'chunk_id': 'ai_intro_001'
+            },
+            {
+                'content': 'Machine Learning (ML) is a subset of artificial intelligence that enables computers to learn and improve from experience without being explicitly programmed. ML algorithms build mathematical models based on training data to make predictions or decisions. Common types include supervised learning (using labeled data), unsupervised learning (finding patterns in unlabeled data), and reinforcement learning (learning through interaction with an environment).',
+                'source': 'ML_Fundamentals.pdf',
+                'source_type': 'document',
+                'section': 'Machine Learning',
+                'last_updated': '2024-01-20',
+                'chunk_id': 'ml_fund_001'
+            },
+            {
+                'content': 'Natural Language Processing (NLP) is a branch of AI that helps computers understand, interpret, and generate human language in a valuable way. NLP combines computational linguistics with machine learning and deep learning models to process and analyze large amounts of natural language data. Applications include sentiment analysis, machine translation, chatbots, and text summarization.',
+                'source': 'NLP_Guide.pdf',
+                'source_type': 'document',
+                'section': 'Natural Language Processing',
+                'last_updated': '2024-01-25',
+                'chunk_id': 'nlp_guide_001'
+            },
+            {
+                'content': 'Vector databases are specialized database systems designed to store and query high-dimensional vector data efficiently. They are crucial for AI applications like semantic search, recommendation systems, and similarity matching. Vector databases use advanced indexing techniques like HNSW (Hierarchical Navigable Small World) and FAISS to enable fast approximate nearest neighbor searches across millions or billions of vectors.',
+                'source': 'Vector_DB_Technology.pdf',
+                'source_type': 'document',
+                'section': 'Database Technology',
+                'last_updated': '2024-01-30',
+                'chunk_id': 'vector_db_001'
+            },
+            {
+                'content': 'RAG (Retrieval-Augmented Generation) is an AI framework that combines the strengths of retrieval-based and generative models. RAG systems first retrieve relevant information from a knowledge base or document collection, then use this retrieved context to generate more accurate and contextually relevant responses. This approach helps reduce hallucinations and provides more factual, up-to-date information in AI-generated content.',
+                'source': 'RAG_Architecture.pdf',
+                'source_type': 'document',
+                'section': 'AI Architecture',
+                'last_updated': '2024-02-01',
+                'chunk_id': 'rag_arch_001'
+            }
+        ]
+        
+        # Add documents to knowledge base
+        added_count = self.rag_engine.add_documents(sample_docs)
+        self.update_status(f"Loaded {added_count} documents into knowledge base")
     
     def run(self):
         """Start the GUI application."""

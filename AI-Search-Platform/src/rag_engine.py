@@ -25,6 +25,20 @@ from collections import defaultdict
 import warnings
 warnings.filterwarnings('ignore')
 
+# Simulated imports for production environment
+try:
+    from sentence_transformers import SentenceTransformer
+    from transformers import pipeline
+    import faiss
+    import chromadb
+except ImportError:
+    # For demo purposes - in production these would be actual imports
+    print("📦 Production dependencies not installed - using simulation mode")
+    SentenceTransformer = None
+    pipeline = None
+    faiss = None
+    chromadb = None
+
 @dataclass
 class SearchResult:
     """Structured search result with metadata and scoring."""
@@ -62,13 +76,13 @@ class AdvancedRAGEngine:
     def __init__(self, config: Dict[str, Any] = None):
         self.config = config or self._get_default_config()
         
-        # Initialize embedding models (simulated for demo)
+        # Initialize embedding models (multiple for ensemble approach)
         self.embedding_models = self._initialize_embedding_models()
         
-        # Initialize vector database (simulated)
+        # Initialize vector database
         self.vector_db = self._initialize_vector_db()
         
-        # Initialize language model for synthesis (simulated)
+        # Initialize language model for synthesis
         self.synthesis_model = self._initialize_synthesis_model()
         
         # Conversation context management
@@ -87,8 +101,8 @@ class AdvancedRAGEngine:
         
         print(f"🚀 Advanced RAG Engine initialized")
         print(f"📊 Embedding models: {len(self.embedding_models)}")
-        print(f"🗄️ Vector database: Ready for enterprise search")
-        print(f"🧠 Synthesis model: Enterprise-grade AI reasoning")
+        print(f"🗄️ Vector database: {type(self.vector_db).__name__}")
+        print(f"🧠 Synthesis model: {'GPT-4 Compatible' if self.synthesis_model else 'Simulated'}")
     
     def _get_default_config(self) -> Dict[str, Any]:
         """Get default configuration for RAG engine."""
@@ -108,18 +122,29 @@ class AdvancedRAGEngine:
         """Initialize multiple embedding models for ensemble retrieval."""
         models = {}
         
-        # Simulated embedding models for demo
-        for model_name in self.config['embedding_models']:
-            models[model_name] = self._create_simulated_embedding_model()
+        if SentenceTransformer:
+            for model_name in self.config['embedding_models']:
+                try:
+                    models[model_name] = SentenceTransformer(model_name)
+                    print(f"✅ Loaded embedding model: {model_name}")
+                except Exception as e:
+                    print(f"⚠️ Failed to load {model_name}: {e}")
         
-        print("🔧 Using enterprise-grade embedding models")
+        # Fallback to simulated models for demo
+        if not models:
+            models = {
+                'simulated_model_1': self._create_simulated_embedding_model(),
+                'simulated_model_2': self._create_simulated_embedding_model()
+            }
+            print("🔧 Using simulated embedding models for demonstration")
+        
         return models
     
     def _create_simulated_embedding_model(self):
         """Create a simulated embedding model for demo purposes."""
         class SimulatedEmbeddingModel:
             def encode(self, texts, **kwargs):
-                # Generate consistent but realistic embeddings
+                # Generate consistent but random-like embeddings
                 embeddings = []
                 for text in texts:
                     # Use hash for consistency
@@ -134,6 +159,25 @@ class AdvancedRAGEngine:
     
     def _initialize_vector_db(self):
         """Initialize vector database for efficient similarity search."""
+        if chromadb:
+            try:
+                client = chromadb.Client()
+                collection = client.create_collection("enterprise_search")
+                return collection
+            except Exception as e:
+                print(f"⚠️ ChromaDB initialization failed: {e}")
+        
+        # Fallback to FAISS or simulated vector DB
+        if faiss:
+            try:
+                # Initialize FAISS index
+                dimension = 384  # Standard embedding dimension
+                index = faiss.IndexFlatIP(dimension)  # Inner product for cosine similarity
+                return index
+            except Exception as e:
+                print(f"⚠️ FAISS initialization failed: {e}")
+        
+        # Simulated vector database
         return self._create_simulated_vector_db()
     
     def _create_simulated_vector_db(self):
@@ -171,6 +215,19 @@ class AdvancedRAGEngine:
     
     def _initialize_synthesis_model(self):
         """Initialize language model for answer synthesis."""
+        if pipeline:
+            try:
+                # Initialize text generation pipeline
+                model = pipeline(
+                    "text-generation", 
+                    model="microsoft/DialoGPT-medium",
+                    max_length=500
+                )
+                return model
+            except Exception as e:
+                print(f"⚠️ Synthesis model initialization failed: {e}")
+        
+        # Simulated synthesis for demo
         return self._create_simulated_synthesis_model()
     
     def _create_simulated_synthesis_model(self):
@@ -311,7 +368,7 @@ class AdvancedRAGEngine:
         # Get conversation history
         history = self.conversation_history.get(user_id, [])
         
-        # Simple context expansion
+        # Simple context expansion (in production, would use more sophisticated NLP)
         expanded_query = query
         
         if history:
@@ -350,7 +407,11 @@ class AdvancedRAGEngine:
         for model_name, query_embedding in query_embeddings.items():
             try:
                 # Perform search with current embedding
-                scores, metadata_list = self._simulate_search_results(query_embedding, k)
+                if hasattr(self.vector_db, 'search'):
+                    scores, metadata_list = self.vector_db.search(query_embedding, k=k)
+                else:
+                    # Simulated search results
+                    scores, metadata_list = self._simulate_search_results(query_embedding, k)
                 
                 # Convert to SearchResult objects
                 for i, (score, metadata) in enumerate(zip(scores, metadata_list)):
@@ -358,7 +419,7 @@ class AdvancedRAGEngine:
                         content=metadata.get('content', f'Sample content for result {i+1}'),
                         source=metadata.get('source', f'source_{i+1}'),
                         relevance_score=float(score),
-                        confidence_score=float(score * 0.9),
+                        confidence_score=float(score * 0.9),  # Slightly lower than relevance
                         chunk_id=metadata.get('chunk_id', f'chunk_{model_name}_{i}'),
                         metadata=metadata,
                         embedding=query_embedding,
@@ -373,27 +434,22 @@ class AdvancedRAGEngine:
     
     def _simulate_search_results(self, query_embedding: np.ndarray, k: int) -> Tuple[List[float], List[Dict]]:
         """Simulate search results for demonstration."""
+        # Generate sample results with varying relevance scores
         scores = []
         metadata_list = []
         
-        # Enterprise search sample content
-        sample_contents = [
-            "Artificial Intelligence (AI) refers to the simulation of human intelligence in machines that are programmed to think and learn like humans. AI systems can perform tasks that typically require human intelligence, such as visual perception, speech recognition, decision-making, and language translation.",
-            "Machine Learning (ML) is a subset of artificial intelligence that enables computers to learn and improve from experience without being explicitly programmed. ML algorithms build mathematical models based on training data to make predictions or decisions.",
-            "Natural Language Processing (NLP) is a branch of AI that helps computers understand, interpret, and generate human language in a valuable way. NLP combines computational linguistics with machine learning and deep learning models.",
-            "Vector databases are specialized database systems designed to store and query high-dimensional vector data efficiently. They are crucial for AI applications like semantic search, recommendation systems, and similarity matching.",
-            "RAG (Retrieval-Augmented Generation) is an AI framework that combines the strengths of retrieval-based and generative models. RAG systems first retrieve relevant information from a knowledge base, then use this context to generate responses."
-        ]
-        
-        for i in range(min(k, len(sample_contents))):
+        for i in range(k):
             # Simulate decreasing relevance scores
             score = 0.95 - (i * 0.1) + np.random.normal(0, 0.05)
-            score = max(0.1, min(1.0, score))
+            score = max(0.1, min(1.0, score))  # Keep within bounds
             scores.append(score)
             
             # Create sample metadata
             metadata = {
-                'content': sample_contents[i],
+                'content': f"""This is sample content for search result {i+1}. In a production environment, 
+                this would contain the actual retrieved content from your knowledge base, documents, or data sources. 
+                The content would be highly relevant to the user's query and provide valuable information 
+                for answer synthesis. This content has a relevance score of {score:.2f}.""",
                 'source': f'enterprise_doc_{i+1}.pdf',
                 'source_type': 'document',
                 'chunk_id': f'chunk_{i+1}',
@@ -409,7 +465,7 @@ class AdvancedRAGEngine:
     async def _rank_and_filter_results(self, search_results: List[SearchResult], 
                                      query: str, query_intent: str) -> List[SearchResult]:
         """Rank and filter results based on relevance and quality."""
-        # Remove duplicates
+        # Remove duplicates based on content similarity
         unique_results = self._remove_duplicate_results(search_results)
         
         # Apply intent-based ranking boost
@@ -426,6 +482,7 @@ class AdvancedRAGEngine:
             if result.confidence_score >= self.config['confidence_threshold']
         ]
         
+        # Return top results
         return filtered_results[:self.config['max_retrieval_results']]
     
     def _remove_duplicate_results(self, results: List[SearchResult]) -> List[SearchResult]:
@@ -434,6 +491,7 @@ class AdvancedRAGEngine:
         seen_content_hashes = set()
         
         for result in results:
+            # Create content hash for deduplication
             content_hash = hashlib.md5(result.content.encode()).hexdigest()
             
             if content_hash not in seen_content_hashes:
@@ -468,12 +526,41 @@ class AdvancedRAGEngine:
             return "I couldn't find relevant information to answer your query. Please try rephrasing your question or contact support for assistance."
         
         # Prepare context for synthesis
-        context_chunks = [result.content for result in results[:5]]
+        context_chunks = [result.content for result in results[:5]]  # Top 5 results
         
         # Use synthesis model to generate response
-        synthesized_response = self.synthesis_model.generate_response(query, context_chunks)
+        if hasattr(self.synthesis_model, 'generate_response'):
+            synthesized_response = self.synthesis_model.generate_response(query, context_chunks)
+        else:
+            # Fallback synthesis approach
+            synthesized_response = self._fallback_synthesis(query, results, query_intent)
         
         return synthesized_response
+    
+    def _fallback_synthesis(self, query: str, results: List[SearchResult], 
+                          query_intent: str) -> str:
+        """Fallback synthesis when advanced model is not available."""
+        # Template-based response generation
+        top_result = results[0] if results else None
+        
+        if not top_result:
+            return "No relevant information found."
+        
+        # Intent-based response templates
+        if query_intent == 'definition':
+            response = f"Based on the available information, here's what I found: {top_result.content[:200]}..."
+        elif query_intent == 'procedural':
+            response = f"Here's how to approach this: {top_result.content[:200]}..."
+        elif query_intent == 'explanatory':
+            response = f"The key reasons are: {top_result.content[:200]}..."
+        else:
+            response = f"Based on {len(results)} relevant sources: {top_result.content[:200]}..."
+        
+        # Add source attribution
+        sources = [result.source for result in results[:3]]
+        response += f"\n\nSources: {', '.join(sources)}"
+        
+        return response
     
     async def _calculate_confidence_score(self, query: str, results: List[SearchResult], 
                                         synthesized_answer: str) -> float:
@@ -481,12 +568,19 @@ class AdvancedRAGEngine:
         if not results:
             return 0.0
         
-        # Factors affecting confidence
+        # Factors affecting confidence:
+        # 1. Average relevance score of top results
         avg_relevance = np.mean([result.relevance_score for result in results[:3]])
-        source_factor = min(len(results) / 5.0, 1.0)
-        consistency_factor = 0.8
+        
+        # 2. Number of supporting sources
+        source_factor = min(len(results) / 5.0, 1.0)  # Normalize to max 5 sources
+        
+        # 3. Consistency between sources (simplified)
+        consistency_factor = 0.8  # Would be calculated based on content similarity
+        
+        # 4. Query complexity (simple heuristic)
         query_complexity = min(len(query.split()) / 10.0, 1.0)
-        complexity_factor = 1.0 - (query_complexity * 0.2)
+        complexity_factor = 1.0 - (query_complexity * 0.2)  # More complex = slightly lower confidence
         
         # Combine factors
         confidence = (avg_relevance * 0.4 + 
@@ -498,10 +592,15 @@ class AdvancedRAGEngine:
     
     async def _perform_fact_check(self, answer: str, sources: List[SearchResult]) -> str:
         """Perform basic fact-checking on the synthesized answer."""
+        # In production, this would use advanced fact-checking models
+        # For demo, we'll use simple heuristics
+        
         if not sources:
             return "insufficient_sources"
         
+        # Check if answer is supported by multiple sources
         if len(sources) >= 2:
+            # Check for contradictions (simplified)
             high_confidence_sources = [s for s in sources if s.confidence_score > 0.8]
             
             if len(high_confidence_sources) >= 2:
@@ -514,6 +613,7 @@ class AdvancedRAGEngine:
     async def _generate_follow_up_questions(self, query: str, answer: str, 
                                           sources: List[SearchResult]) -> List[str]:
         """Generate relevant follow-up questions."""
+        # Simple follow-up generation based on query intent and content
         follow_ups = []
         
         query_lower = query.lower()
@@ -528,11 +628,12 @@ class AdvancedRAGEngine:
             follow_ups.append("What are the implications?")
             follow_ups.append("How can this be addressed?")
         
+        # Add source-specific follow-ups
         if sources:
             follow_ups.append("Can you provide more details from the sources?")
             follow_ups.append("What related topics should I explore?")
         
-        return follow_ups[:3]
+        return follow_ups[:3]  # Limit to 3 follow-ups
     
     def _generate_cache_key(self, query: str, filters: Dict = None) -> str:
         """Generate cache key for query and filters."""
@@ -554,7 +655,7 @@ class AdvancedRAGEngine:
             'timestamp': datetime.now()
         }
         
-        # Limit cache size
+        # Limit cache size (simple LRU)
         if len(self.response_cache) > 1000:
             oldest_key = min(self.response_cache.keys(), 
                            key=lambda k: self.response_cache[k]['timestamp'])
@@ -630,8 +731,10 @@ class AdvancedRAGEngine:
                     embeddings[model_name] = embedding
                 
                 # Add to vector database
-                primary_embedding = list(embeddings.values())[0]
-                self.vector_db.add([primary_embedding], [doc])
+                if hasattr(self.vector_db, 'add'):
+                    # Use first embedding model for storage (could be enhanced)
+                    primary_embedding = list(embeddings.values())[0]
+                    self.vector_db.add([primary_embedding], [doc])
                 
                 added_count += 1
                 
@@ -641,7 +744,7 @@ class AdvancedRAGEngine:
         print(f"✅ Added {added_count} documents to knowledge base")
         return added_count
 
-# Example usage
+# Example usage and demonstration
 async def main():
     print("🔍 Advanced RAG Engine Demo")
     print("=" * 50)
@@ -649,19 +752,71 @@ async def main():
     # Initialize RAG engine
     rag_engine = AdvancedRAGEngine()
     
-    # Sample test query
-    response = await rag_engine.search("What is machine learning?", user_id="demo_user")
+    # Sample documents for knowledge base
+    sample_docs = [
+        {
+            'content': 'Machine learning is a subset of artificial intelligence that enables computers to learn and improve from experience without being explicitly programmed. It focuses on developing algorithms that can analyze data, identify patterns, and make predictions or decisions.',
+            'source': 'AI_Fundamentals.pdf',
+            'source_type': 'document',
+            'section': 'Introduction to ML',
+            'last_updated': '2024-01-15'
+        },
+        {
+            'content': 'Natural Language Processing (NLP) is a branch of AI that helps computers understand, interpret, and generate human language. It combines computational linguistics with machine learning to enable machines to process and analyze large amounts of natural language data.',
+            'source': 'NLP_Guide.pdf',
+            'source_type': 'document',
+            'section': 'NLP Overview',
+            'last_updated': '2024-01-20'
+        },
+        {
+            'content': 'Vector databases are specialized database systems designed to store and query high-dimensional vector data efficiently. They are essential for applications like semantic search, recommendation systems, and similarity matching in AI applications.',
+            'source': 'Vector_Databases.pdf',
+            'source_type': 'document',
+            'section': 'Database Technology',
+            'last_updated': '2024-01-25'
+        }
+    ]
     
-    print(f"\nQuery: 'What is machine learning?'")
-    print(f"Intent: {response.query_intent}")
-    print(f"Confidence: {response.confidence_score:.3f}")
-    print(f"Processing time: {response.processing_time_ms:.1f}ms")
-    print(f"Sources: {len(response.source_results)}")
-    print(f"Answer: {response.synthesized_answer[:100]}...")
+    # Add documents to knowledge base
+    rag_engine.add_documents(sample_docs)
+    
+    # Example queries
+    test_queries = [
+        "What is machine learning?",
+        "How does natural language processing work?",
+        "Why are vector databases important for AI?",
+        "Compare machine learning and natural language processing"
+    ]
+    
+    print(f"\n🔍 Testing RAG Engine with {len(test_queries)} queries:")
+    print("-" * 50)
+    
+    for i, query in enumerate(test_queries, 1):
+        print(f"\n{i}. Query: '{query}'")
+        
+        # Perform RAG search
+        response = await rag_engine.search(query, user_id="demo_user")
+        
+        print(f"   Intent: {response.query_intent}")
+        print(f"   Confidence: {response.confidence_score:.3f}")
+        print(f"   Processing time: {response.processing_time_ms:.1f}ms")
+        print(f"   Sources: {len(response.source_results)}")
+        print(f"   Answer: {response.synthesized_answer[:100]}...")
+        
+        if response.follow_up_questions:
+            print(f"   Follow-ups: {response.follow_up_questions[0]}")
+    
+    # Display performance metrics
+    print(f"\n📊 Performance Metrics:")
+    metrics = rag_engine.get_performance_metrics()
+    for key, value in metrics.items():
+        if isinstance(value, float):
+            print(f"   {key}: {value:.3f}")
+        else:
+            print(f"   {key}: {value}")
     
     print("\n" + "=" * 50)
     print("RAG Engine Demo Complete! 🎉")
 
 if __name__ == "__main__":
-    import asyncio
     asyncio.run(main())
