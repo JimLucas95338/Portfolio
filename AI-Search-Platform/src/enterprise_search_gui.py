@@ -167,7 +167,6 @@ class EnterpriseSearchGUI:
             input_container,
             textvariable=self.search_var,
             font=('Arial', 14),
-            height=2,
             relief='solid',
             bd=1
         )
