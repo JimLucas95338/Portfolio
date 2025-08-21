@@ -42,13 +42,14 @@ class EnterpriseSearchGUI:
     
     def __init__(self):
         self.rag_engine = AdvancedRAGEngine()
-        self.setup_gui()
         
-        # Application state
+        # Application state (initialize before GUI setup)
         self.current_user = "enterprise_user"
         self.search_history = []
         self.saved_queries = []
         self.current_results = None
+        
+        self.setup_gui()
         
         # Load sample data
         self.load_sample_knowledge_base()

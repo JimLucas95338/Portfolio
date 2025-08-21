@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>AI Content Optimizer - Mobile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            color: #1a202c;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        .mobile-container {
+            max-width: 375px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .mobile-header {
+            background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .header-subtitle {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-content {
+            padding: 20px;
+        }
+
+        .quick-analysis-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 6px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            background: #f7fafc;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #3182ce;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #3182ce 0%, #2b77cb 100%);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(49, 130, 206, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 8px rgba(49, 130, 206, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+            box-shadow: none;
+            margin-top: 10px;
+        }
+
+        .results-card {
+            display: none;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+        }
+
+        .results-card.show {
+            display: block;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .score-display {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .score-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #3182ce;
+            margin-bottom: 5px;
+        }
+
+        .score-label {
+            font-size: 14px;
+            color: #718096;
+            margin-bottom: 5px;
+        }
+
+        .score-tier {
+            font-size: 12px;
+            color: #38a169;
+            font-weight: 600;
+            background: #c6f6d5;
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .metrics-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .metric-item {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .metric-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 4px;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: #718096;
+        }
+
+        .recommendations-list {
+            margin-top: 20px;
+        }
+
+        .recommendation-item {
+            background: #fef5e7;
+            border: 1px solid #f6d55c;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .recommendation-priority {
+            position: absolute;
+            top: -6px;
+            right: 10px;
+            background: #d69e2e;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 10px;
+            text-transform: uppercase;
+        }
+
+        .recommendation-priority.high {
+            background: #e53e3e;
+        }
+
+        .recommendation-priority.medium {
+            background: #d69e2e;
+        }
+
+        .recommendation-priority.low {
+            background: #38a169;
+        }
+
+        .recommendation-title {
+            font-weight: 600;
+            color: #744210;
+            margin-bottom: 6px;
+            margin-top: 6px;
+        }
+
+        .recommendation-text {
+            font-size: 14px;
+            color: #744210;
+            margin-bottom: 6px;
+        }
+
+        .recommendation-impact {
+            font-size: 12px;
+            color: #38a169;
+            font-weight: 600;
+        }
+
+        .tabs-mobile {
+            display: flex;
+            background: #f7fafc;
+            border-radius: 8px;
+            padding: 4px;
+            margin-bottom: 20px;
+        }
+
+        .tab-mobile {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 8px 4px;
+            font-size: 12px;
+            color: #718096;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-mobile.active {
+            background: white;
+            color: #3182ce;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .tab-content-mobile {
+            display: none;
+        }
+
+        .tab-content-mobile.active {
+            display: block;
+        }
+
+        .loading-mobile {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .loading-mobile.show {
+            display: block;
+        }
+
+        .spinner-mobile {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #e2e8f0;
+            border-top: 3px solid #3182ce;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .status-bar-mobile {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 375px;
+            width: 100%;
+            background: #2d3748;
+            color: white;
+            padding: 12px 20px;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            z-index: 100;
+        }
+
+        .benchmark-bar {
+            background: #e2e8f0;
+            height: 6px;
+            border-radius: 3px;
+            margin: 8px 0;
+            overflow: hidden;
+        }
+
+        .benchmark-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .benchmark-item {
+            margin-bottom: 15px;
+        }
+
+        .benchmark-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .benchmark-your {
+            background: #3182ce;
+        }
+
+        .benchmark-avg {
+            background: #cbd5e0;
+        }
+
+        .benchmark-good {
+            background: #d69e2e;
+        }
+
+        .benchmark-excellent {
+            background: #38a169;
+        }
+
+        .welcome-mobile {
+            text-align: center;
+            padding: 40px 20px;
+            color: #718096;
+        }
+
+        .welcome-mobile h2 {
+            font-size: 22px;
+            color: #2d3748;
+            margin-bottom: 12px;
+        }
+
+        .welcome-mobile p {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .feature-item {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .feature-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .feature-text {
+            font-size: 12px;
+            color: #4a5568;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <!-- Mobile Header -->
+        <div class="mobile-header">
+            <div>
+                <div class="header-title">🚀 AI Content Optimizer</div>
+                <div class="header-subtitle">Smart content analysis</div>
+            </div>
+            <button class="menu-btn">≡</button>
+        </div>
+
+        <!-- Mobile Content -->
+        <div class="mobile-content">
+            <!-- Welcome Screen -->
+            <div class="welcome-mobile" id="welcomeMobile">
+                <h2>Welcome to AI Content Optimization</h2>
+                <p>Get instant insights and recommendations for your content</p>
+                
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">🎯</div>
+                        <div class="feature-text">Performance Prediction</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">📊</div>
+                        <div class="feature-text">Readability Analysis</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">💡</div>
+                        <div class="feature-text">Smart Recommendations</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">📱</div>
+                        <div class="feature-text">Multi-Platform</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Card -->
+            <div class="quick-analysis-card" id="inputCard">
+                <div class="card-title">
+                    📝 Quick Analysis
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Platform</label>
+                    <select class="form-input" id="platformMobile">
+                        <option value="blog">Blog Post</option>
+                        <option value="social">Social Media</option>
+                        <option value="email">Email</option>
+                        <option value="video">Video</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Title</label>
+                    <input type="text" class="form-input" id="titleMobile" 
+                           placeholder="Enter your content title...">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Content</label>
+                    <textarea class="form-input form-textarea" id="contentMobile" 
+                              placeholder="Paste or type your content here for instant AI analysis..."></textarea>
+                </div>
+
+                <button class="btn" id="analyzeMobile">🔍 Analyze Content</button>
+                <button class="btn btn-secondary" id="sampleMobile">📋 Try Sample Content</button>
+            </div>
+
+            <!-- Loading Screen -->
+            <div class="loading-mobile" id="loadingMobile">
+                <div class="spinner-mobile"></div>
+                <h3>🤖 AI Analyzing...</h3>
+                <p style="color: #718096;">This will take a few seconds</p>
+            </div>
+
+            <!-- Results Card -->
+            <div class="results-card" id="resultsMobile">
+                <div class="card-title">
+                    📊 Analysis Results
+                </div>
+
+                <!-- Score Display -->
+                <div class="score-display">
+                    <div class="score-value" id="scoreMobile">6.8%</div>
+                    <div class="score-label">Predicted Engagement</div>
+                    <div class="score-tier" id="tierMobile">Above Average</div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="tabs-mobile">
+                    <button class="tab-mobile active" data-tab="overview">Overview</button>
+                    <button class="tab-mobile" data-tab="tips">Tips</button>
+                    <button class="tab-mobile" data-tab="compare">Compare</button>
+                </div>
+
+                <!-- Overview Tab -->
+                <div class="tab-content-mobile active" id="overview">
+                    <div class="metrics-row">
+                        <div class="metric-item">
+                            <div class="metric-value" id="wordsMobile">1,250</div>
+                            <div class="metric-label">Words</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value" id="readabilityMobile">72</div>
+                            <div class="metric-label">Readability</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value" id="sentimentMobile">+0.35</div>
+                            <div class="metric-label">Sentiment</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value" id="optimizationMobile">85%</div>
+                            <div class="metric-label">Optimization</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tips Tab -->
+                <div class="tab-content-mobile" id="tips">
+                    <div class="recommendations-list" id="recommendationsMobile">
+                        <div class="recommendation-item">
+                            <div class="recommendation-priority high">High</div>
+                            <div class="recommendation-title">Add Social Hashtags</div>
+                            <div class="recommendation-text">Include 3-5 relevant hashtags for better social media reach</div>
+                            <div class="recommendation-impact">📈 +25% reach expected</div>
+                        </div>
+
+                        <div class="recommendation-item">
+                            <div class="recommendation-priority medium">Medium</div>
+                            <div class="recommendation-title">Strengthen Call-to-Action</div>
+                            <div class="recommendation-text">Add clear next steps to improve conversions</div>
+                            <div class="recommendation-impact">📈 +15% conversions expected</div>
+                        </div>
+
+                        <div class="recommendation-item">
+                            <div class="recommendation-priority low">Low</div>
+                            <div class="recommendation-title">Improve Structure</div>
+                            <div class="recommendation-text">Break longer paragraphs for better readability</div>
+                            <div class="recommendation-impact">📈 +10% engagement expected</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Compare Tab -->
+                <div class="tab-content-mobile" id="compare">
+                    <div class="benchmark-item">
+                        <div class="benchmark-label">
+                            <span>Your Content</span>
+                            <span style="font-weight: bold; color: #3182ce;">6.8%</span>
+                        </div>
+                        <div class="benchmark-bar">
+                            <div class="benchmark-fill benchmark-your" style="width: 68%"></div>
+                        </div>
+                    </div>
+
+                    <div class="benchmark-item">
+                        <div class="benchmark-label">
+                            <span>Average</span>
+                            <span style="color: #718096;">3.5%</span>
+                        </div>
+                        <div class="benchmark-bar">
+                            <div class="benchmark-fill benchmark-avg" style="width: 35%"></div>
+                        </div>
+                    </div>
+
+                    <div class="benchmark-item">
+                        <div class="benchmark-label">
+                            <span>Good</span>
+                            <span style="color: #d69e2e;">5.0%</span>
+                        </div>
+                        <div class="benchmark-bar">
+                            <div class="benchmark-fill benchmark-good" style="width: 50%"></div>
+                        </div>
+                    </div>
+
+                    <div class="benchmark-item">
+                        <div class="benchmark-label">
+                            <span>Excellent</span>
+                            <span style="color: #38a169;">8.0%</span>
+                        </div>
+                        <div class="benchmark-bar">
+                            <div class="benchmark-fill benchmark-excellent" style="width: 80%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar-mobile">
+            <span id="statusMobile">Ready to analyze</span>
+            <span id="wordCountMobile">Words: 0</span>
+        </div>
+    </div>
+
+    <script>
+        // Sample content
+        const sampleContentMobile = `AI is transforming content marketing in amazing ways! 🚀
+
+From automated optimization to predictive analytics, smart tools are helping creators boost engagement by 40% on average.
+
+Key benefits:
+✅ Real-time performance prediction
+✅ Multi-platform optimization
+✅ Audience-specific recommendations
+✅ Comprehensive analytics
+
+Ready to revolutionize your content strategy? Let's dive into the future of AI-powered marketing! 
+
+#AI #ContentMarketing #DigitalTransformation #Marketing #Innovation`;
+
+        // DOM elements
+        const titleMobile = document.getElementById('titleMobile');
+        const contentMobile = document.getElementById('contentMobile');
+        const platformMobile = document.getElementById('platformMobile');
+        const analyzeMobile = document.getElementById('analyzeMobile');
+        const sampleMobile = document.getElementById('sampleMobile');
+        const welcomeMobile = document.getElementById('welcomeMobile');
+        const inputCard = document.getElementById('inputCard');
+        const loadingMobile = document.getElementById('loadingMobile');
+        const resultsMobile = document.getElementById('resultsMobile');
+        const statusMobile = document.getElementById('statusMobile');
+        const wordCountMobile = document.getElementById('wordCountMobile');
+
+        // Tab functionality
+        document.querySelectorAll('.tab-mobile').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab-mobile').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content-mobile').forEach(c => c.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+            });
+        });
+
+        // Word count tracking
+        function updateWordCountMobile() {
+            const content = contentMobile.value.trim();
+            const wordCount = content ? content.split(/\s+/).length : 0;
+            wordCountMobile.textContent = `Words: ${wordCount}`;
+            
+            if (wordCount === 0) {
+                statusMobile.textContent = 'Ready to analyze';
+            } else if (wordCount < 20) {
+                statusMobile.textContent = 'Add more content';
+            } else {
+                statusMobile.textContent = `Ready (${wordCount} words)`;
+            }
+        }
+
+        // Event listeners
+        contentMobile.addEventListener('input', updateWordCountMobile);
+        titleMobile.addEventListener('input', updateWordCountMobile);
+
+        // Sample content
+        sampleMobile.addEventListener('click', () => {
+            titleMobile.value = "How AI is Revolutionizing Content Marketing in 2024";
+            contentMobile.value = sampleContentMobile;
+            updateWordCountMobile();
+            statusMobile.textContent = 'Sample loaded - tap analyze';
+        });
+
+        // Analyze button
+        analyzeMobile.addEventListener('click', () => {
+            const content = contentMobile.value.trim();
+            
+            if (!content) {
+                alert('Please enter content to analyze');
+                return;
+            }
+
+            // Hide welcome, show loading
+            welcomeMobile.style.display = 'none';
+            loadingMobile.classList.add('show');
+            resultsMobile.classList.remove('show');
+            
+            analyzeMobile.textContent = '🔄 Analyzing...';
+            analyzeMobile.disabled = true;
+            statusMobile.textContent = 'AI analyzing...';
+
+            // Simulate analysis
+            setTimeout(() => {
+                const wordCount = content.split(/\s+/).length;
+                const engagement = Math.min(12, Math.max(2, 3 + (wordCount / 100) + Math.random() * 3));
+                const readability = Math.max(30, Math.min(90, 70 + Math.random() * 20 - 10));
+                const sentiment = Math.max(-0.5, Math.min(0.8, Math.random() * 0.6 - 0.1));
+                const optimization = Math.max(0.4, Math.min(0.95, 0.7 + Math.random() * 0.2));
+
+                // Update results
+                document.getElementById('scoreMobile').textContent = `${engagement.toFixed(1)}%`;
+                document.getElementById('wordsMobile').textContent = wordCount.toLocaleString();
+                document.getElementById('readabilityMobile').textContent = readability.toFixed(0);
+                document.getElementById('sentimentMobile').textContent = sentiment >= 0 ? `+${sentiment.toFixed(2)}` : sentiment.toFixed(2);
+                document.getElementById('optimizationMobile').textContent = `${Math.round(optimization * 100)}%`;
+
+                let tier = 'Below Average';
+                if (engagement >= 8) tier = 'Exceptional';
+                else if (engagement >= 6) tier = 'High Performance';
+                else if (engagement >= 4) tier = 'Above Average';
+                else if (engagement >= 2.5) tier = 'Average';
+                
+                document.getElementById('tierMobile').textContent = tier;
+
+                // Show results
+                loadingMobile.classList.remove('show');
+                resultsMobile.classList.add('show');
+                
+                analyzeMobile.textContent = '🔍 Analyze Content';
+                analyzeMobile.disabled = false;
+                statusMobile.textContent = 'Analysis complete';
+            }, 2500);
+        });
+
+        // Initialize
+        updateWordCountMobile();
+    </script>
+</body>
+</html>
