@@ -189,9 +189,9 @@ Authentic design process documentation showing real constraints, failures, and l
 
 **Interested in discussing AI product strategy, healthcare technology, or potential opportunities?**
 
-- **Email:** [your.email@domain.com]
-- **LinkedIn:** [linkedin.com/in/your-profile]  
-- **GitHub:** [github.com/your-username]
+- **Email:** [jiml95338@gmail.com]
+- **LinkedIn:** [https://www.linkedin.com/in/jameslucas658/]  
+- **GitHub:** [https://github.com/JimLucas95338]
 - **Portfolio:** [View Full Portfolio](Portfolio.md)
 
 ---
