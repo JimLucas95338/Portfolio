@@ -1,152 +1,457 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>James Lucas - Software Developer Portfolio</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jim Lucas - Senior AI Product Manager Portfolio</title>
   <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
     body {
-      font-family: Arial, sans-serif;
-      max-width: 800px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
-      background-color: #F6E2C2;
-    }
-    header {
-      background-color: #333;
-      color: #fff;
-      padding: 20px;
+        }
+
+        .header {
       text-align: center;
-    }
-    h1 {
-      margin: 0;
-      border-bottom: none;
-    }
-    h2 {
-      color: #666;
-      margin-top: 40px;
-    }
-    img {
-      max-width: 200px;
-      border-radius: 10%;
-      margin-bottom: 20px;
+            color: white;
+            margin-bottom: 50px;
+            padding: 40px 0;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header h2 {
+            font-size: 1.5rem;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
       opacity: 0.8;
-    }
-    p {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid #e1e5e9;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .project-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .project-icon {
+            font-size: 2rem;
+            margin-right: 15px;
+        }
+
+        .project-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .project-date {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .project-description {
+            color: #5a6c7d;
+            margin-bottom: 20px;
       line-height: 1.6;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
       margin-bottom: 20px;
     }
-    ul {
-      padding-left: 20px;
-    }
-    em {
-      color: #888;
-    }
-    .skills {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-gap: 20px;
-    }
-    .skill {
-      background-color: #f4f4f4;
-      padding: 10px;
-      border-radius: 5px;
-    }
-    .skill-level {
-      background-color: #333;
-      color: #fff;
-      padding: 5px 10px;
-      border-radius: 5px;
+
+        .tag {
+            background: #ecf0f1;
+            color: #2c3e50;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #ecf0f1;
+            color: #2c3e50;
+            border: 1px solid #bdc3c7;
+        }
+
+        .btn-secondary:hover {
+            background: #d5dbdb;
+        }
+
+        .contact-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .contact-section p {
+            opacity: 0.9;
+            margin-bottom: 25px;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .contact-links a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-links a:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.6);
+        }
+
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header h2 {
+                font-size: 1.2rem;
+            }
+            
+            .project-actions {
+                flex-direction: column;
+            }
+            
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        .status-badge {
       display: inline-block;
-      margin-top: 5px;
-    }
-    /* Media Queries */
-    /* Add your media queries here */
-    
-    /* Call-to-Action */
-    /* Add your call-to-action styles here */
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .status-current {
+            background: #e8f5e8;
+            color: #2d7d32;
+        }
+
+        .status-recent {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .status-complete {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
   </style>
 </head>
 <body>
-  <header>
-    <h1>James Lucas - Software Developer Portfolio</h1>
+    <div class="container">
+        <header class="header">
+            <h1>Jim Lucas</h1>
+            <h2>Senior AI Product Manager</h2>
+            <p>Healthcare & Life Sciences + AI Platforms | 14+ years building products that solve real problems</p>
   </header>
   
-  <img src="images/Jim_L.jpg" alt="Professional Picture of Jim Lucas">
-  <p>I'm James (Jim) Lucas, a seasoned product manager transitioning into software development. With over a decade of experience in biotechnology, I bring expertise in product development, AI/ML, and cross-functional leadership.</p>
-  <h2>Contact</h2>
-  <p>
-    James (Jim) Lucas | Mariposa, US | +1 650-580-1859 | <a href="mailto:jiml95338@gmail.com">jiml95338@gmail.com</a>
-  </p>
-  <h2>Professional Experience</h2>
-  <p><strong>Oracle | Senior Product Manager</strong> (Aug 2022 - Nov 2023)</p>
-  <ul>
-    <li>Launched 6 new features for Form Designer, boosting NPS by 15% and securing 2 major contracts</li>
-    <li>Conducted market research to guide product strategy</li>
-  </ul>
-  <p><strong>Health Wallet | Lead Product Manager</strong> (May 2022 - Aug 2022)</p>
-  <ul>
-    <li>Directed product strategy and roadmap for Health Wallet's Life Sciences offerings</li>
-  </ul>
-  <p><strong>Genentech | Product Owner/Systems Specialist</strong> (Sep 2011 - May 2022)</p>
-  <ul>
-    <li>Led 30% faster ticket resolution, 25% higher customer satisfaction, $1.2M annual savings</li>
-    <li>Pioneered 3 AI assistants, generating $850K in annual cost savings</li>
-  </ul>
-  <h2>Projects</h2>
-  <h3>Alien Invasion Game</h3>
-  <p>[GitHub](https://github.com/JimLucas95338/Alien-Invasion) | Python, Pygame</p>
-  <p>Classic space shooter protecting Earth from alien invaders.</p>
-  <h3>Modern Restaurant Menu Display</h3>
-  <p>[GitHub](https://github.com/JimLucas95338/Array-Iteration-for-Restaurant-Menu-List) | JavaScript, CSS</p>
-  <p>Interactive, responsive digital menu with dynamic content and chef's specials.</p>
-  <h2>Education</h2>
-  <p>San Jose City College | AS, Computer Information Systems | 2000 - 2003</p>
-  <h2>Skills</h2>
-  <div class="skills">
-    <div class="skill">
-      <p>Product</p>
-      <span class="skill-level">Expert</span>
+        <div class="projects-grid">
+            <!-- AI Search Platform -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">🔍</div>
+                    <div>
+                        <div class="project-title">AI Search Platform</div>
+                        <span class="status-badge status-current">Current</span>
+                    </div>
+                </div>
+                <div class="project-date">June - August 2025</div>
+                <div class="project-description">
+                    Enterprise AI search platform with advanced RAG architecture, semantic understanding, and intelligent query processing. Transforms how organizations discover and interact with internal knowledge.
+                </div>
+                <div class="project-tags">
+                    <span class="tag">Enterprise AI</span>
+                    <span class="tag">RAG</span>
+                    <span class="tag">Semantic Search</span>
+                    <span class="tag">Query Intelligence</span>
+                </div>
+                <div class="project-actions">
+                    <a href="AI-Search-Platform/index.html" class="btn btn-primary">🚀 Launch Platform</a>
+                    <a href="AI-Search-Platform/docs/product-requirements.html" class="btn btn-secondary">📋 View PRD</a>
+                </div>
+            </div>
+
+            <!-- AI Content Optimization -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">📝</div>
+                    <div>
+                        <div class="project-title">AI Content Optimization</div>
+                        <span class="status-badge status-recent">Recent</span>
+                    </div>
+                </div>
+                <div class="project-date">March - May 2025</div>
+                <div class="project-description">
+                    AI-powered content optimization platform with real-time analysis, platform-specific recommendations, and performance prediction. Shows iterative product development and user-centered design.
+                </div>
+                <div class="project-tags">
+                    <span class="tag">Content AI</span>
+                    <span class="tag">NLP</span>
+                    <span class="tag">Performance Analytics</span>
+                    <span class="tag">User Research</span>
+                </div>
+                <div class="project-actions">
+                    <a href="AI-Content-Optimization-Platform/index.html" class="btn btn-primary">✨ Launch Optimizer</a>
+                    <a href="AI-Content-Optimization-Platform/docs/product-requirements.html" class="btn btn-secondary">📋 View PRD</a>
+                </div>
+            </div>
+
+            <!-- Value-Based Care Analytics -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">🏥</div>
+                    <div>
+                        <div class="project-title">Value-Based Care Analytics</div>
+                        <span class="status-badge status-complete">Complete</span>
+                    </div>
+                </div>
+                <div class="project-date">December 2024 - February 2025</div>
+                <div class="project-description">
+                    Pearl Health-aligned population health management platform with risk stratification, quality tracking, and provider performance optimization. Deep dive into healthcare economics.
+                </div>
+                <div class="project-tags">
+                    <span class="tag">Healthcare Analytics</span>
+                    <span class="tag">Population Health</span>
+                    <span class="tag">Risk Stratification</span>
+                    <span class="tag">Pearl Health</span>
+                </div>
+                <div class="project-actions">
+                    <a href="Value-Based-Care-Analytics/index.html" class="btn btn-primary">📊 Launch Dashboard</a>
+                    <a href="Value-Based-Care-Analytics/docs/executive-summary.html" class="btn btn-secondary">📈 View Results</a>
+                </div>
+            </div>
+
+            <!-- Digital Therapeutics -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">💊</div>
+                    <div>
+                        <div class="project-title">Digital Therapeutics Case Study</div>
+                        <span class="status-badge status-complete">Complete</span>
+                    </div>
+                </div>
+                <div class="project-date">September - November 2024</div>
+                <div class="project-description">
+                    Comprehensive case study for digital therapeutics in mental health. Strategic product design with FDA regulatory pathway, clinical evidence requirements, and go-to-market strategy.
+                </div>
+                <div class="project-tags">
+                    <span class="tag">Digital Therapeutics</span>
+                    <span class="tag">FDA Regulation</span>
+                    <span class="tag">Clinical Evidence</span>
+                    <span class="tag">Product Strategy</span>
+                </div>
+                <div class="project-actions">
+                    <a href="Digital-Therapeutics-Case-Study/" class="btn btn-primary">🧠 View Case Study</a>
+                    <a href="Digital-Therapeutics-Case-Study/mockups/" class="btn btn-secondary">🎯 Design Decisions</a>
+                </div>
+            </div>
+
+            <!-- FHIR API Integration -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">🔗</div>
+                    <div>
+                        <div class="project-title">FHIR API Integration</div>
+                        <span class="status-badge status-complete">Complete</span>
+                    </div>
+                </div>
+                <div class="project-date">June - August 2024</div>
+                <div class="project-description">
+                    Healthcare interoperability platform demonstrating practical FHIR implementation for secure, standardized healthcare data exchange. Shows technical depth in healthcare standards.
+                </div>
+                <div class="project-tags">
+                    <span class="tag">Healthcare Interop</span>
+                    <span class="tag">FHIR</span>
+                    <span class="tag">API Integration</span>
+                    <span class="tag">HIPAA Compliance</span>
+                </div>
+                <div class="project-actions">
+                    <a href="FHIR-API-Integration-Demo/" class="btn btn-primary">🔄 Launch Demo</a>
+                    <a href="FHIR-API-Integration-Demo/docs/" class="btn btn-secondary">📚 View Documentation</a>
+                </div>
+            </div>
+
+            <!-- Healthcare Data Dashboard -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">📈</div>
+                    <div>
+                        <div class="project-title">Healthcare Data Dashboard</div>
+                        <span class="status-badge status-complete">Complete</span>
+                    </div>
+                </div>
+                <div class="project-date">March - May 2024</div>
+                <div class="project-description">
+                    Interactive healthcare analytics dashboard for data visualization and business intelligence. Foundation project showing progression from basic analytics to sophisticated healthcare metrics.
     </div>
-    <div class="skill">
-      <p>AI/ML</p>
-      <span class="skill-level">Proficient</span>
+                <div class="project-tags">
+                    <span class="tag">Data Analytics</span>
+                    <span class="tag">Healthcare BI</span>
+                    <span class="tag">Visualization</span>
+                    <span class="tag">KPI Tracking</span>
     </div>
-    <div class="skill">
-      <p>Agile</p>
-      <span class="skill-level">Expert</span>
+                <div class="project-actions">
+                    <a href="Healthcare-Data-Dashboard/" class="btn btn-primary">📊 View Dashboard</a>
+                    <a href="Healthcare-Data-Dashboard/notebooks/" class="btn btn-secondary">🔬 Analysis Notebooks</a>
     </div>
-    <div class="skill">
-      <p>Data</p>
-      <span class="skill-level">Proficient</span>
     </div>
-    <div class="skill">
-      <p>HTML</p>
-      <span class="skill-level">Proficient</span>
     </div>
-    <div class="skill">
-      <p>JavaScript</p>
-      <span class="skill-level">Competent</span>
+
+        <div class="contact-section">
+            <h3>Let's Connect</h3>
+            <p>Interested in discussing AI product strategy, healthcare technology, or potential opportunities?</p>
+            <div class="contact-links">
+                <a href="mailto:your.email@domain.com">📧 Email</a>
+                <a href="https://linkedin.com/in/your-profile" target="_blank">💼 LinkedIn</a>
+                <a href="Portfolio.md">📄 Full Portfolio</a>
+                <a href="https://github.com/your-username" target="_blank">💻 GitHub</a>
     </div>
-    <div class="skill">
-      <p>Security</p>
-      <span class="skill-level">Proficient</span>
     </div>
-    <div class="skill">
-      <p>Cloud</p>
-      <span class="skill-level">Proficient</span>
     </div>
-  </div>
-  <h2>Certifications</h2>
-  <ul>
-    <li>Generative AI</li>
-    <li>Product Management</li>
-    <li>Python for Data Science</li>
-  </ul>
-  <h2>Coding</h2>
-  <p>Proficient in Python for AI, chatbots, data analysis. Continuously learning.</p>
-  <h2>Volunteering</h2>
-  <ul>
-    <li>Disaster Services, American Red Cross</li>
-    <li>Community Ambassador, American Red Cross</li>
-  </ul>  
+
+    <script>
+        // Add smooth scrolling and interaction enhancements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click tracking for analytics
+            const projectCards = document.querySelectorAll('.project-card');
+            projectCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (!e.target.closest('.btn')) {
+                        // If clicked outside of buttons, go to main project page
+                        const primaryLink = card.querySelector('.btn-primary');
+                        if (primaryLink) {
+                            window.location.href = primaryLink.href;
+                        }
+                    }
+                });
+            });
+
+            // Add keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && e.target.classList.contains('project-card')) {
+                    e.target.click();
+                }
+            });
+
+            // Add loading states for links
+            const allLinks = document.querySelectorAll('.btn');
+            allLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    this.style.opacity = '0.7';
+                    this.innerHTML = '⏳ Loading...';
+                });
+            });
+        });
+    </script>
 </body>
 </html>

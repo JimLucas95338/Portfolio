@@ -36,15 +36,15 @@ This folder contains comprehensive mockups and wireframes for the AI Content Opt
 - Optimized for one-handed use
 - Progressive web app style
 
-### 3. Detailed Wireframes & Specifications
-**File:** `dashboard_wireframes.md`
+### 3. Design Process Documentation
+**Files:** `design_process_documentation.md`, `user_research_insights.md`, `realistic_visual_mockups.md`
 
 **Contains:**
-- ASCII art wireframes for different views
-- Detailed design specifications
-- Color palette and typography guidelines
-- User experience flow documentation
-- Accessibility features
+- User research findings and insights
+- Design iteration process and decision-making
+- Real constraints and compromises
+- User testing results and feedback
+- Design validation metrics
 
 ## 🎨 Design System
 

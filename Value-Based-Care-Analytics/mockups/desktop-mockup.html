@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Value-Based Care Analytics - Desktop Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #1e1e1e;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .browser-frame {
+            width: 100%;
+            max-width: 1400px;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .browser-bar {
+            background: #f0f0f0;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .browser-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot.red { background: #ff5f57; }
+        .dot.yellow { background: #ffbd2e; }
+        .dot.green { background: #28ca42; }
+
+        .url-bar {
+            flex: 1;
+            margin-left: 20px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 4px 12px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, #0c4a6e 0%, #065f46 100%);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .nav-section {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-item {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 14px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 600px;
+        }
+
+        .sidebar {
+            background: #f8f9fa;
+            border-right: 1px solid #e9ecef;
+            padding: 20px;
+        }
+
+        .sidebar h3 {
+            color: #495057;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 8px;
+        }
+
+        .sidebar-menu a {
+            color: #6c757d;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .dashboard-content {
+            padding: 30px;
+            background: white;
+        }
+
+        .dashboard-title {
+            color: #2d3748;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .metric-card.positive {
+            border-left: 4px solid #38a169;
+        }
+
+        .metric-card.warning {
+            border-left: 4px solid #d69e2e;
+        }
+
+        .metric-card.negative {
+            border-left: 4px solid #e53e3e;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            color: #4a5568;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .metric-change {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .metric-change.positive { color: #38a169; }
+        .metric-change.negative { color: #e53e3e; }
+
+        .charts-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .chart-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .chart-title {
+            color: #2d3748;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .mock-chart {
+            height: 200px;
+            background: linear-gradient(135deg, #e6fffa 0%, #f0fff4 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4a5568;
+            font-weight: 500;
+        }
+
+        .patients-table {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .table-header {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .table-title {
+            color: #2d3748;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f8f9fa;
+            color: #4a5568;
+        }
+
+        .risk-high { 
+            background: #fed7d7;
+            color: #742a2a;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .risk-medium { 
+            background: #faf089;
+            color: #744210;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .risk-low { 
+            background: #c6f6d5;
+            color: #276749;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .back-link {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(12, 74, 110, 0.9);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-link:hover {
+            background: rgba(12, 74, 110, 1);
+        }
+
+        .demo-info {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            font-size: 12px;
+            max-width: 250px;
+        }
+
+        .demo-info h4 {
+            margin-bottom: 8px;
+            color: #0c4a6e;
+        }
+
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                border-right: none;
+                border-bottom: 1px solid #e9ecef;
+            }
+            
+            .charts-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .demo-info {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="back-link">← Back to Project</a>
+    
+    <div class="browser-frame">
+        <div class="browser-bar">
+            <div class="browser-dots">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+            </div>
+            <div class="url-bar">https://vbc-analytics.healthcare.com/dashboard</div>
+        </div>
+        
+        <div class="dashboard-header">
+            <div class="logo-section">
+                <div class="logo">🏥</div>
+                <div>
+                    <h1 style="font-size: 1.4rem; margin: 0;">VBC Analytics</h1>
+                    <div style="font-size: 0.9rem; opacity: 0.8;">Population Health Dashboard</div>
+                </div>
+            </div>
+            
+            <nav class="nav-section">
+                <a href="#" class="nav-item active">Dashboard</a>
+                <a href="#" class="nav-item">Patients</a>
+                <a href="#" class="nav-item">Quality</a>
+                <a href="#" class="nav-item">Financial</a>
+                <a href="#" class="nav-item">Reports</a>
+            </nav>
+            
+            <div class="user-section">
+                <span>Dr. Sarah Johnson, MD</span>
+                <div style="width: 32px; height: 32px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">SJ</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <h3>Navigation</h3>
+                <ul class="sidebar-menu">
+                    <li><a href="#" class="active">📊 Overview</a></li>
+                    <li><a href="#">👥 Risk Stratification</a></li>
+                    <li><a href="#">📋 Quality Measures</a></li>
+                    <li><a href="#">💰 Financial Analytics</a></li>
+                    <li><a href="#">🔍 Care Gaps</a></li>
+                    <li><a href="#">📈 Provider Performance</a></li>
+                    <li><a href="#">⚙️ Settings</a></li>
+                </ul>
+                
+                <h3 style="margin-top: 30px;">Quick Actions</h3>
+                <ul class="sidebar-menu">
+                    <li><a href="#">🎯 High-Risk Patients</a></li>
+                    <li><a href="#">📅 Care Management</a></li>
+                    <li><a href="#">📊 Quality Reports</a></li>
+                    <li><a href="#">💊 Medication Gaps</a></li>
+                </ul>
+            </div>
+
+            <div class="dashboard-content">
+                <h2 class="dashboard-title">Population Health Overview</h2>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card positive">
+                        <div class="metric-value">$498K</div>
+                        <div class="metric-label">Shared Savings Generated</div>
+                        <div class="metric-change positive">↗ +18% vs last quarter</div>
+                    </div>
+                    
+                    <div class="metric-card positive">
+                        <div class="metric-value">89.4%</div>
+                        <div class="metric-label">Average Quality Score</div>
+                        <div class="metric-change positive">↗ +5.2% vs benchmark</div>
+                    </div>
+                    
+                    <div class="metric-card warning">
+                        <div class="metric-value">14.1%</div>
+                        <div class="metric-label">Readmission Rate</div>
+                        <div class="metric-change positive">↘ -2.1% vs last month</div>
+                    </div>
+                    
+                    <div class="metric-card positive">
+                        <div class="metric-value">2,847</div>
+                        <div class="metric-label">Attributed Lives</div>
+                        <div class="metric-change positive">↗ +127 new patients</div>
+                    </div>
+                </div>
+
+                <div class="charts-section">
+                    <div class="chart-card">
+                        <h3 class="chart-title">Monthly Cost Trends vs Benchmark</h3>
+                        <div class="mock-chart">
+                            📈 Interactive Cost Trend Chart<br>
+                            <small>PMPM: $342 vs $368 benchmark (-7.1%)</small>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <h3 class="chart-title">Quality Measure Performance</h3>
+                        <div class="mock-chart">
+                            🎯 HEDIS Measures Dashboard<br>
+                            <small>27/30 measures above 90th percentile</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="patients-table">
+                    <div class="table-header">
+                        <h3 class="table-title">High-Risk Patients Requiring Attention</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Patient</th>
+                                <th>Risk Score</th>
+                                <th>Primary Condition</th>
+                                <th>Last Visit</th>
+                                <th>Care Gaps</th>
+                                <th>Predicted Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Johnson, Mary</strong><br><small>DOB: 03/15/1955</small></td>
+                                <td><span class="risk-high">High (92)</span></td>
+                                <td>Diabetes, CHF</td>
+                                <td>2 weeks ago</td>
+                                <td>3 open gaps</td>
+                                <td>$18,450</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Williams, Robert</strong><br><small>DOB: 08/22/1962</small></td>
+                                <td><span class="risk-high">High (89)</span></td>
+                                <td>COPD, Hypertension</td>
+                                <td>5 days ago</td>
+                                <td>2 open gaps</td>
+                                <td>$15,230</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Davis, Patricia</strong><br><small>DOB: 11/08/1948</small></td>
+                                <td><span class="risk-medium">Medium (76)</span></td>
+                                <td>Diabetes, CAD</td>
+                                <td>1 week ago</td>
+                                <td>1 open gap</td>
+                                <td>$12,100</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Miller, James</strong><br><small>DOB: 02/19/1959</small></td>
+                                <td><span class="risk-medium">Medium (72)</span></td>
+                                <td>Hypertension</td>
+                                <td>3 days ago</td>
+                                <td>2 open gaps</td>
+                                <td>$9,850</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Wilson, Linda</strong><br><small>DOB: 09/14/1952</small></td>
+                                <td><span class="risk-low">Low (45)</span></td>
+                                <td>Well visits</td>
+                                <td>1 month ago</td>
+                                <td>1 open gap</td>
+                                <td>$4,200</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="demo-info">
+        <h4>🏥 VBC Analytics Demo</h4>
+        <p><strong>Population Health Dashboard</strong></p>
+        <p>Real-time analytics for value-based care management.</p>
+        <p><strong>Features:</strong></p>
+        <p>• Risk stratification</p>
+        <p>• Quality tracking</p>
+        <p>• Financial analytics</p>
+        <p>• Care gap identification</p>
+        <p>• Provider scorecards</p>
+    </div>
+
+    <script>
+        // Add some interactivity
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        document.querySelectorAll('.sidebar-menu a').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.sidebar-menu a').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Simulate real-time updates
+        setInterval(() => {
+            const metrics = document.querySelectorAll('.metric-value');
+            metrics.forEach(metric => {
+                if (metric.textContent.includes('$')) {
+                    const current = parseInt(metric.textContent.replace(/[$,K]/g, ''));
+                    const variation = Math.floor(Math.random() * 10) - 5;
+                    const newValue = current + variation;
+                    metric.textContent = `$${newValue}K`;
+                }
+            });
+        }, 10000);
+    </script>
+</body>
+</html>

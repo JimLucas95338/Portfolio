@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VBC Analytics - Mobile Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #1e1e1e;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .phone-mockup {
+            width: 375px;
+            height: 812px;
+            background: #000;
+            border-radius: 40px;
+            padding: 10px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: #f8f9fa;
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .status-bar {
+            background: #0c4a6e;
+            color: white;
+            padding: 12px 20px 8px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .time { flex: 1; }
+        .signal-battery {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, #0c4a6e 0%, #065f46 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .header-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .quick-stats {
+            background: white;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0c4a6e;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: white;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .alert-card {
+            background: #fff5f5;
+            border: 1px solid #fed7d7;
+            border-left: 4px solid #e53e3e;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .alert-card.warning {
+            background: #fffbf0;
+            border-color: #faf089;
+            border-left-color: #d69e2e;
+        }
+
+        .alert-card.info {
+            background: #f0fff4;
+            border-color: #c6f6d5;
+            border-left-color: #38a169;
+        }
+
+        .alert-title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .alert-text {
+            font-size: 0.8rem;
+            color: #4a5568;
+            line-height: 1.4;
+        }
+
+        .patient-list {
+            background: #f8f9fa;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .patient-item {
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .patient-item:last-child {
+            border-bottom: none;
+        }
+
+        .patient-info {
+            flex: 1;
+        }
+
+        .patient-name {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 3px;
+            font-size: 0.9rem;
+        }
+
+        .patient-details {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        .risk-badge {
+            padding: 4px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .risk-high {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        .risk-medium {
+            background: #faf089;
+            color: #744210;
+        }
+
+        .risk-low {
+            background: #c6f6d5;
+            color: #276749;
+        }
+
+        .bottom-nav {
+            background: white;
+            border-top: 1px solid #e9ecef;
+            padding: 12px 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: #6c757d;
+            font-size: 10px;
+            font-weight: 500;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-item.active {
+            color: #0c4a6e;
+        }
+
+        .nav-icon {
+            font-size: 18px;
+        }
+
+        .fab {
+            position: absolute;
+            bottom: 80px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            background: #0c4a6e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(12, 74, 110, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .fab:active {
+            transform: scale(0.9);
+        }
+
+        .back-link {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(12, 74, 110, 0.9);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-link:hover {
+            background: rgba(12, 74, 110, 1);
+        }
+
+        .demo-info {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            font-size: 12px;
+            max-width: 200px;
+        }
+
+        .demo-info h4 {
+            margin-bottom: 8px;
+            color: #0c4a6e;
+        }
+
+        @media (max-width: 480px) {
+            .phone-mockup {
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+                padding: 0;
+            }
+            
+            .screen {
+                border-radius: 0;
+            }
+            
+            .demo-info {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="back-link">← Back to Project</a>
+    
+    <div class="phone-mockup">
+        <div class="screen">
+            <div class="status-bar">
+                <span class="time">9:41</span>
+                <div class="signal-battery">
+                    <span>📶</span>
+                    <span>🔋 85%</span>
+                </div>
+            </div>
+
+            <div class="app-header">
+                <div class="header-title">VBC Analytics</div>
+                <div class="header-subtitle">Population Health Dashboard</div>
+            </div>
+
+            <div class="quick-stats">
+                <div class="stat-card">
+                    <div class="stat-value">$498K</div>
+                    <div class="stat-label">Shared Savings</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">89.4%</div>
+                    <div class="stat-label">Quality Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">2,847</div>
+                    <div class="stat-label">Attributed Lives</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">14.1%</div>
+                    <div class="stat-label">Readmission Rate</div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="section">
+                    <h3 class="section-title">🚨 Urgent Alerts</h3>
+                    
+                    <div class="alert-card">
+                        <div class="alert-title">High-Risk Patient Alert</div>
+                        <div class="alert-text">Mary Johnson (Risk: 92) - Missed diabetes appointment, HbA1c overdue</div>
+                    </div>
+                    
+                    <div class="alert-card warning">
+                        <div class="alert-title">Quality Measure Warning</div>
+                        <div class="alert-text">Mammography screening rate below target (78% vs 80% goal)</div>
+                    </div>
+                    
+                    <div class="alert-card info">
+                        <div class="alert-title">Success Update</div>
+                        <div class="alert-text">15 patients completed diabetes care gaps this week</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">👥 High-Risk Patients</h3>
+                    
+                    <div class="patient-list">
+                        <div class="patient-item">
+                            <div class="patient-info">
+                                <div class="patient-name">Mary Johnson</div>
+                                <div class="patient-details">Diabetes, CHF • 3 care gaps</div>
+                            </div>
+                            <span class="risk-badge risk-high">High</span>
+                        </div>
+                        
+                        <div class="patient-item">
+                            <div class="patient-info">
+                                <div class="patient-name">Robert Williams</div>
+                                <div class="patient-details">COPD, HTN • 2 care gaps</div>
+                            </div>
+                            <span class="risk-badge risk-high">High</span>
+                        </div>
+                        
+                        <div class="patient-item">
+                            <div class="patient-info">
+                                <div class="patient-name">Patricia Davis</div>
+                                <div class="patient-details">Diabetes, CAD • 1 care gap</div>
+                            </div>
+                            <span class="risk-badge risk-medium">Medium</span>
+                        </div>
+                        
+                        <div class="patient-item">
+                            <div class="patient-info">
+                                <div class="patient-name">James Miller</div>
+                                <div class="patient-details">Hypertension • 2 care gaps</div>
+                            </div>
+                            <span class="risk-badge risk-medium">Medium</span>
+                        </div>
+                        
+                        <div class="patient-item">
+                            <div class="patient-info">
+                                <div class="patient-name">Linda Wilson</div>
+                                <div class="patient-details">Well visits • 1 care gap</div>
+                            </div>
+                            <span class="risk-badge risk-low">Low</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">📊 Quick Actions</h3>
+                    
+                    <div class="patient-list">
+                        <div class="patient-item">
+                            <div class="patient-info">
+                                <div class="patient-name">📋 Review Care Gaps</div>
+                                <div class="patient-details">127 open care gaps requiring attention</div>
+                            </div>
+                            <span style="color: #0c4a6e; font-size: 18px;">›</span>
+                        </div>
+                        
+                        <div class="patient-item">
+                            <div class="patient-info">
+                                <div class="patient-name">📈 Quality Dashboard</div>
+                                <div class="patient-details">View HEDIS performance metrics</div>
+                            </div>
+                            <span style="color: #0c4a6e; font-size: 18px;">›</span>
+                        </div>
+                        
+                        <div class="patient-item">
+                            <div class="patient-info">
+                                <div class="patient-name">💰 Financial Summary</div>
+                                <div class="patient-details">Shared savings and cost analysis</div>
+                            </div>
+                            <span style="color: #0c4a6e; font-size: 18px;">›</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-nav">
+                <a href="#" class="nav-item active">
+                    <div class="nav-icon">🏠</div>
+                    <span>Home</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <div class="nav-icon">👥</div>
+                    <span>Patients</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <div class="nav-icon">📊</div>
+                    <span>Reports</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <div class="nav-icon">⚙️</div>
+                    <span>Settings</span>
+                </a>
+            </div>
+
+            <div class="fab">+</div>
+        </div>
+    </div>
+
+    <div class="demo-info">
+        <h4>📱 VBC Mobile</h4>
+        <p><strong>Mobile Analytics</strong></p>
+        <p>On-the-go population health management.</p>
+        <p><strong>Features:</strong></p>
+        <p>• Real-time alerts</p>
+        <p>• Patient risk scores</p>
+        <p>• Care gap tracking</p>
+        <p>• Quick actions</p>
+        <p>• Offline access</p>
+    </div>
+
+    <script>
+        // Add mobile interactivity
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        document.querySelector('.fab').addEventListener('click', function() {
+            this.style.background = '#065f46';
+            this.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                this.style.background = '#0c4a6e';
+                this.style.transform = 'scale(1)';
+            }, 200);
+        });
+
+        // Simulate push notifications
+        setInterval(() => {
+            const alerts = document.querySelectorAll('.alert-card');
+            if (alerts.length > 0) {
+                const randomAlert = alerts[Math.floor(Math.random() * alerts.length)];
+                randomAlert.style.transform = 'scale(1.02)';
+                randomAlert.style.boxShadow = '0 4px 12px rgba(229, 62, 62, 0.2)';
+                setTimeout(() => {
+                    randomAlert.style.transform = 'scale(1)';
+                    randomAlert.style.boxShadow = 'none';
+                }, 1000);
+            }
+        }, 15000);
+
+        // Touch interactions
+        document.querySelectorAll('.patient-item').forEach(item => {
+            item.addEventListener('touchstart', function() {
+                this.style.background = '#f8f9fa';
+            });
+            
+            item.addEventListener('touchend', function() {
+                setTimeout(() => {
+                    this.style.background = 'white';
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>

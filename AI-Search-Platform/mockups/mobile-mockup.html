@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Search Platform - Mobile Mockup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #1e1e1e;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .phone-mockup {
+            width: 375px;
+            height: 812px;
+            background: #000;
+            border-radius: 40px;
+            padding: 10px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: #f8f9fa;
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .status-bar {
+            background: #2c5282;
+            color: white;
+            padding: 12px 20px 8px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .time { flex: 1; }
+        .signal-battery {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, #2c5282 0%, #2d3748 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .header-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .search-section {
+            padding: 20px;
+            background: white;
+        }
+
+        .search-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 16px 14px 45px;
+            font-size: 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 25px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+            font-size: 16px;
+        }
+
+        .quick-filters {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .filter-chip {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 6px 12px;
+            font-size: 12px;
+            color: #4a5568;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-chip.active {
+            background: #4299e1;
+            color: white;
+            border-color: #4299e1;
+        }
+
+        .results-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 20px 20px 20px;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .results-count {
+            font-size: 14px;
+            color: #4a5568;
+        }
+
+        .sort-btn {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 6px 12px;
+            font-size: 12px;
+            color: #4a5568;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 3px solid transparent;
+        }
+
+        .result-card.high-confidence {
+            border-left-color: #38a169;
+        }
+
+        .result-card.medium-confidence {
+            border-left-color: #d69e2e;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .result-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2d3748;
+            line-height: 1.3;
+            text-decoration: none;
+        }
+
+        .confidence-badge {
+            background: #e6fffa;
+            color: #2c7a7b;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: 8px;
+            flex-shrink: 0;
+        }
+
+        .confidence-badge.high {
+            background: #c6f6d5;
+            color: #276749;
+        }
+
+        .confidence-badge.medium {
+            background: #faf089;
+            color: #744210;
+        }
+
+        .result-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            color: #4a5568;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .result-snippet {
+            color: #4a5568;
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 12px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .highlight {
+            background: #fef5e7;
+            padding: 1px 2px;
+            border-radius: 2px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .result-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 6px 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 15px;
+            background: white;
+            color: #4a5568;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:active {
+            background: #f7fafc;
+            transform: scale(0.95);
+        }
+
+        .bottom-nav {
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            padding: 12px 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: #a0aec0;
+            font-size: 10px;
+            font-weight: 500;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-item.active {
+            color: #4299e1;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+        }
+
+        .voice-search-btn {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 56px;
+            height: 56px;
+            background: #4299e1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .voice-search-btn:active {
+            transform: scale(0.9);
+        }
+
+        .back-link {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(44, 82, 130, 0.9);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-link:hover {
+            background: rgba(44, 82, 130, 1);
+        }
+
+        .demo-info {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            font-size: 12px;
+            max-width: 200px;
+        }
+
+        .demo-info h4 {
+            margin-bottom: 8px;
+            color: #4299e1;
+        }
+
+        @media (max-width: 480px) {
+            .phone-mockup {
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+                padding: 0;
+            }
+            
+            .screen {
+                border-radius: 0;
+            }
+            
+            .demo-info {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="back-link">← Back to Project</a>
+    
+    <div class="phone-mockup">
+        <div class="screen">
+            <div class="status-bar">
+                <span class="time">9:41</span>
+                <div class="signal-battery">
+                    <span>📶</span>
+                    <span>🔋 85%</span>
+                </div>
+            </div>
+
+            <div class="app-header">
+                <div class="header-title">Enterprise Search</div>
+                <div class="header-subtitle">AI-Powered Knowledge Discovery</div>
+            </div>
+
+            <div class="search-section">
+                <div class="search-container">
+                    <div class="search-icon">🔍</div>
+                    <input type="text" class="search-input" placeholder="Search company knowledge..." value="ML implementation">
+                </div>
+                
+                <div class="quick-filters">
+                    <span class="filter-chip active">All</span>
+                    <span class="filter-chip">Docs</span>
+                    <span class="filter-chip">Engineering</span>
+                    <span class="filter-chip">Recent</span>
+                    <span class="filter-chip">Saved</span>
+                </div>
+            </div>
+
+            <div class="results-container">
+                <div class="results-header">
+                    <span class="results-count">47 results found</span>
+                    <button class="sort-btn">
+                        <span>Relevance</span>
+                        <span>⌄</span>
+                    </button>
+                </div>
+
+                <div class="result-card high-confidence">
+                    <div class="result-header">
+                        <a href="#" class="result-title">ML Implementation Strategy 2025</a>
+                        <span class="confidence-badge high">95%</span>
+                    </div>
+                    <div class="result-meta">
+                        <span class="meta-item">📄 Strategy</span>
+                        <span class="meta-item">👤 Sarah Chen</span>
+                        <span class="meta-item">📅 3d ago</span>
+                    </div>
+                    <div class="result-snippet">
+                        Our comprehensive approach to <span class="highlight">machine learning implementation</span> focuses on data infrastructure, deployment pipelines, and team training...
+                    </div>
+                    <div class="result-actions">
+                        <button class="action-btn">📖 Open</button>
+                        <button class="action-btn">💾 Save</button>
+                        <button class="action-btn">🔗 Share</button>
+                    </div>
+                </div>
+
+                <div class="result-card high-confidence">
+                    <div class="result-header">
+                        <a href="#" class="result-title">Q4 ML Performance Review</a>
+                        <span class="confidence-badge high">92%</span>
+                    </div>
+                    <div class="result-meta">
+                        <span class="meta-item">📊 Report</span>
+                        <span class="meta-item">👤 Data Team</span>
+                        <span class="meta-item">📅 1w ago</span>
+                    </div>
+                    <div class="result-snippet">
+                        Analysis of <span class="highlight">ML</span> model performance showing 23% improvement in recommendations and 15% reduction in fraud detection false positives...
+                    </div>
+                    <div class="result-actions">
+                        <button class="action-btn">📖 Open</button>
+                        <button class="action-btn">💾 Save</button>
+                        <button class="action-btn">📈 Analytics</button>
+                    </div>
+                </div>
+
+                <div class="result-card medium-confidence">
+                    <div class="result-header">
+                        <a href="#" class="result-title">ML Pipeline Architecture</a>
+                        <span class="confidence-badge medium">87%</span>
+                    </div>
+                    <div class="result-meta">
+                        <span class="meta-item">🔧 Technical</span>
+                        <span class="meta-item">👤 Mike Rodriguez</span>
+                        <span class="meta-item">📅 2w ago</span>
+                    </div>
+                    <div class="result-snippet">
+                        Technical specifications for <span class="highlight">machine learning</span> pipeline infrastructure including data ingestion, feature engineering, and deployment...
+                    </div>
+                    <div class="result-actions">
+                        <button class="action-btn">📖 Open</button>
+                        <button class="action-btn">💾 Save</button>
+                        <button class="action-btn">🔍 Similar</button>
+                    </div>
+                </div>
+
+                <div class="result-card medium-confidence">
+                    <div class="result-header">
+                        <a href="#" class="result-title">ML Training Materials</a>
+                        <span class="confidence-badge medium">83%</span>
+                    </div>
+                    <div class="result-meta">
+                        <span class="meta-item">📚 Training</span>
+                        <span class="meta-item">👤 HR Team</span>
+                        <span class="meta-item">📅 3w ago</span>
+                    </div>
+                    <div class="result-snippet">
+                        Employee onboarding program for <span class="highlight">machine learning</span> concepts, tools, and best practices with hands-on workshops...
+                    </div>
+                    <div class="result-actions">
+                        <button class="action-btn">📖 Open</button>
+                        <button class="action-btn">🎓 Enroll</button>
+                        <button class="action-btn">📞 Contact</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-nav">
+                <a href="#" class="nav-item active">
+                    <div class="nav-icon">🔍</div>
+                    <span>Search</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <div class="nav-icon">📊</div>
+                    <span>Analytics</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <div class="nav-icon">📖</div>
+                    <span>History</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <div class="nav-icon">⚙️</div>
+                    <span>Settings</span>
+                </a>
+            </div>
+
+            <div class="voice-search-btn">🎤</div>
+        </div>
+    </div>
+
+    <div class="demo-info">
+        <h4>📱 Mobile Demo</h4>
+        <p><strong>Enterprise Search</strong></p>
+        <p>Mobile-optimized interface for on-the-go knowledge discovery.</p>
+        <p><strong>Features:</strong></p>
+        <p>• Touch-optimized UI</p>
+        <p>• Voice search capability</p>
+        <p>• Quick filter chips</p>
+        <p>• Swipe gestures</p>
+        <p>• Offline search history</p>
+    </div>
+
+    <script>
+        // Add mobile interactivity
+        document.querySelectorAll('.filter-chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                this.style.background = '#e2e8f0';
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.background = 'white';
+                    this.style.transform = 'scale(1)';
+                }, 150);
+            });
+        });
+
+        document.querySelector('.voice-search-btn').addEventListener('click', function() {
+            this.style.background = '#2b6cb0';
+            this.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                this.style.background = '#4299e1';
+                this.style.transform = 'scale(1)';
+            }, 200);
+        });
+
+        // Simulate touch interactions
+        let startY = 0;
+        document.querySelector('.results-container').addEventListener('touchstart', function(e) {
+            startY = e.touches[0].clientY;
+        });
+
+        document.querySelector('.results-container').addEventListener('touchmove', function(e) {
+            const currentY = e.touches[0].clientY;
+            const diff = startY - currentY;
+            
+            if (diff > 0) {
+                // Scrolling down
+                this.style.transform = 'translateY(-2px)';
+            } else {
+                // Scrolling up
+                this.style.transform = 'translateY(0)';
+            }
+        });
+
+        document.querySelector('.results-container').addEventListener('touchend', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    </script>
+</body>
+</html>

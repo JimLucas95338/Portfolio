@@ -2,10 +2,10 @@
 ## AI Content Optimization Platform
 
 **Document Version**: 2.0  
-**Last Updated**: December 2024  
-**Product Manager**: [Your Name]  
-**Engineering Lead**: [Engineering Lead]  
-**Design Lead**: [Design Lead]
+**Last Updated**: May 2025  
+**Product Manager**: Jim Lucas
+**Engineering Lead**: TBD  
+**Design Lead**: TBD
 
 ---
 

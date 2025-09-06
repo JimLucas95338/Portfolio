@@ -2,10 +2,10 @@
 ## Enterprise AI Search Platform
 
 **Document Version**: 1.0  
-**Last Updated**: December 2024  
-**Product Manager**: [Your Name]  
-**Engineering Lead**: [Engineering Lead]  
-**Design Lead**: [Design Lead]
+**Last Updated**: August 2025  
+**Product Manager**: Jim Lucas
+**Engineering Lead**: TBD 
+**Design Lead**: TBD
 
 ---
 

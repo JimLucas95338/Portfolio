@@ -1,5 +1,9 @@
 # Product Requirements Document: FHIR API Integration Platform
 
+**Project Period:** June - August 2024  
+**Product Manager:** Jim Lucas  
+**Focus Area:** Healthcare interoperability and standardized data exchange
+
 ## Executive Summary
 
 **Product Name:** Healthcare Interoperability & Data Exchange Platform  

@@ -1,0 +1,30 @@
+# AI Search Platform Dependencies
+# Core dependencies (required)
+numpy>=1.21.0
+pandas>=1.3.0
+matplotlib>=3.5.0
+seaborn>=0.11.0
+
+# GUI dependencies (required for enterprise_search_gui.py)
+tkinter  # Usually included with Python
+
+# Advanced AI/ML dependencies (optional - enables production mode)
+# Uncomment and install these for full AI functionality:
+# sentence-transformers>=2.2.0
+# transformers>=4.21.0
+# faiss-cpu>=1.7.0  # or faiss-gpu for GPU support
+# chromadb>=0.4.0
+# torch>=1.12.0
+
+# Development dependencies (optional)
+# jupyter>=1.0.0
+# notebook>=6.4.0
+
+# Installation Instructions:
+# 1. Basic demo mode (current): No additional installation needed
+# 2. Full AI mode: pip install -r requirements.txt (uncomment AI libraries first)
+# 3. Development mode: pip install jupyter notebook (for notebooks)
+
+# Note: The application automatically detects available libraries and falls back
+# to simulation mode when AI libraries are not installed. This ensures the
+# portfolio demo works immediately without complex setup.

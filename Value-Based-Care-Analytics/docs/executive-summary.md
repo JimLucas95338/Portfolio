@@ -1,8 +1,12 @@
-# 🏥 Value-Based Care Analytics Platform - Executive Summary
+# Value-Based Care Analytics Platform - Executive Summary
+
+**Project Period:** December 2024 - February 2025  
+**Product Manager:** Jim Lucas  
+**Focus Area:** Pearl Health-aligned population health management and provider performance optimization
 
 ## Strategic Overview
 
-Healthcare organizations are rapidly transitioning from traditional fee-for-service payment models to **value-based care contracts** that reward quality outcomes and cost efficiency. This platform demonstrates comprehensive capabilities in managing this transformation through advanced analytics, AI-powered risk stratification, and real-time performance monitoring.
+Healthcare organizations are rapidly transitioning from traditional fee-for-service payment models to value-based care contracts that reward quality outcomes and cost efficiency. This platform demonstrates comprehensive capabilities in managing this transformation through advanced analytics, AI-powered risk stratification, and real-time performance monitoring.
 
 ## 💰 Business Impact & ROI
 
