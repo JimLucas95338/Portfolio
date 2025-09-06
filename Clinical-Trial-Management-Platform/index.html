@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinical Trial Management Platform - Jim Lucas Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .header .meta {
+            color: #95a5a6;
+            font-size: 0.9em;
+        }
+
+        .content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .overview {
+            margin-bottom: 40px;
+        }
+
+        .overview h2 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .overview p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #3498db;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .action-card {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .action-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+            text-decoration: none;
+            color: white;
+        }
+
+        .action-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .action-card p {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .action-card.secondary {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .action-card.secondary:hover {
+            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4);
+        }
+
+        .action-card.success {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .action-card.success:hover {
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.4);
+        }
+
+        .action-card.warning {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+        }
+
+        .action-card.warning:hover {
+            box-shadow: 0 8px 25px rgba(243, 156, 18, 0.4);
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .metric-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            border-top: 4px solid #3498db;
+        }
+
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        .back-link {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            text-decoration: none;
+            color: white;
+        }
+
+        .tech-stack {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .tech-stack h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tech-tag {
+            background: #3498db;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .features, .actions, .metrics {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to Portfolio</a>
+        
+        <div class="header">
+            <h1>🏥 Clinical Trial Management Platform</h1>
+            <div class="subtitle">Streamlining Clinical Research Operations</div>
+            <div class="meta">Project Period: September 2025 - Present | Product Manager: Jim Lucas</div>
+        </div>
+
+        <div class="content">
+            <div class="overview">
+                <h2>Project Overview</h2>
+                <p>A comprehensive cloud-based platform designed to streamline clinical trial operations by bringing research site workflows online and enabling seamless collaboration between sites, sponsors, and key stakeholders. The platform accelerates clinical trial execution while maintaining regulatory compliance and data integrity.</p>
+                
+                <p>This project demonstrates expertise in healthcare technology, clinical research operations, and cross-functional collaboration - directly relevant to companies like OneStudyTeam that focus on accelerating clinical trials and improving patient outcomes.</p>
+            </div>
+
+            <div class="features">
+                <div class="feature-card">
+                    <h3>📊 Site Management Dashboard</h3>
+                    <p>Real-time patient enrollment tracking, visit scheduling with conflict detection, and centralized document management for research sites.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🤝 Sponsor Collaboration Hub</h3>
+                    <p>Comprehensive study performance analytics, site performance scoring, and streamlined communication between sponsors and sites.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>✅ Regulatory Compliance Engine</h3>
+                    <p>Automated protocol adherence monitoring, data quality assurance, and regulatory reporting with audit trail capabilities.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🤖 AI-Powered Insights</h3>
+                    <p>Predictive analytics for enrollment success, natural language processing for document insights, and anomaly detection for study data.</p>
+                </div>
+            </div>
+
+            <div class="metrics">
+                <div class="metric-card">
+                    <div class="metric-value">40%</div>
+                    <div class="metric-label">Reduction in Study Startup Time</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">$2.8M</div>
+                    <div class="metric-label">Average Savings Per Study</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">99.5%</div>
+                    <div class="metric-label">Data Accuracy Rate</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">95%</div>
+                    <div class="metric-label">Site Satisfaction Score</div>
+                </div>
+            </div>
+
+            <div class="tech-stack">
+                <h3>🛠 Technical Architecture</h3>
+                <div class="tech-list">
+                    <span class="tech-tag">React.js</span>
+                    <span class="tech-tag">TypeScript</span>
+                    <span class="tech-tag">Node.js</span>
+                    <span class="tech-tag">PostgreSQL</span>
+                    <span class="tech-tag">AWS Cloud</span>
+                    <span class="tech-tag">FHIR R4</span>
+                    <span class="tech-tag">CDISC</span>
+                    <span class="tech-tag">Machine Learning</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <a href="src/clinical_trial_gui.py" class="action-card">
+                <h3>🚀 Launch Dashboard</h3>
+                <p>Try the interactive site coordinator dashboard with real-time study management and patient tracking.</p>
+            </a>
+            
+            <a href="docs/product-requirements.html" class="action-card secondary">
+                <h3>📋 Product Requirements</h3>
+                <p>Review the comprehensive PRD with user stories, acceptance criteria, and technical specifications.</p>
+            </a>
+            
+            <a href="docs/executive-summary.html" class="action-card success">
+                <h3>📊 Executive Summary</h3>
+                <p>Explore the business case, market analysis, and strategic objectives for the platform.</p>
+            </a>
+            
+            <a href="mockups/desktop-mockup.html" class="action-card warning">
+                <h3>🎨 Design Mockups</h3>
+                <p>View interactive mockups showing sponsor-site collaboration and workflow optimization features.</p>
+            </a>
+        </div>
+
+        <div class="actions">
+            <a href="launch_dashboard.py" class="action-card">
+                <h3>💻 Run Application</h3>
+                <p>Launch the complete clinical trial management platform with all features and sample data.</p>
+            </a>
+            
+            <a href="mockups/design-process-documentation.html" class="action-card secondary">
+                <h3>🔍 Design Process</h3>
+                <p>Understand the user-centered design approach and clinical workflow optimization strategies.</p>
+            </a>
+            
+            <a href="mockups/mobile-mockup.html" class="action-card success">
+                <h3>📱 Mobile Experience</h3>
+                <p>Explore the mobile-first design for site coordinators and field-based clinical staff.</p>
+            </a>
+            
+            <a href="../README.md" class="action-card warning">
+                <h3>📚 Portfolio Overview</h3>
+                <p>Return to the main portfolio to explore other healthcare and AI product management projects.</p>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
