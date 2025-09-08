@@ -170,6 +170,7 @@ Clinical-Trial-Management-Platform/
 ├── docs/                           # Documentation
 │   ├── executive-summary.md        # Business case and overview
 │   ├── product-requirements.md     # Detailed PRD
+│   ├── product-roadmap.md          # Strategic roadmap and milestones
 │   └── technical-specifications.md # Architecture details
 ├── src/                           # Source code
 │   ├── frontend/                  # React application
