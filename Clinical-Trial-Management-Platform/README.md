@@ -41,6 +41,7 @@ Clinical trials are critical for bringing new therapies to patients, but traditi
 - **Advanced Analytics Dashboard:** Real-time insights with user feedback integration and performance metrics
 - **Integration Manager:** Seamless connection with external systems (EDC, CTMS, LIMS, EMR)
 - **Mobile Offline Capabilities:** Full functionality without internet connectivity with automatic sync
+- **Drug Management & Randomization:** Complete drug inventory, dispensing, and randomization system with temperature monitoring
 
 ## 🛠 Technical Architecture
 
@@ -144,6 +145,7 @@ npm run dev
 - **Integration Manager:** `python src/integration_manager.py`
 - **Mobile Offline App:** `python src/mobile_offline_app.py`
 - **AI Insights Engine:** `python src/ai_insights_engine.py`
+- **Drug Management System:** `python src/drug_management_system.py`
 
 ### **Quick Launch**
 ```bash
@@ -155,6 +157,10 @@ python src/analytics_dashboard.py
 python src/integration_manager.py
 python src/mobile_offline_app.py
 python src/ai_insights_engine.py
+python src/drug_management_system.py
+
+# Launch v2.0 demo with all features
+python launch_v2_demo.py
 ```
 
 ## 📁 Project Structure
@@ -185,6 +191,7 @@ Clinical-Trial-Management-Platform/
 - ✅ Integration Manager for external systems (EDC, CTMS, LIMS, EMR)
 - ✅ Mobile Offline App with sync capabilities
 - ✅ AI Insights Engine with predictive analytics
+- ✅ Drug Management & Randomization System with temperature monitoring
 - ✅ Enhanced reporting and export capabilities
 - ✅ Real-time performance monitoring
 

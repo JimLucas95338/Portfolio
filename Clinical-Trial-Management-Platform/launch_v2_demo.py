@@ -43,6 +43,7 @@ class V2DemoLauncher:
 ✅ Integration Manager - Seamless connection with external systems (EDC, CTMS, LIMS, EMR)
 ✅ Mobile Offline App - Full functionality without internet connectivity
 ✅ AI Insights Engine - Predictive analytics and machine learning models
+✅ Drug Management & Randomization - Complete drug inventory and randomization system
 ✅ Enhanced Reporting - Advanced export capabilities and performance metrics
 ✅ Real-time Monitoring - System performance and user analytics
         """
@@ -92,11 +93,19 @@ class V2DemoLauncher:
         
         # AI insights engine
         ai_frame = ttk.Frame(apps_frame)
-        ai_frame.grid(row=4, column=0, sticky=(tk.W, tk.E))
+        ai_frame.grid(row=4, column=0, sticky=(tk.W, tk.E), pady=(0, 10))
         
         ttk.Label(ai_frame, text="AI Insights Engine", font=('Arial', 10, 'bold')).grid(row=0, column=0, sticky=tk.W)
         ttk.Label(ai_frame, text="Predictive analytics, machine learning models, and intelligent recommendations").grid(row=1, column=0, sticky=tk.W)
         ttk.Button(ai_frame, text="🤖 Launch", command=self.launch_ai_engine).grid(row=0, column=1, rowspan=2, padx=(20, 0))
+        
+        # Drug management system
+        drug_frame = ttk.Frame(apps_frame)
+        drug_frame.grid(row=5, column=0, sticky=(tk.W, tk.E))
+        
+        ttk.Label(drug_frame, text="Drug Management & Randomization", font=('Arial', 10, 'bold')).grid(row=0, column=0, sticky=tk.W)
+        ttk.Label(drug_frame, text="Drug inventory, dispensing, randomization, and temperature monitoring").grid(row=1, column=0, sticky=tk.W)
+        ttk.Button(drug_frame, text="💊 Launch", command=self.launch_drug_management).grid(row=0, column=1, rowspan=2, padx=(20, 0))
         
         # Launch all button
         launch_all_frame = ttk.Frame(self.root)
@@ -116,7 +125,7 @@ class V2DemoLauncher:
         features_frame.columnconfigure(0, weight=1)
         apps_frame.columnconfigure(0, weight=1)
         
-        for frame in [main_frame, analytics_frame, integration_frame, mobile_frame, ai_frame]:
+        for frame in [main_frame, analytics_frame, integration_frame, mobile_frame, ai_frame, drug_frame]:
             frame.columnconfigure(0, weight=1)
     
     def launch_main_dashboard(self):
@@ -159,6 +168,14 @@ class V2DemoLauncher:
         except Exception as e:
             messagebox.showerror("Error", f"Failed to launch AI engine: {e}")
     
+    def launch_drug_management(self):
+        """Launch the drug management system"""
+        try:
+            subprocess.Popen([sys.executable, "src/drug_management_system.py"])
+            messagebox.showinfo("Launching", "Drug Management & Randomization System is starting...")
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to launch drug management system: {e}")
+    
     def launch_all(self):
         """Launch all applications"""
         try:
@@ -168,6 +185,7 @@ class V2DemoLauncher:
             subprocess.Popen([sys.executable, "src/integration_manager.py"])
             subprocess.Popen([sys.executable, "src/mobile_offline_app.py"])
             subprocess.Popen([sys.executable, "src/ai_insights_engine.py"])
+            subprocess.Popen([sys.executable, "src/drug_management_system.py"])
             
             messagebox.showinfo("Launching All", "All v2.0 applications are starting...\n\nThis may take a moment to load all modules.")
         except Exception as e:
