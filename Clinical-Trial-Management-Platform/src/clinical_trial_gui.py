@@ -162,6 +162,67 @@ class ClinicalTrialDashboard:
                     "date": "2025-09-04",
                     "status": "Open"
                 }
+            ],
+            "drug_requests": [
+                {
+                    "id": "DR-001",
+                    "drug_name": "Study Drug A",
+                    "quantity": 100,
+                    "requested_by": "Dr. Sarah Johnson",
+                    "request_date": "2025-09-03",
+                    "status": "Approved",
+                    "received_date": "2025-09-05",
+                    "batch_number": "BATCH-2025-001",
+                    "expiry_date": "2026-03-15"
+                },
+                {
+                    "id": "DR-002",
+                    "drug_name": "Study Drug B",
+                    "quantity": 50,
+                    "requested_by": "Dr. Sarah Johnson",
+                    "request_date": "2025-09-02",
+                    "status": "Pending",
+                    "received_date": None,
+                    "batch_number": None,
+                    "expiry_date": None
+                },
+                {
+                    "id": "DR-003",
+                    "drug_name": "Placebo",
+                    "quantity": 75,
+                    "requested_by": "Dr. Sarah Johnson",
+                    "request_date": "2025-09-01",
+                    "status": "Shipped",
+                    "received_date": None,
+                    "batch_number": "BATCH-2025-003",
+                    "expiry_date": "2026-08-10"
+                }
+            ],
+            "drug_inventory": [
+                {
+                    "drug_name": "Study Drug A",
+                    "current_stock": 150,
+                    "batch_number": "BATCH-2025-001",
+                    "expiry_date": "2026-03-15",
+                    "storage_location": "Refrigerator A",
+                    "last_updated": "2025-09-05"
+                },
+                {
+                    "drug_name": "Study Drug B",
+                    "current_stock": 80,
+                    "batch_number": "BATCH-2025-002",
+                    "expiry_date": "2026-05-20",
+                    "storage_location": "Room Temperature Storage",
+                    "last_updated": "2025-09-04"
+                },
+                {
+                    "drug_name": "Placebo",
+                    "current_stock": 200,
+                    "batch_number": "BATCH-2025-003",
+                    "expiry_date": "2026-08-10",
+                    "storage_location": "Room Temperature Storage",
+                    "last_updated": "2025-09-03"
+                }
             ]
         }
     
@@ -234,6 +295,9 @@ class ClinicalTrialDashboard:
         
         # Documents tab
         self.create_documents_tab()
+        
+        # Drug Management tab
+        self.create_drug_management_tab()
     
     def create_dashboard_tab(self):
         """Create the main dashboard tab"""
@@ -594,6 +658,10 @@ class ClinicalTrialDashboard:
         # Update document list
         self.update_document_list()
         
+        # Update drug management
+        self.update_drug_requests()
+        self.update_drug_inventory()
+        
         # Update status
         self.last_updated_label.config(text=f"Last updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
@@ -730,6 +798,176 @@ Performance Metrics:
         
         for doc in documents:
             self.doc_tree.insert('', 'end', values=doc)
+    
+    def create_drug_management_tab(self):
+        """Create drug management tab"""
+        drug_frame = ttk.Frame(self.notebook)
+        self.notebook.add(drug_frame, text="💊 Drug Management")
+        
+        # Left panel - Drug requests
+        left_frame = ttk.Frame(drug_frame)
+        left_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S), padx=(0, 10))
+        
+        # Drug requests
+        requests_frame = ttk.LabelFrame(left_frame, text="Drug Requests", padding="10")
+        requests_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
+        
+        self.drug_requests_tree = ttk.Treeview(requests_frame, columns=('Drug', 'Quantity', 'Requested By', 'Date', 'Status'), show='headings', height=8)
+        self.drug_requests_tree.heading('Drug', text='Drug Name')
+        self.drug_requests_tree.heading('Quantity', text='Quantity')
+        self.drug_requests_tree.heading('Requested By', text='Requested By')
+        self.drug_requests_tree.heading('Date', text='Request Date')
+        self.drug_requests_tree.heading('Status', text='Status')
+        
+        self.drug_requests_tree.column('Drug', width=120)
+        self.drug_requests_tree.column('Quantity', width=80)
+        self.drug_requests_tree.column('Requested By', width=120)
+        self.drug_requests_tree.column('Date', width=100)
+        self.drug_requests_tree.column('Status', width=100)
+        
+        self.drug_requests_tree.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+        
+        # Drug request actions
+        request_actions_frame = ttk.Frame(requests_frame)
+        request_actions_frame.grid(row=1, column=0, pady=(10, 0))
+        
+        ttk.Button(request_actions_frame, text="➕ New Request", command=self.new_drug_request).grid(row=0, column=0, padx=(0, 5))
+        ttk.Button(request_actions_frame, text="✅ Mark Received", command=self.mark_drug_received).grid(row=0, column=1, padx=(0, 5))
+        ttk.Button(request_actions_frame, text="📋 View Details", command=self.view_drug_request_details).grid(row=0, column=2)
+        
+        # Current inventory
+        inventory_frame = ttk.LabelFrame(left_frame, text="Current Inventory", padding="10")
+        inventory_frame.grid(row=1, column=0, sticky=(tk.W, tk.E))
+        
+        self.inventory_text = scrolledtext.ScrolledText(inventory_frame, height=8, width=50)
+        self.inventory_text.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+        self.inventory_text.config(state=tk.DISABLED)
+        
+        # Configure grid weights
+        requests_frame.columnconfigure(0, weight=1)
+        requests_frame.rowconfigure(0, weight=1)
+        inventory_frame.columnconfigure(0, weight=1)
+        inventory_frame.rowconfigure(0, weight=1)
+        
+        # Right panel - Drug details and actions
+        right_frame = ttk.Frame(drug_frame)
+        right_frame.grid(row=0, column=1, sticky=(tk.W, tk.E, tk.N, tk.S))
+        
+        # Drug details
+        details_frame = ttk.LabelFrame(right_frame, text="Drug Request Details", padding="10")
+        details_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+        
+        self.drug_details_text = scrolledtext.ScrolledText(details_frame, height=20, width=60)
+        self.drug_details_text.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+        self.drug_details_text.config(state=tk.DISABLED)
+        
+        # Configure grid weights
+        drug_frame.columnconfigure(0, weight=1)
+        drug_frame.columnconfigure(1, weight=1)
+        drug_frame.rowconfigure(0, weight=1)
+        details_frame.columnconfigure(0, weight=1)
+        details_frame.rowconfigure(0, weight=1)
+    
+    def update_drug_requests(self):
+        """Update drug requests list"""
+        # Clear existing items
+        for item in self.drug_requests_tree.get_children():
+            self.drug_requests_tree.delete(item)
+        
+        # Add drug requests
+        for request in self.studies['drug_requests']:
+            status_color = 'green' if request['status'] == 'Approved' else 'orange' if request['status'] == 'Pending' else 'blue' if request['status'] == 'Shipped' else 'red'
+            self.drug_requests_tree.insert('', 'end', values=(
+                request['drug_name'],
+                request['quantity'],
+                request['requested_by'],
+                request['request_date'],
+                request['status']
+            ))
+    
+    def update_drug_inventory(self):
+        """Update drug inventory display"""
+        self.inventory_text.config(state=tk.NORMAL)
+        self.inventory_text.delete(1.0, tk.END)
+        
+        inventory_info = "CURRENT DRUG INVENTORY\n"
+        inventory_info += "=====================\n\n"
+        
+        for drug in self.studies['drug_inventory']:
+            inventory_info += f"Drug: {drug['drug_name']}\n"
+            inventory_info += f"Current Stock: {drug['current_stock']} units\n"
+            inventory_info += f"Batch: {drug['batch_number']}\n"
+            inventory_info += f"Expiry: {drug['expiry_date']}\n"
+            inventory_info += f"Storage: {drug['storage_location']}\n"
+            inventory_info += f"Last Updated: {drug['last_updated']}\n\n"
+        
+        inventory_info += "ALERTS:\n"
+        inventory_info += "• Study Drug B: Low stock (80 units)\n"
+        inventory_info += "• All drugs within expiry dates\n"
+        inventory_info += "• Temperature monitoring: Normal\n"
+        
+        self.inventory_text.insert(tk.END, inventory_info)
+        self.inventory_text.config(state=tk.DISABLED)
+    
+    def new_drug_request(self):
+        """Create new drug request"""
+        messagebox.showinfo("New Drug Request", "Drug Request Form would open here.\n\nRequired Information:\n• Drug name and strength\n• Requested quantity\n• Justification for request\n• Urgency level\n• Expected delivery date\n• Storage requirements")
+    
+    def mark_drug_received(self):
+        """Mark selected drug request as received"""
+        selection = self.drug_requests_tree.selection()
+        if selection:
+            item = self.drug_requests_tree.item(selection[0])
+            drug_name = item['values'][0]
+            messagebox.showinfo("Mark Received", f"Marking {drug_name} as received...\n\nReceived Information:\n• Batch number verification\n• Expiry date confirmation\n• Storage location assignment\n• Quality control check\n• Inventory update")
+        else:
+            messagebox.showwarning("No Selection", "Please select a drug request to mark as received.")
+    
+    def view_drug_request_details(self):
+        """View detailed drug request information"""
+        selection = self.drug_requests_tree.selection()
+        if selection:
+            item = self.drug_requests_tree.item(selection[0])
+            drug_name = item['values'][0]
+            status = item['values'][4]
+            
+            # Find the full request details
+            request = next((r for r in self.studies['drug_requests'] if r['drug_name'] == drug_name), None)
+            
+            if request:
+                self.drug_details_text.config(state=tk.NORMAL)
+                self.drug_details_text.delete(1.0, tk.END)
+                
+                details = f"""DRUG REQUEST DETAILS
+====================
+
+Request ID: {request['id']}
+Drug Name: {request['drug_name']}
+Quantity: {request['quantity']} units
+Requested By: {request['requested_by']}
+Request Date: {request['request_date']}
+Status: {request['status']}
+
+DELIVERY INFORMATION:
+Received Date: {request['received_date'] or 'Not yet received'}
+Batch Number: {request['batch_number'] or 'Not assigned'}
+Expiry Date: {request['expiry_date'] or 'Not assigned'}
+
+NEXT STEPS:
+"""
+                if request['status'] == 'Pending':
+                    details += "• Awaiting sponsor approval\n• Monitor request status\n• Prepare storage location"
+                elif request['status'] == 'Approved':
+                    details += "• Drug shipment in progress\n• Monitor delivery status\n• Prepare for receipt"
+                elif request['status'] == 'Shipped':
+                    details += "• Drug shipment en route\n• Prepare for receipt\n• Verify batch information"
+                elif request['status'] == 'Received':
+                    details += "• Drug received and stored\n• Update inventory records\n• Begin dispensing process"
+                
+                self.drug_details_text.insert(tk.END, details)
+                self.drug_details_text.config(state=tk.DISABLED)
+        else:
+            messagebox.showwarning("No Selection", "Please select a drug request to view details.")
     
     def on_study_selected(self, event=None):
         """Handle study selection"""
