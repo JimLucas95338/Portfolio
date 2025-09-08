@@ -94,21 +94,21 @@ class IntegrationManager:
                 }
             ],
             "available_integrations": [
-                {"name": "Oracle Clinical One", "type": "EDC", "status": "Available", "description": "Comprehensive EDC solution"},
-                {"name": "Medrio EDC", "type": "EDC", "status": "Available", "description": "Cloud-based EDC platform"},
-                {"name": "OpenClinica", "type": "EDC", "status": "Available", "description": "Open-source EDC system"},
-                {"name": "IBM Clinical Development", "type": "CTMS", "status": "Available", "description": "Enterprise CTMS solution"},
-                {"name": "MasterControl CTMS", "type": "CTMS", "status": "Available", "description": "Quality management CTMS"},
-                {"name": "Cerner EMR", "type": "EMR", "status": "Available", "description": "Hospital EMR system"},
-                {"name": "Allscripts EMR", "type": "EMR", "status": "Available", "description": "Healthcare IT platform"}
+                {"name": "Clinical EDC System", "type": "EDC", "status": "Available", "description": "Comprehensive EDC solution"},
+                {"name": "Cloud EDC Platform", "type": "EDC", "status": "Available", "description": "Cloud-based EDC platform"},
+                {"name": "Open EDC System", "type": "EDC", "status": "Available", "description": "Open-source EDC system"},
+                {"name": "Enterprise CTMS", "type": "CTMS", "status": "Available", "description": "Enterprise CTMS solution"},
+                {"name": "Quality CTMS", "type": "CTMS", "status": "Available", "description": "Quality management CTMS"},
+                {"name": "Hospital EMR", "type": "EMR", "status": "Available", "description": "Hospital EMR system"},
+                {"name": "Healthcare EMR", "type": "EMR", "status": "Available", "description": "Healthcare IT platform"}
             ],
             "sync_logs": [
-                {"timestamp": "2025-09-06 14:30:00", "system": "Medidata Rave", "operation": "Data Sync", "status": "Success", "records": 1250, "duration": "2.3s"},
-                {"timestamp": "2025-09-06 14:25:00", "system": "Veeva Vault", "operation": "Document Sync", "status": "Success", "records": 45, "duration": "1.8s"},
-                {"timestamp": "2025-09-06 14:20:00", "system": "LabVantage", "operation": "Lab Results", "status": "Success", "records": 89, "duration": "3.1s"},
-                {"timestamp": "2025-09-06 14:15:00", "system": "Epic EMR", "operation": "Patient Data", "status": "Success", "records": 234, "duration": "4.2s"},
-                {"timestamp": "2025-09-06 14:10:00", "system": "Medidata Rave", "operation": "Data Sync", "status": "Warning", "records": 1150, "duration": "5.1s", "note": "High latency detected"},
-                {"timestamp": "2025-09-06 14:05:00", "system": "Veeva Vault", "operation": "Document Sync", "status": "Success", "records": 38, "duration": "1.5s"}
+                {"timestamp": "2025-09-06 14:30:00", "system": "EDC Platform", "operation": "Data Sync", "status": "Success", "records": 1250, "duration": "2.3s"},
+                {"timestamp": "2025-09-06 14:25:00", "system": "Document System", "operation": "Document Sync", "status": "Success", "records": 45, "duration": "1.8s"},
+                {"timestamp": "2025-09-06 14:20:00", "system": "Lab System", "operation": "Lab Results", "status": "Success", "records": 89, "duration": "3.1s"},
+                {"timestamp": "2025-09-06 14:15:00", "system": "Hospital EMR", "operation": "Patient Data", "status": "Success", "records": 234, "duration": "4.2s"},
+                {"timestamp": "2025-09-06 14:10:00", "system": "EDC Platform", "operation": "Data Sync", "status": "Warning", "records": 1150, "duration": "5.1s", "note": "High latency detected"},
+                {"timestamp": "2025-09-06 14:05:00", "system": "Document System", "operation": "Document Sync", "status": "Success", "records": 38, "duration": "1.5s"}
             ],
             "integration_metrics": {
                 "total_connections": 4,
