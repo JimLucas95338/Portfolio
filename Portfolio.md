@@ -44,7 +44,34 @@ My approach centers on user-driven product development, leveraging data analytic
 
 ## Portfolio Projects
 
-### 1. **[AI Search Platform](./AI-Search-Platform/)**
+### 1. **[Clinical Trial Management Platform](./Clinical-Trial-Management-Platform/)**
+*August 2025 - Present*
+
+**Project Overview:**
+Comprehensive cloud-based platform designed to streamline clinical trial operations by bringing research site workflows online and enabling seamless collaboration between sites, sponsors, and key stakeholders. Demonstrates strategic product thinking and execution planning for complex healthcare software.
+
+**Key Innovation:**
+Implemented progressive disclosure UX framework that adapts to user experience levels - new site coordinators see only essential features while experienced users access advanced capabilities. This approach manages complexity while maintaining full functionality.
+
+**Technical Implementation:**
+- Modular architecture with 6 core modules (Dashboard, Patients, Scheduling, Compliance, Documents, Drug Management)
+- Progressive disclosure system with 3 user experience levels
+- AI-powered insights and predictive analytics capabilities
+- Integration-ready architecture for EDC, CTMS, and EMR systems
+- Mobile-responsive design with offline functionality
+
+**Business Impact:**
+Addresses critical pain points in clinical trial operations, targeting $7.2B clinical trial management market. Designed to reduce study execution time by 25%, improve compliance rates to >95%, and increase site coordinator productivity by 40%.
+
+**Strategic Elements:**
+- Comprehensive 12-month product roadmap with 4 phases
+- Detailed success metrics, KPIs, and go-to-market strategy
+- Resource requirements and budget planning ($3.5M over 12 months)
+- Risk mitigation strategies and stakeholder communication plans
+
+---
+
+### 2. **[AI Search Platform](./AI-Search-Platform/)**
 *June 2025 - August 2025*
 
 **Project Overview:**
@@ -64,7 +91,7 @@ Addresses $7.2B enterprise search market opportunity by reducing information dis
 
 ---
 
-### 2. **[AI Content Optimization Platform](./AI-Content-Optimization-Platform/)**
+### 3. **[AI Content Optimization Platform](./AI-Content-Optimization-Platform/)**
 *March 2025 - May 2025*
 
 **What I Built:**
@@ -78,11 +105,11 @@ Users don't want to become social media experts - they just want their content t
 
 ---
 
-### 3. **[Value-Based Care Analytics](./Value-Based-Care-Analytics/)**
+### 4. **[Value-Based Care Analytics](./Value-Based-Care-Analytics/)**
 *December 2024 - February 2025*
 
 **What I Built:**
-Deep dive into value-based care analytics for Pearl Health. Built dashboards and tools that help healthcare providers manage population health and hit quality targets. This one's all about healthcare economics.
+Deep dive into value-based care analytics. Built dashboards and tools that help healthcare providers manage population health and hit quality targets. This one's all about healthcare economics.
 
 **The Story:**
 Spent months understanding how value-based care actually works (it's complicated). The breakthrough was realizing providers need actionable signals, not just data dashboards.
@@ -92,7 +119,7 @@ Healthcare analytics is only valuable if it changes clinical workflow. Pretty ch
 
 ---
 
-### 4. **[Digital Therapeutics Case Study](./Digital-Therapeutics-Case-Study/)**
+### 5. **[Digital Therapeutics Case Study](./Digital-Therapeutics-Case-Study/)**
 *September 2024 - November 2024*
 
 **What I Built:**
@@ -106,7 +133,7 @@ Digital therapeutics isn't just "health apps" - it's actual medicine. The regula
 
 ---
 
-### 5. **[FHIR API Integration Demo](./FHIR-API-Integration-Demo/)**
+### 6. **[FHIR API Integration Demo](./FHIR-API-Integration-Demo/)**
 *June 2024 - August 2024*
 
 **What I Built:**
@@ -120,7 +147,7 @@ Healthcare data standards exist, but implementation is where things get tricky. 
 
 ---
 
-### 6. **[Healthcare Data Dashboard](./Healthcare-Data-Dashboard/)**
+### 7. **[Healthcare Data Dashboard](./Healthcare-Data-Dashboard/)**
 *March 2024 - May 2024*
 
 **What I Built:**
