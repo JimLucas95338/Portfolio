@@ -1,0 +1,38 @@
+[1mdiff --git a/Portfolio.md b/Portfolio.md[m
+[1mindex c163e68..94333d6 100644[m
+[1m--- a/Portfolio.md[m
+[1m+++ b/Portfolio.md[m
+[36m@@ -95,13 +95,13 @@[m [mAddresses $7.2B enterprise search market opportunity by reducing information dis[m
+ *March 2025 - May 2025*[m
+ [m
+ **What I Built:**[m
+[31m-Built this after getting frustrated with how much time I was spending optimizing LinkedIn posts. Turns out there's a real market for AI-powered content optimization - who knew? This shows iterative product development and user-centered design.[m
+[32m+[m[32mBuilt this after getting frustrated with how much time I was spending optimizing LinkedIn posts. Turns out there's a real market for AI-powered content optimization. This shows iterative product development and user-centered design.[m
+ [m
+ **The Story:**[m
+ Personal pain point became a product. I was spending 30+ minutes per LinkedIn post trying to optimize for engagement. Built an AI tool that does it in 30 seconds. The key insight was platform-specific optimization.[m
+ [m
+ **What I Learned:**[m
+[31m-Users don't want to become social media experts - they just want their content to perform better. Hide the complexity, show the results.[m
+[32m+[m[32mUsers don't want to become social media experts, they just want their content to perform better. Hide the complexity, show the results.[m
+ [m
+ ---[m
+ [m
+[36m@@ -115,7 +115,7 @@[m [mDeep dive into value-based care analytics. Built dashboards and tools that help[m
+ Spent months understanding how value-based care actually works (it's complicated). The breakthrough was realizing providers need actionable signals, not just data dashboards.[m
+ [m
+ **What I Learned:**[m
+[31m-Healthcare analytics is only valuable if it changes clinical workflow. Pretty charts don't save lives - actionable insights do.[m
+[32m+[m[32mHealthcare analytics is only valuable if it changes clinical workflow. Pretty charts don't save lives, actionable insights do.[m
+ [m
+ ---[m
+ [m
+[36m@@ -129,7 +129,7 @@[m [mComprehensive case study exploring digital therapeutics for mental health. Deep[m
+ Wanted to understand how to build medical devices that are actually software. The regulatory landscape is intense, but the patient impact potential is huge.[m
+ [m
+ **What I Learned:**[m
+[31m-Digital therapeutics isn't just "health apps" - it's actual medicine. The regulatory bar is high for good reason.[m
+[32m+[m[32mDigital therapeutics isn't just "health apps" it's actual medicine. The regulatory bar is high for good reason.[m
+ [m
+ ---[m
+ [m

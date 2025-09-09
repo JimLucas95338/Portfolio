@@ -95,13 +95,13 @@ Addresses $7.2B enterprise search market opportunity by reducing information dis
 *March 2025 - May 2025*
 
 **What I Built:**
-Built this after getting frustrated with how much time I was spending optimizing LinkedIn posts. Turns out there's a real market for AI-powered content optimization - who knew? This shows iterative product development and user-centered design.
+Built this after getting frustrated with how much time I was spending optimizing LinkedIn posts. Turns out there's a real market for AI-powered content optimization. This shows iterative product development and user-centered design.
 
 **The Story:**
 Personal pain point became a product. I was spending 30+ minutes per LinkedIn post trying to optimize for engagement. Built an AI tool that does it in 30 seconds. The key insight was platform-specific optimization.
 
 **What I Learned:**
-Users don't want to become social media experts - they just want their content to perform better. Hide the complexity, show the results.
+Users don't want to become social media experts, they just want their content to perform better. Hide the complexity, show the results.
 
 ---
 
@@ -115,7 +115,7 @@ Deep dive into value-based care analytics. Built dashboards and tools that help 
 Spent months understanding how value-based care actually works (it's complicated). The breakthrough was realizing providers need actionable signals, not just data dashboards.
 
 **What I Learned:**
-Healthcare analytics is only valuable if it changes clinical workflow. Pretty charts don't save lives - actionable insights do.
+Healthcare analytics is only valuable if it changes clinical workflow. Pretty charts don't save lives, actionable insights do.
 
 ---
 
@@ -129,7 +129,7 @@ Comprehensive case study exploring digital therapeutics for mental health. Deep 
 Wanted to understand how to build medical devices that are actually software. The regulatory landscape is intense, but the patient impact potential is huge.
 
 **What I Learned:**
-Digital therapeutics isn't just "health apps" - it's actual medicine. The regulatory bar is high for good reason.
+Digital therapeutics isn't just "health apps" it's actual medicine. The regulatory bar is high for good reason.
 
 ---
 
