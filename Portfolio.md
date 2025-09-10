@@ -161,6 +161,20 @@ Healthcare data is messy and full of edge cases. Good analytics requires deep do
 
 ---
 
+### 8. **[AI Product Strategy Framework](./AI-Product-Strategy-Framework.md)**
+*August 2025 - Present*
+
+**What I Built:**
+Comprehensive framework for AI product management covering strategy, execution, and measurement. Demonstrates deep understanding of how to build AI products that deliver real business value while maintaining ethical standards and user trust.
+
+**The Story:**
+After working with AI in multiple projects, I wanted to create a systematic approach to AI product management. The framework addresses the unique challenges of building AI products - from ethics and bias detection to user experience design and success measurement.
+
+**What I Learned:**
+AI product management requires a different approach than traditional product management. You need to think about model performance, bias detection, user trust, and ethical considerations from day one. The framework provides a structured approach to these complex challenges.
+
+---
+
 ## What's Next
 
 I'm passionate about the intersection of AI and healthcare. The potential to improve patient outcomes through intelligent technology is huge, but it requires deep understanding of both domains.
