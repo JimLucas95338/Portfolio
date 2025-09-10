@@ -1,9 +1,9 @@
 """
-Clinical Signals Engine - Pearl Health Style Signal-Action Framework
-=====================================================================
+Clinical Signals Engine - Signal-Action Framework
+=================================================
 
-This module implements a clinical signals engine similar to Pearl Health's approach,
-providing predictive alerts and workflow automation for value-based care providers.
+This module implements a clinical signals engine providing predictive alerts 
+and workflow automation for value-based care providers.
 
 Key Features:
 - Urgency scoring algorithms for patient prioritization
@@ -21,7 +21,7 @@ warnings.filterwarnings('ignore')
 
 class ClinicalSignalsEngine:
     """
-    Pearl Health-style Clinical Signals Engine for proactive care management.
+    Clinical Signals Engine for proactive care management.
     
     This engine identifies high-risk patients and recommends specific actions
     to improve outcomes and reduce costs in value-based care settings.
@@ -35,7 +35,7 @@ class ClinicalSignalsEngine:
             'chronic_care_mgmt': 0.5
         }
         
-        # Pearl Health-style signal categories
+        # Clinical signal categories
         self.signal_categories = {
             'preventive': ['annual_wellness_visit', 'cancer_screening', 'vaccination'],
             'acute': ['post_discharge_followup', 'ed_visit_prevention', 'urgent_referral'],
@@ -45,7 +45,7 @@ class ClinicalSignalsEngine:
     
     def calculate_urgency_score(self, patient_data: Dict) -> float:
         """
-        Calculate Pearl Health-style urgency score for patient prioritization.
+        Calculate urgency score for patient prioritization.
         
         Args:
             patient_data: Dictionary containing patient clinical and demographic data
@@ -103,7 +103,7 @@ class ClinicalSignalsEngine:
     
     def generate_clinical_signals(self, patient_panel: pd.DataFrame) -> pd.DataFrame:
         """
-        Generate clinical signals for entire patient panel using Pearl Health methodology.
+        Generate clinical signals for entire patient panel.
         
         Args:
             patient_panel: DataFrame containing patient data
@@ -214,7 +214,7 @@ class ClinicalSignalsEngine:
     
     def prioritize_patient_panel(self, provider_panel: pd.DataFrame, max_patients: int = 20) -> pd.DataFrame:
         """
-        Prioritize patients for proactive outreach using Pearl Health methodology.
+        Prioritize patients for proactive outreach.
         
         Args:
             provider_panel: DataFrame with provider's patient panel
@@ -226,7 +226,7 @@ class ClinicalSignalsEngine:
         # Generate signals for all patients
         signals_df = self.generate_clinical_signals(provider_panel)
         
-        # Apply Pearl Health-style filtering
+        # Apply clinical filtering
         priority_patients = signals_df[
             (signals_df['urgency_score'] >= 30) |  # Minimum threshold
             (signals_df['signal_category'].isin(['acute', 'predictive']))  # Critical categories
@@ -255,7 +255,7 @@ class ClinicalSignalsEngine:
     
     def generate_provider_dashboard_data(self, provider_panel: pd.DataFrame) -> Dict:
         """
-        Generate Pearl Health-style provider dashboard data.
+        Generate provider dashboard data.
         
         Args:
             provider_panel: DataFrame containing provider's patient panel
@@ -319,7 +319,7 @@ if __name__ == "__main__":
     # Initialize the Clinical Signals Engine
     signals_engine = ClinicalSignalsEngine()
     
-    print("🎯 Pearl Health-Style Clinical Signals Engine Demo")
+    print("🎯 Clinical Signals Engine Demo")
     print("=" * 60)
     
     # Generate clinical signals
@@ -356,5 +356,5 @@ if __name__ == "__main__":
     
     print("\n" + "=" * 60)
     print("Clinical Signals Engine Demo Complete! 🎉")
-    print("This demonstrates Pearl Health-style signal-action framework")
+    print("This demonstrates clinical signal-action framework")
     print("for proactive population health management.")

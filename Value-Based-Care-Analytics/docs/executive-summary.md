@@ -2,7 +2,7 @@
 
 **Project Period:** December 2024 - February 2025  
 **Product Manager:** Jim Lucas  
-**Focus Area:** Pearl Health-aligned population health management and provider performance optimization
+**Focus Area:** Population health management and provider performance optimization
 
 ## Strategic Overview
 

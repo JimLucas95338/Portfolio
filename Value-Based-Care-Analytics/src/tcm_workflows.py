@@ -2,7 +2,7 @@
 Transitional Care Management (TCM) Workflows
 ============================================
 
-Pearl Health-style post-discharge care coordination and transitional care management.
+Post-discharge care coordination and transitional care management.
 Focuses on reducing readmissions and improving care transitions.
 
 Key Features:
@@ -21,7 +21,7 @@ warnings.filterwarnings('ignore')
 
 class TransitionalCareManager:
     """
-    Pearl Health-style Transitional Care Management system.
+    Transitional Care Management system.
     
     Automates post-discharge workflows to reduce readmissions and improve
     care coordination between hospital and primary care settings.
@@ -49,7 +49,7 @@ class TransitionalCareManager:
             }
         }
         
-        # Risk factors for readmission (Pearl Health methodology)
+        # Risk factors for readmission
         self.readmission_risk_factors = {
             'clinical': {
                 'heart_failure': 3.2,
@@ -75,7 +75,7 @@ class TransitionalCareManager:
     
     def assess_discharge_risk(self, patient_data: Dict) -> Dict:
         """
-        Assess patient's risk for readmission using Pearl Health risk factors.
+        Assess patient's risk for readmission.
         
         Args:
             patient_data: Dictionary containing patient clinical and social data
@@ -370,7 +370,7 @@ if __name__ == "__main__":
             'age': np.random.randint(45, 95),
             'length_of_stay': np.random.poisson(5) + 1,
             
-            # Clinical conditions (Pearl Health risk factors)
+            # Clinical conditions
             'heart_failure': np.random.choice([True, False], p=[0.2, 0.8]),
             'copd': np.random.choice([True, False], p=[0.15, 0.85]),
             'diabetes_complications': np.random.choice([True, False], p=[0.25, 0.75]),
@@ -393,7 +393,7 @@ if __name__ == "__main__":
     # Initialize TCM system
     tcm_manager = TransitionalCareManager()
     
-    print("🏥 Pearl Health-Style Transitional Care Management Demo")
+    print("🏥 Transitional Care Management Demo")
     print("=" * 65)
     
     # Create TCM workflows for sample patients
@@ -452,4 +452,4 @@ if __name__ == "__main__":
     
     print("\n" + "=" * 65)
     print("Transitional Care Management Demo Complete! 🎉")
-    print("This demonstrates Pearl Health-style post-discharge care coordination")
+    print("This demonstrates post-discharge care coordination")

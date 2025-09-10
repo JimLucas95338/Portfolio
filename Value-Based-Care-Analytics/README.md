@@ -48,7 +48,7 @@ Value-Based-Care-Analytics/
 │   └── financial_impact_analysis.ipynb     # Contract performance & ROI
 ├── src/
 │   ├── vbc_dashboard_gui.py             # Interactive GUI dashboard application
-│   ├── clinical_signals_engine.py       # Pearl Health-style Signal-Action Framework
+│   ├── clinical_signals_engine.py       # Clinical Signal-Action Framework
 │   ├── tcm_workflows.py                 # Transitional Care Management workflows  
 │   ├── provider_scorecards.py           # Provider performance & peer benchmarking
 │   ├── actuarial_modeling.py            # Risk adjustment & shared savings calculations
@@ -147,9 +147,9 @@ This project demonstrates thorough understanding of the real challenges facing v
 - **Peer benchmarking** drives quality improvement initiatives
 - **Workflow optimization** reduces administrative burden by 35%
 
-## 🎯 Pearl Health Alignment
+## 🎯 Value-Based Care Platform Capabilities
 
-This project demonstrates **direct alignment** with Pearl Health's core platform capabilities:
+This project demonstrates comprehensive value-based care platform capabilities:
 
 ### **Signal-Action Framework Implementation**
 - **Clinical Signals Engine** with urgency scoring algorithms
@@ -161,7 +161,7 @@ This project demonstrates **direct alignment** with Pearl Health's core platform
 - **Post-discharge care coordination** workflows
 - **Readmission risk assessment** and prevention protocols
 - **Care team communication** and task automation
-- **Pearl Health-style TCM** performance tracking
+- **TCM performance tracking** and optimization
 
 ### **Provider Performance Analytics**
 - **Provider scorecards** with peer benchmarking
@@ -178,7 +178,7 @@ This project demonstrates **direct alignment** with Pearl Health's core platform
 ## 🏆 Skills Demonstrated
 
 - **Healthcare Economics**: Value-based payment models, risk adjustment, quality measures
-- **Signal-Action Frameworks**: Pearl Health-style clinical signals and workflow automation
+- **Signal-Action Frameworks**: Clinical signals and workflow automation
 - **Transitional Care Management**: Post-discharge workflows and readmission prevention
 - **Provider Analytics**: Performance scorecards, peer benchmarking, quality tracking
 - **Actuarial Modeling**: HCC risk adjustment, shared savings calculations, financial reserves

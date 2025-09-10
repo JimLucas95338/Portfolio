@@ -2,7 +2,7 @@
 Actuarial Risk Modeling & Shared Savings Calculations
 ====================================================
 
-Pearl Health-style actuarial modeling for value-based care contracts,
+Actuarial modeling for value-based care contracts,
 including shared savings calculations, risk adjustment, and financial forecasting.
 
 Key Features:
@@ -21,7 +21,7 @@ warnings.filterwarnings('ignore')
 
 class ActuarialEngine:
     """
-    Pearl Health-style actuarial modeling engine for value-based care contracts.
+    Actuarial modeling engine for value-based care contracts.
     
     Provides comprehensive financial modeling including risk adjustment,
     shared savings calculations, and contract performance optimization.
@@ -557,7 +557,7 @@ if __name__ == "__main__":
     # Initialize actuarial engine
     actuarial_engine = ActuarialEngine()
     
-    print("💰 Pearl Health-Style Actuarial Modeling Demo")
+    print("💰 Actuarial Modeling Demo")
     print("=" * 55)
     
     # Calculate risk adjustment
@@ -621,5 +621,5 @@ if __name__ == "__main__":
     
     print("\n" + "=" * 55)
     print("Actuarial Modeling Demo Complete! 🎉")
-    print("This demonstrates Pearl Health-style financial modeling")
+    print("This demonstrates financial modeling")
     print("for value-based care contract optimization.")

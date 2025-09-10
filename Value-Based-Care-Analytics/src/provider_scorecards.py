@@ -2,7 +2,7 @@
 Provider Performance Scorecards & Benchmarking
 ==============================================
 
-Pearl Health-style provider performance analytics with peer benchmarking,
+Provider performance analytics with peer benchmarking,
 quality metrics tracking, and performance improvement recommendations.
 
 Key Features:
@@ -21,7 +21,7 @@ warnings.filterwarnings('ignore')
 
 class ProviderScorecardEngine:
     """
-    Pearl Health-style provider performance tracking and benchmarking system.
+    Provider performance tracking and benchmarking system.
     
     Generates comprehensive provider scorecards with quality metrics,
     cost performance, and peer comparisons for value-based care optimization.
@@ -74,7 +74,7 @@ class ProviderScorecardEngine:
     
     def calculate_quality_score(self, provider_metrics: Dict) -> Dict:
         """
-        Calculate comprehensive quality score using Pearl Health methodology.
+        Calculate comprehensive quality score.
         
         Args:
             provider_metrics: Dictionary containing provider's quality metrics
@@ -493,7 +493,7 @@ if __name__ == "__main__":
     # Initialize scorecard engine
     scorecard_engine = ProviderScorecardEngine()
     
-    print("📊 Pearl Health-Style Provider Scorecard Demo")
+    print("📊 Provider Scorecard Demo")
     print("=" * 55)
     
     # Generate comprehensive scorecard
@@ -531,4 +531,4 @@ if __name__ == "__main__":
     
     print("\n" + "=" * 55)
     print("Provider Scorecard Demo Complete! 🎉")
-    print("This demonstrates Pearl Health-style provider performance analytics")
+    print("This demonstrates provider performance analytics")
