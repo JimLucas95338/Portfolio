@@ -58,6 +58,7 @@
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 30px;
             margin-bottom: 50px;
+            grid-auto-flow: row;
         }
 
         .project-card {
@@ -245,6 +246,24 @@
             background: #f3e5f5;
             color: #7b1fa2;
         }
+
+        .featured-project {
+            grid-column: 1 / -1;
+            border: 3px solid #667eea;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        }
+
+        .featured-project .project-title {
+            color: #667eea;
+            font-size: 1.6rem;
+        }
+
+        .featured-project .status-badge {
+            background: #667eea;
+            color: white;
+            font-size: 0.9rem;
+            padding: 6px 15px;
+        }
   </style>
 </head>
 <body>
@@ -257,7 +276,7 @@
   
         <div class="projects-grid">
             <!-- AI Marketing Intelligence Platform -->
-            <div class="project-card">
+            <div class="project-card featured-project">
                 <div class="project-header">
                     <div class="project-icon">🤖</div>
                     <div>
