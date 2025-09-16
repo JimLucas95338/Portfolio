@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-An AI SDR Agent platform that operates across website and email, working 24/7 to engage visitors, capture leads, and convert buyers into pipeline. Similar to Qualified's Piper, this platform demonstrates expertise in agentic marketing automation, intelligent lead scoring, and Salesforce-native integration for B2B pipeline generation at scale.
+An AI SDR Agent platform that operates across website and email, working 24/7 to engage visitors, capture leads, and convert buyers into pipeline. This platform demonstrates expertise in agentic marketing automation, intelligent lead scoring, and Salesforce-native integration for B2B pipeline generation at scale.
 
 ## Key Features
 
