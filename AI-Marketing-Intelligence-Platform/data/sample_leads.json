@@ -1,0 +1,158 @@
+{
+  "leads": [
+    {
+      "id": 1,
+      "company": "TechCorp Solutions",
+      "industry": "Technology",
+      "company_size": "Mid-market",
+      "job_title": "VP Marketing",
+      "email": "john.smith@techcorp.com",
+      "phone": "+1-555-0123",
+      "website_visits": 15,
+      "page_views": 45,
+      "time_on_site": 450,
+      "email_opens": 3,
+      "form_submissions": 1,
+      "ai_score": 87,
+      "conversion_probability": 0.78,
+      "last_activity": "2024-12-01T10:30:00Z",
+      "lead_source": "Website",
+      "campaign": "AI Marketing Campaign",
+      "tags": ["high-intent", "enterprise", "decision-maker"]
+    },
+    {
+      "id": 2,
+      "company": "HealthTech Innovations",
+      "industry": "Healthcare",
+      "company_size": "Enterprise",
+      "job_title": "CTO",
+      "email": "sarah.johnson@healthtech.com",
+      "phone": "+1-555-0456",
+      "website_visits": 8,
+      "page_views": 32,
+      "time_on_site": 320,
+      "email_opens": 5,
+      "form_submissions": 2,
+      "ai_score": 92,
+      "conversion_probability": 0.85,
+      "last_activity": "2024-12-01T09:15:00Z",
+      "lead_source": "LinkedIn",
+      "campaign": "Healthcare AI Solutions",
+      "tags": ["high-priority", "enterprise", "technical-lead"]
+    },
+    {
+      "id": 3,
+      "company": "FinanceFirst Corp",
+      "industry": "Finance",
+      "company_size": "SMB",
+      "job_title": "Director Sales",
+      "email": "mike.chen@financefirst.com",
+      "phone": "+1-555-0789",
+      "website_visits": 12,
+      "page_views": 28,
+      "time_on_site": 280,
+      "email_opens": 2,
+      "form_submissions": 0,
+      "ai_score": 65,
+      "conversion_probability": 0.45,
+      "last_activity": "2024-11-30T16:45:00Z",
+      "lead_source": "Google Ads",
+      "campaign": "Financial Services Automation",
+      "tags": ["medium-intent", "smb", "sales-focused"]
+    },
+    {
+      "id": 4,
+      "company": "ManufacturingPro",
+      "industry": "Manufacturing",
+      "company_size": "Mid-market",
+      "job_title": "CEO",
+      "email": "lisa.rodriguez@manufacturingpro.com",
+      "phone": "+1-555-0321",
+      "website_visits": 6,
+      "page_views": 18,
+      "time_on_site": 180,
+      "email_opens": 1,
+      "form_submissions": 1,
+      "ai_score": 73,
+      "conversion_probability": 0.62,
+      "last_activity": "2024-11-30T14:20:00Z",
+      "lead_source": "Trade Show",
+      "campaign": "Manufacturing Innovation",
+      "tags": ["medium-priority", "mid-market", "executive"]
+    },
+    {
+      "id": 5,
+      "company": "RetailMax",
+      "industry": "Retail",
+      "company_size": "Enterprise",
+      "job_title": "VP Marketing",
+      "email": "david.kim@retailmax.com",
+      "phone": "+1-555-0654",
+      "website_visits": 20,
+      "page_views": 65,
+      "time_on_site": 650,
+      "email_opens": 7,
+      "form_submissions": 3,
+      "ai_score": 95,
+      "conversion_probability": 0.92,
+      "last_activity": "2024-12-01T11:00:00Z",
+      "lead_source": "Website",
+      "campaign": "Retail AI Solutions",
+      "tags": ["high-intent", "enterprise", "high-engagement"]
+    }
+  ],
+  "analytics": {
+    "total_leads": 1247,
+    "qualified_leads": 312,
+    "conversion_rate": 0.25,
+    "avg_lead_score": 67.5,
+    "high_score_leads": 89,
+    "revenue_pipeline": 1250000,
+    "top_industries": [
+      {"industry": "Technology", "count": 445, "conversion_rate": 0.28},
+      {"industry": "Healthcare", "count": 312, "conversion_rate": 0.32},
+      {"industry": "Finance", "count": 234, "conversion_rate": 0.22},
+      {"industry": "Manufacturing", "count": 156, "conversion_rate": 0.19},
+      {"industry": "Retail", "count": 100, "conversion_rate": 0.35}
+    ],
+    "lead_sources": [
+      {"source": "Website", "count": 567, "conversion_rate": 0.27},
+      {"source": "LinkedIn", "count": 234, "conversion_rate": 0.31},
+      {"source": "Google Ads", "count": 189, "conversion_rate": 0.21},
+      {"source": "Trade Show", "count": 156, "conversion_rate": 0.24},
+      {"source": "Email Campaign", "count": 101, "conversion_rate": 0.29}
+    ]
+  },
+  "chat_conversations": [
+    {
+      "id": 1,
+      "visitor_id": "visitor_001",
+      "company": "TechCorp Solutions",
+      "messages": [
+        {
+          "role": "visitor",
+          "content": "Hi, I'm interested in learning more about your AI marketing platform.",
+          "timestamp": "2024-12-01T10:30:00Z"
+        },
+        {
+          "role": "ai",
+          "content": "Hello! I'd be happy to help you learn about our AI Marketing Intelligence Platform. What specific aspect interests you most - lead scoring, chat automation, or analytics?",
+          "timestamp": "2024-12-01T10:30:05Z"
+        },
+        {
+          "role": "visitor",
+          "content": "We're looking to improve our lead qualification process.",
+          "timestamp": "2024-12-01T10:31:00Z"
+        },
+        {
+          "role": "ai",
+          "content": "Excellent! Our AI lead scoring engine can help you identify high-quality prospects automatically. It analyzes over 50 data points including website behavior, firmographics, and intent signals. Would you like me to show you how it works?",
+          "timestamp": "2024-12-01T10:31:05Z"
+        }
+      ],
+      "lead_score": 87,
+      "conversion_probability": 0.78,
+      "status": "qualified"
+    }
+  ]
+}
