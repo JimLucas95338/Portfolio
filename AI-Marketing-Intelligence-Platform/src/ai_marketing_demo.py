@@ -155,24 +155,108 @@ class AIMarketingPlatform:
         return min(95, max(20, base_score + random.randint(-10, 10)))
     
     def generate_ai_response(self, user_input: str) -> str:
-        """Generate AI response using simulated LLM"""
-        responses = {
-            'hello': "Hello! I'm your AI marketing assistant. How can I help you today?",
-            'pricing': "Our pricing starts at $299/month for the starter plan, with enterprise options available. Would you like a personalized quote?",
-            'demo': "I'd be happy to schedule a demo! Our platform can show you real-time lead scoring, chat automation, and analytics. When works best for you?",
-            'features': "Our key features include AI lead scoring, intelligent chat automation, predictive analytics, CRM integration, and personalization engine. Which interests you most?",
-            'roi': "Our customers typically see 40% improvement in conversion rates and 300% ROI within 6 months. Would you like to see some case studies?",
-            'integration': "We integrate with Salesforce, HubSpot, Pipedrive, and Microsoft Dynamics. We also offer custom API integrations. What CRM do you use?",
-            'support': "We provide 24/7 support via chat, email, and phone. Our enterprise customers get dedicated success managers. How can I help you today?"
-        }
+        """Generate sophisticated AI response with lead qualification logic"""
         
-        # Simple keyword matching for demo purposes
+        # Initialize conversation context if not exists
+        if "conversation_context" not in st.session_state:
+            st.session_state.conversation_context = {
+                "stage": "greeting",
+                "company_info": {},
+                "pain_points": [],
+                "budget_range": None,
+                "timeline": None,
+                "decision_makers": [],
+                "qualification_score": 0
+            }
+        
+        context = st.session_state.conversation_context
         user_lower = user_input.lower()
-        for keyword, response in responses.items():
-            if keyword in user_lower:
-                return response
         
-        return "That's a great question! Our AI Marketing Intelligence Platform can help with that. Could you tell me more about your specific needs?"
+        # Stage 1: Greeting and Initial Engagement
+        if context["stage"] == "greeting":
+            if any(word in user_lower for word in ['hello', 'hi', 'hey', 'good morning', 'good afternoon']):
+                context["stage"] = "discovery"
+                return "Hello! I'm Sarah, your AI SDR assistant. I help B2B companies automate their lead qualification and boost conversion rates. What brings you to our platform today?"
+            
+            elif any(word in user_lower for word in ['interested', 'learn', 'platform', 'solution']):
+                context["stage"] = "discovery"
+                return "Great! I'd love to learn more about your company and how we can help. What's your company name and what industry are you in?"
+        
+        # Stage 2: Discovery and Qualification
+        elif context["stage"] == "discovery":
+            # Company information gathering
+            if any(word in user_lower for word in ['company', 'business', 'we are', 'we\'re']):
+                context["qualification_score"] += 10
+                return "Thanks for sharing! What's your biggest challenge with lead qualification right now? Are you spending too much time on manual processes?"
+            
+            # Pain point identification
+            elif any(word in user_lower for word in ['challenge', 'problem', 'issue', 'struggle', 'difficult']):
+                context["qualification_score"] += 15
+                context["pain_points"].append(user_input)
+                return "I understand that's frustrating. How many leads do you typically process per month, and what's your current conversion rate?"
+            
+            # Lead volume and conversion
+            elif any(word in user_lower for word in ['leads', 'conversion', 'monthly', 'per month']):
+                context["qualification_score"] += 20
+                return "That's helpful context. What's your current process for qualifying leads? Do you have a dedicated SDR team?"
+            
+            # Team and process
+            elif any(word in user_lower for word in ['team', 'sdr', 'sales', 'process', 'manual']):
+                context["qualification_score"] += 15
+                return "Got it. What's your timeline for implementing a solution? Are you looking to make changes in the next quarter?"
+        
+        # Stage 3: Budget and Timeline Qualification
+        elif context["stage"] == "discovery":
+            # Timeline qualification
+            if any(word in user_lower for word in ['timeline', 'quarter', 'month', 'soon', 'urgent']):
+                context["qualification_score"] += 25
+                context["timeline"] = user_input
+                return "Perfect timing! What's your budget range for a marketing automation solution? We have plans starting at $299/month."
+            
+            # Budget qualification
+            elif any(word in user_lower for word in ['budget', 'price', 'cost', 'pricing', '$']):
+                context["qualification_score"] += 30
+                context["budget_range"] = user_input
+                return "Excellent! Based on what you've shared, I think our Professional plan at $799/month would be perfect for your needs. Would you like me to schedule a personalized demo with our solutions team?"
+        
+        # Stage 4: Demo Scheduling and Next Steps
+        elif context["qualification_score"] >= 50:
+            if any(word in user_lower for word in ['demo', 'yes', 'sure', 'schedule', 'meeting']):
+                context["stage"] = "demo_scheduled"
+                return "Fantastic! I'll connect you with our solutions team. They'll show you exactly how our AI SDR agent can automate your lead qualification and boost your conversion rates by 40%. What's the best email to send the calendar invite?"
+            
+            elif any(word in user_lower for word in ['email', '@', 'contact']):
+                context["stage"] = "demo_scheduled"
+                return "Perfect! I've noted your email. Our team will send you a calendar invite within the next hour. Is there anything specific you'd like to see in the demo?"
+        
+        # Advanced responses for specific topics
+        if 'pricing' in user_lower or 'cost' in user_lower:
+            return "Our pricing is based on your team size and lead volume. The Professional plan at $799/month includes unlimited AI lead scoring, chat automation, and CRM integration. Would you like a personalized quote based on your needs?"
+        
+        elif 'roi' in user_lower or 'return' in user_lower:
+            return "Our customers typically see 40% improvement in conversion rates and 300% ROI within 6 months. One client went from 15% to 23% conversion rates in just 3 months. Would you like to see their case study?"
+        
+        elif 'integration' in user_lower or 'crm' in user_lower:
+            return "We integrate seamlessly with Salesforce, HubSpot, Pipedrive, and Microsoft Dynamics. The setup takes less than 2 hours and includes automated lead routing. What CRM are you currently using?"
+        
+        elif 'features' in user_lower or 'capabilities' in user_lower:
+            return "Our AI SDR agent works 24/7 across your website and email channels. Key features include real-time lead scoring, intelligent chat automation, predictive analytics, and automated meeting booking. Which feature interests you most?"
+        
+        elif 'competitor' in user_lower or 'alternative' in user_lower:
+            return "What sets us apart is our AI-first approach. While others bolt AI onto existing platforms, we built this from the ground up for AI automation. Our lead scoring is 87% accurate vs 72% for traditional systems. What other solutions are you evaluating?"
+        
+        elif 'security' in user_lower or 'compliance' in user_lower:
+            return "We're SOC 2 Type II compliant with AES-256 encryption. All data is stored securely and we support SSO integration. Do you have specific compliance requirements I should know about?"
+        
+        elif 'support' in user_lower or 'help' in user_lower:
+            return "We provide 24/7 support via chat, email, and phone. Enterprise customers get dedicated success managers. Our average response time is under 2 hours. How can I help you today?"
+        
+        # Default response with qualification attempt
+        else:
+            if context["qualification_score"] < 30:
+                return "That's interesting! To better understand how we can help, could you tell me about your current lead qualification process? Are you doing this manually right now?"
+            else:
+                return "Great question! Based on what you've shared, I think our AI Marketing Intelligence Platform could really help your team. Would you like to see a quick demo of how it works?"
 
 def main():
     """Main application function"""
@@ -366,78 +450,186 @@ def show_lead_scoring(platform: AIMarketingPlatform):
         st.plotly_chart(fig, use_container_width=True)
 
 def show_chat_automation(platform: AIMarketingPlatform):
-    """Display chat automation demo"""
+    """Display enhanced chat automation demo"""
     
-    st.header("💬 AI Chat Automation")
+    st.header("💬 AI SDR Agent - Intelligent Chat Automation")
     
     st.markdown("""
-    Our intelligent chat automation uses advanced LLMs to:
-    - **Engage visitors** with natural, contextual conversations
-    - **Qualify leads** through intelligent questioning
-    - **Provide instant responses** 24/7
-    - **Escalate to humans** when needed
+    Our AI SDR Agent uses advanced LLMs to:
+    - **Qualify leads** through intelligent conversation flow
+    - **Engage visitors** with natural, contextual responses
+    - **Score prospects** in real-time based on conversation
+    - **Schedule meetings** automatically when ready
     - **Learn and improve** from every interaction
     """)
     
+    # Qualification Score Display
+    if "conversation_context" in st.session_state:
+        context = st.session_state.conversation_context
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            score = context.get("qualification_score", 0)
+            if score >= 50:
+                st.success(f"🎯 **Qualification Score: {score}/100** - Ready for Demo!")
+            elif score >= 30:
+                st.warning(f"⚠️ **Qualification Score: {score}/100** - Qualifying")
+            else:
+                st.info(f"ℹ️ **Qualification Score: {score}/100** - Discovery Phase")
+        
+        with col2:
+            stage = context.get("stage", "greeting")
+            st.metric("Conversation Stage", stage.replace("_", " ").title())
+        
+        with col3:
+            if context.get("budget_range"):
+                st.metric("Budget Qualified", "✅ Yes")
+            else:
+                st.metric("Budget Qualified", "❌ No")
+    
     # Chat interface
-    st.subheader("Live Chat Demo")
+    st.subheader("🤖 Live AI SDR Agent Demo")
     
     # Initialize chat history
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
     
-    # Display chat history
+    # Display chat history with enhanced styling
     chat_container = st.container()
     with chat_container:
-        for message in st.session_state.chat_history:
+        for i, message in enumerate(st.session_state.chat_history):
             if message["role"] == "user":
                 st.markdown(f"""
-                <div class="chat-message user-message">
-                    <strong>You:</strong> {message["content"]}
+                <div style="background: #e3f2fd; padding: 15px; border-radius: 10px; margin: 10px 0; margin-left: 20%; border-left: 4px solid #2196f3;">
+                    <strong>👤 Visitor:</strong> {message["content"]}
                 </div>
                 """, unsafe_allow_html=True)
             else:
                 st.markdown(f"""
-                <div class="chat-message ai-message">
-                    <strong>AI Assistant:</strong> {message["content"]}
+                <div style="background: #f3e5f5; padding: 15px; border-radius: 10px; margin: 10px 0; margin-right: 20%; border-left: 4px solid #9c27b0;">
+                    <strong>🤖 AI SDR Agent:</strong> {message["content"]}
                 </div>
                 """, unsafe_allow_html=True)
     
-    # Chat input
-    user_input = st.text_input("Type your message:", key="chat_input")
+    # Enhanced chat input with quick actions
+    st.subheader("💬 Start a Conversation")
     
-    if st.button("Send") and user_input:
-        # Add user message
-        st.session_state.chat_history.append({
-            "role": "user",
-            "content": user_input
-        })
-        
-        # Generate AI response
-        ai_response = platform.generate_ai_response(user_input)
-        
-        # Add AI response
-        st.session_state.chat_history.append({
-            "role": "assistant",
-            "content": ai_response
-        })
-        
-        # Rerun to update chat
-        st.rerun()
+    col1, col2 = st.columns([3, 1])
     
-    # Sample conversations
-    st.subheader("Sample Conversations")
+    with col1:
+        user_input = st.text_input("Type your message:", key="chat_input", placeholder="Try: 'Hello, I'm interested in your platform'")
     
-    for i, conv in enumerate(platform.chat_conversations):
-        with st.expander(f"Conversation {i+1} - {conv['timestamp'].strftime('%H:%M')}"):
-            st.markdown(f"""
-            <div class="chat-message user-message">
-                <strong>Visitor:</strong> {conv['visitor']}
-            </div>
-            <div class="chat-message ai-message">
-                <strong>AI Assistant:</strong> {conv['ai_response']}
-            </div>
-            """, unsafe_allow_html=True)
+    with col2:
+        if st.button("Send", type="primary"):
+            if user_input:
+                # Add user message
+                st.session_state.chat_history.append({
+                    "role": "user",
+                    "content": user_input
+                })
+                
+                # Generate AI response
+                ai_response = platform.generate_ai_response(user_input)
+                
+                # Add AI response
+                st.session_state.chat_history.append({
+                    "role": "assistant",
+                    "content": ai_response
+                })
+                
+                # Rerun to update chat
+                st.rerun()
+    
+    # Quick action buttons
+    st.subheader("🚀 Quick Actions")
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        if st.button("👋 Say Hello"):
+            st.session_state.chat_history.append({"role": "user", "content": "Hello, I'm interested in your platform"})
+            ai_response = platform.generate_ai_response("Hello, I'm interested in your platform")
+            st.session_state.chat_history.append({"role": "assistant", "content": ai_response})
+            st.rerun()
+    
+    with col2:
+        if st.button("💰 Ask About Pricing"):
+            st.session_state.chat_history.append({"role": "user", "content": "What's your pricing?"})
+            ai_response = platform.generate_ai_response("What's your pricing?")
+            st.session_state.chat_history.append({"role": "assistant", "content": ai_response})
+            st.rerun()
+    
+    with col3:
+        if st.button("📅 Request Demo"):
+            st.session_state.chat_history.append({"role": "user", "content": "I'd like to schedule a demo"})
+            ai_response = platform.generate_ai_response("I'd like to schedule a demo")
+            st.session_state.chat_history.append({"role": "assistant", "content": ai_response})
+            st.rerun()
+    
+    with col4:
+        if st.button("🔄 Reset Chat"):
+            st.session_state.chat_history = []
+            st.session_state.conversation_context = {
+                "stage": "greeting",
+                "company_info": {},
+                "pain_points": [],
+                "budget_range": None,
+                "timeline": None,
+                "decision_makers": [],
+                "qualification_score": 0
+            }
+            st.rerun()
+    
+    # Enhanced sample conversations
+    st.subheader("📚 Sample AI SDR Conversations")
+    
+    sample_conversations = [
+        {
+            "title": "High-Quality Lead - Tech Startup",
+            "conversation": [
+                ("Visitor", "Hi, I'm looking for a marketing automation solution for our startup"),
+                ("AI SDR", "Hello! I'm Sarah, your AI SDR assistant. I help B2B companies automate their lead qualification and boost conversion rates. What brings you to our platform today?"),
+                ("Visitor", "We're a tech startup with 50 employees, struggling with manual lead qualification"),
+                ("AI SDR", "Thanks for sharing! What's your biggest challenge with lead qualification right now? Are you spending too much time on manual processes?"),
+                ("Visitor", "Yes, our SDR team spends 4+ hours daily on qualification. We process about 500 leads monthly with only 15% conversion"),
+                ("AI SDR", "I understand that's frustrating. That's a lot of manual work! What's your timeline for implementing a solution? Are you looking to make changes in the next quarter?"),
+                ("Visitor", "We need to improve this ASAP. What's your pricing?"),
+                ("AI SDR", "Perfect timing! Based on your volume, our Professional plan at $799/month would be perfect. It includes unlimited AI lead scoring and chat automation. Would you like me to schedule a personalized demo?")
+            ],
+            "qualification_score": 85,
+            "outcome": "Demo Scheduled"
+        },
+        {
+            "title": "Enterprise Lead - Healthcare Company",
+            "conversation": [
+                ("Visitor", "We're evaluating marketing automation platforms for our healthcare company"),
+                ("AI SDR", "Great! I'd love to learn more about your company and how we can help. What's your company name and what industry are you in?"),
+                ("Visitor", "We're HealthTech Solutions, a 200-person healthcare technology company"),
+                ("AI SDR", "Thanks for sharing! What's your biggest challenge with lead qualification right now? Are you spending too much time on manual processes?"),
+                ("Visitor", "We have compliance requirements and need HIPAA-compliant solutions"),
+                ("AI SDR", "Excellent point! We're SOC 2 Type II compliant with AES-256 encryption and support HIPAA requirements. What's your current lead volume and conversion rate?"),
+                ("Visitor", "About 1000 leads monthly, 22% conversion rate"),
+                ("AI SDR", "That's helpful context. Our Enterprise plan would be ideal for your compliance needs and volume. Would you like to see our security documentation and schedule a demo?")
+            ],
+            "qualification_score": 75,
+            "outcome": "Security Review + Demo"
+        }
+    ]
+    
+    for i, conv in enumerate(sample_conversations):
+        with st.expander(f"📋 {conv['title']} - Score: {conv['qualification_score']}/100 - {conv['outcome']}"):
+            for role, message in conv['conversation']:
+                if role == "Visitor":
+                    st.markdown(f"""
+                    <div style="background: #e3f2fd; padding: 10px; border-radius: 8px; margin: 5px 0; margin-left: 20%;">
+                        <strong>👤 {role}:</strong> {message}
+                    </div>
+                    """, unsafe_allow_html=True)
+                else:
+                    st.markdown(f"""
+                    <div style="background: #f3e5f5; padding: 10px; border-radius: 8px; margin: 5px 0; margin-right: 20%;">
+                        <strong>🤖 {role}:</strong> {message}
+                    </div>
+                    """, unsafe_allow_html=True)
 
 def show_analytics(platform: AIMarketingPlatform):
     """Display analytics dashboard"""
